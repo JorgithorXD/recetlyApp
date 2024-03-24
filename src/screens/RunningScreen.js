@@ -18,7 +18,7 @@ export default function LoadingScreen() {
         try {
             const userDataString = await AsyncStorage.getItem('UserData')
             if (userDataString !== null) {
-                navigation.navigate('Home')
+                navigation.navigate('Drawer')
             } else {
                 navigation.navigate('StartScreen')
             }

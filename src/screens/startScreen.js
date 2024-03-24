@@ -5,8 +5,9 @@ import bluePallete from "../components/utils/bluePallete"
 
 export default function StartScreen({ navigation }) {
     return (
-        <ImageBackground style={{ flex: 1, }} source={{ uri: 'https://ik.imagekit.io/uv3u01crv/background_2.png?updatedAt=1710824830029' }} resizeMode='cover' blurRadius={4}>
-            <View style={{ flex: 1, backgroundColor: 'none', ...styles.container }}>
+        <ImageBackground style={{ flex: 1, position: 'relative' }} source={{ uri: 'https://ik.imagekit.io/uv3u01crv/background_2.png?updatedAt=1710824830029' }} resizeMode='cover' blurRadius={4}>
+            <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 1, }} />
+            <View style={{ flex: 1, ...styles.container }}>
                 <View style={styles.textContainer}>
                     <Text style={{ color: '#f1f1f1', fontSize: 65, fontWeight: 900, textAlign: 'center', }}>
                         ¿Que vamos a <Text style={{ color: bluePallete[100] }}>cocinar</Text> hoy?
@@ -46,7 +47,8 @@ const styles = StyleSheet.create(
         container: {
             display: 'flex',
             flexDirection: 'column',
-            padding: 20
+            padding: 20,
+            zIndex: 2
         },
         textContainer: {
             display: 'flex',
