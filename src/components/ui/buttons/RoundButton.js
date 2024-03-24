@@ -1,13 +1,11 @@
 import React from "react"
-import { TouchableWithoutFeedback, Text, StyleSheet, View } from "react-native"
+import { TouchableWithoutFeedback, StyleSheet, View } from "react-native"
 
-export function Button({ ButtonText, style, onPress, TextColor, TextStyle }) {
+export function RoundButton({ style, onPress }) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={{ ...styles.button, ...style }}>
-                <Text style={{ fontSize: 30, color: TextColor, ...TextStyle }}>
-                    {ButtonText}
-                </Text>
+
             </View>
         </TouchableWithoutFeedback>
     )
@@ -16,11 +14,12 @@ export function Button({ ButtonText, style, onPress, TextColor, TextStyle }) {
 const styles = StyleSheet.create(
     {
         button: {
-            height: 50,
+            width: 50,
             borderRadius: 50,
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            aspectRatio: 1
         }
     }
 )

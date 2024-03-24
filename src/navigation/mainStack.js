@@ -1,22 +1,23 @@
-import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import StartScreen from "../screens/startScreen"
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import StartScreen from "../screens/startScreen";
+import LogIn from "../screens/logInScreen";
+import DrawerNavigation from "./DrawerNavigation";
 
-const stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
 export default function MainStack() {
     return (
         <NavigationContainer>
-            <stack.Navigator
+            <Stack.Navigator
                 screenOptions={{
-                    headerShown: false
+                    headerShown: false,
                 }}
             >
-                <stack.Screen
-                    name="StartScreen"
-                    component={StartScreen}
-                />
-            </stack.Navigator>
+                <Stack.Screen name="StartScreen" component={StartScreen} />
+                <Stack.Screen name="LogIn" component={LogIn} />
+                <Stack.Screen name="Drawer" component={DrawerNavigation} />
+            </Stack.Navigator>
         </NavigationContainer>
-    )
+    );
 }
