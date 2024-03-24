@@ -58,7 +58,7 @@ export default function LogIn({ navigation }) {
                 const userDataResponse = await axios.get(`https://recipes-api-dev.koyeb.app/user/get-data/${data.id}`)
                 const userData = JSON.stringify(userDataResponse.data)
 
-                await AsyncStorage.clear()
+                await AsyncStorage.removeItem('UserData')
                 await AsyncStorage.setItem('UserData', userData)
 
                 setLoading(false)
