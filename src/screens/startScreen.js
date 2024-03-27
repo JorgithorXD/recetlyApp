@@ -27,8 +27,8 @@ export default function StartScreen({ navigation }) {
                             navigation.navigate('LogIn')
                         }}
                     />
-                    <Button ButtonText={'Registrarse'} style={{ borderColor: bluePallete[300], borderWidth: 4 }} TextColor={bluePallete[300]} onPress={() => Alert.alert('No disponible', 'Sigo trabajando en esto')} />
-                    <Button ButtonText={'Entrar como invitado'} style={{ backgroundColor: "#222222" }} TextColor={'#f1f1f1'} onPress={() => navigation.navigate('Drawer')} />
+                    <Button ButtonText={'Registrarse'} style={{ borderColor: bluePallete[300], borderWidth: 4 }} TextColor={bluePallete[300]} onPress={() => navigation.navigate('SignUp')} />
+                    <Button ButtonText={'Entrar como invitado'} style={{ backgroundColor: "#222222" }} TextColor={'#f1f1f1'} onPress={() => navigation.replace('Drawer')} />
                 </View>
             </View>
         </ImageBackground >

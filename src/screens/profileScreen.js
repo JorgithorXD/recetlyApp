@@ -43,8 +43,8 @@ export default function UserProfile() {
                         <Animated.Image
                             style={[styles.image, { opacity: fadeAnim }]}
                             source={{ uri: userData.user.user_pfp }}
-                            width={100}
-                            height={100}
+                            width={80}
+                            height={80}
                             resizeMode={'contain'}
                         />
                     )}
@@ -55,7 +55,10 @@ export default function UserProfile() {
                         </Animated.View>
                     )}
                 </View>
-                <Text style={{ fontSize: 30, color: "#222222" }}>Recetas creadas por /User</Text>
+                {!loadingUserData && userData && (
+                    <Text style={{ fontSize: 32, color: "#222222", textAlign: 'center', marginVertical: 10, fontWeight: '500' }}>Recetas de {userData.user.user_username}</Text>
+                )}
+
             </View>
         </MainLayout>
     );
@@ -63,8 +66,10 @@ export default function UserProfile() {
 
 const styles = StyleSheet.create({
     image: {
-        borderRadius: 50,
-        alignSelf: 'center'
+        borderRadius: 40,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderColor: 'red'
     },
     userPersonalData: {
         backgroundColor: 'pink',
@@ -91,6 +96,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         gap: 8,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 8
     }
 })

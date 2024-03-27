@@ -1,8 +1,13 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native'
+import HidePassword from '../../svg/HidePassword'
+import ShowPassword from '../../svg/ShowPassword'
+import { useState } from 'react'
 
-export function PasswordInput({ Placeholder, Label, onChangeText, style, LabelColor, children, showPassword}) {
+export function PasswordInput({ Placeholder, Label, onChangeText, style, LabelColor, children}) {
+    const [showPassword, setShowPassword] = useState(true)
+
     return (
-        <View style = {{position: 'relative'}}>
+        <View style={{ position: 'relative' }}>
             <Text style={{ color: LabelColor, fontSize: 28, marginBottom: 4 }}>{Label}</Text>
             <TextInput
                 placeholder={Placeholder}
@@ -11,7 +16,15 @@ export function PasswordInput({ Placeholder, Label, onChangeText, style, LabelCo
                 placeholderTextColor={"#a1a1a1"}
                 secureTextEntry={showPassword}
             />
-            {children}
+            <Pressable style={styles.svg} onPress={() => {
+                if (showPassword) {
+                    setShowPassword(false)
+                } else {
+                    setShowPassword(true)
+                }
+            }}>
+                {showPassword ? <ShowPassword /> : <HidePassword />}
+            </Pressable>
         </View>
     )
 }
@@ -25,5 +38,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         fontSize: 20,
         borderRadius: 4
+    },
+    svg: {
+        position: 'absolute',
+        right: 5,
+        bottom: 0,
     }
 })

@@ -18,7 +18,7 @@ function CustomDrawerContent(props) {
             <DrawerItem label="Perfil" onPress={() => props.navigation.navigate('Perfil')} />
             <DrawerItem label="Cerrar sesion" onPress={() => {
                 AsyncStorage.removeItem('UserData')
-                props.navigation.navigate('StartScreen')
+                props.navigation.replace('StartScreen')
             }} />
         </DrawerContentScrollView>
     );

@@ -6,14 +6,10 @@ import { useState } from "react"
 import bluePallete from "../components/utils/bluePallete"
 import axios from "axios"
 
-export default function SignUp({ navigation }) {
+export default function SignUpEmail({ navigation, route }) {
+    const { formData } = route.params
     const [imageUrl, setUrl] = useState(null)
-    const [personalData, setPersonalData] = useState({
-        username: '',
-        name: '',
-        lastname: '',
-        image: {}
-    })
+    const [image, setImage] = useState({})
 
     function handleImageSelection() {
         const options = {
@@ -35,13 +31,13 @@ export default function SignUp({ navigation }) {
                     base64: response.assets[0].base64
                 }
 
+                setImage(imgData)
                 setUrl(response.assets[0].uri)
-                setPersonalData({ ...personalData, image: imgData })
             }
         })
     }
 
-   /* async function handleSignUp() {
+    async function handleSignUp() {
         try {
             const formData = new FormData();
             formData.append('img', {
@@ -59,7 +55,7 @@ export default function SignUp({ navigation }) {
         } catch (error) {
             console.error('Error al enviar la imagen:', error);
         }
-    }*/
+    }
 
     return (
         <View style={styles.container}>
@@ -68,11 +64,10 @@ export default function SignUp({ navigation }) {
                 <TouchableOpacity onPress={handleImageSelection}>
                     <Image style={styles.image} source={{ uri: imageUrl ? imageUrl : 'https://ik.imagekit.io/uv3u01crv/User_default_v2.png?updatedAt=1710627069144' }} />
                 </TouchableOpacity>
-                <Input Label="Nombre de usuario" onChangeText={(text) => setPersonalData({ ...personalData, username: text })} />
-                <Input Label="Nombre (s)" onChangeText={(text) => setPersonalData({ ...personalData, name: text })} />
-                <Input Label="Apellido (s)" onChangeText={(text) => setPersonalData({ ...personalData, lastname: text })} />
-
-                <Button ButtonText="Siguiente" onPress={() => navigation.navigate('SignUpEmail', personalData)} style={{ backgroundColor: bluePallete[500] }} TextColor={"#f1f1f1"} />
+                <Input Label="Nombre de usuario" />
+                <Input Label="Nombre (s)" />
+                <Input Label="Apellido (s)" />
+                <Button ButtonText="Siguiente" onPress={handleSignUp} style={{ backgroundColor: bluePallete[500] }} TextColor={"#f1f1f1"} />
                 <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
             </View>
         </View>
