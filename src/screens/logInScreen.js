@@ -44,7 +44,7 @@ export default function LogIn({ navigation }) {
     async function handleLogIn() {
         try {
             setLoading(true)
-            const response = await axios.post('https://recipes-api-dev.koyeb.app/user/auth/login', {
+            const response = await axios.post('https://recipes-api-dev.koyeb.app/user/auth/v1/login', {
                 emailInput: email,
                 passwordInput: password
             })

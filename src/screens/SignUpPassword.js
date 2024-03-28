@@ -1,15 +1,17 @@
 import { View, Text, StyleSheet, Keyboard } from "react-native"
 import { Input } from "../components/ui/inputs/TextInput"
 import { Button } from "../components/ui/buttons/Button"
-import { launchImageLibrary } from "react-native-image-picker"
 import { useState } from "react"
 import bluePallete from "../components/utils/bluePallete"
 import axios from "axios"
 import Loading from "../components/ui/loading/Loading"
+import Warning from "../components/ui/notifications/warnNotification"
 
 export default function SignUpPassword({ navigation, route }) {
     const { personalData } = route.params
     const [loading, setLoading] = useState(false)
+    const [warning, setWarn] = useState(false)
+    const [warnMessage, setMessage] = useState('')
 
     async function handleSignUp() {
         Keyboard.dismiss()
@@ -27,9 +29,21 @@ export default function SignUpPassword({ navigation, route }) {
                 }
             )
 
-            console.log('Respuesta del servidor:', response.data)
             setLoading(false)
+
+            if (response.data.id == null) {
+                throw new Error('Hubo un error al crear la cuenta')
+            } else {
+                setMessage('Cuenta creada')
+                setWarn(true)
+                navigation.replace('StartScreen')
+            }
+
+            console.log('Respuesta del servidor:', response.data)
         } catch (error) {
+            setLoading(false)
+            setMessage(error.toString())
+            setWarn(true)
             console.error('Error al enviar la imagen:', error)
         }
     }
@@ -48,6 +62,7 @@ export default function SignUpPassword({ navigation, route }) {
                 <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
             </View>
             {loading && <Loading />}
+            {warning && <Warning text={warnMessage} onPress={() => setWarn(false)} />}
         </View>
     )
 }
