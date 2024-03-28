@@ -6,6 +6,7 @@ import DrawerNavigation from "./DrawerNavigation";
 import LoadingScreen from "../screens/RunningScreen";
 import SignUp from "../screens/SignUp";
 import SignUpEmail from "../screens/SignUpEmail";
+import SignUpPassword from "../screens/SignUpPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function MainStack() {
                 <Stack.Screen name="LogIn" component={LogIn} />
                 <Stack.Screen name="SignUp" component={SignUp} />
                 <Stack.Screen name="SignUpEmail" component={SignUpEmail} />
+                <Stack.Screen name="SignUpPassword" component={SignUpPassword} />
                 <Stack.Screen name="Drawer" component={DrawerNavigation} />
             </Stack.Navigator>
         </NavigationContainer>

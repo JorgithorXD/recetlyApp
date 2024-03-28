@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
 import { Input } from "../components/ui/inputs/TextInput"
 import { Button } from "../components/ui/buttons/Button"
-import { launchImageLibrary } from "react-native-image-picker"
 import { useState } from "react"
 import bluePallete from "../components/utils/bluePallete"
-import axios from "axios"
+import ImageCropPicker from "react-native-image-crop-picker"
 
 export default function SignUp({ navigation }) {
     const [imageUrl, setUrl] = useState(null)
@@ -12,67 +11,52 @@ export default function SignUp({ navigation }) {
         username: '',
         name: '',
         lastname: '',
-        image: {}
+        image: {},
+        email: '',
+        password: ''
     })
 
-    function handleImageSelection() {
-        const options = {
-            mediaType: 'photo',
-            quality: 0.7,
-            includeBase64: true
-        }
-
-        launchImageLibrary(options, (response) => {
-            if (response.didCancel) {
-                console.log('User cancelled image picker')
-            } else if (response.error) {
-                console.log('Image picker error: ', response.error)
-            } else {
-                let imgData = {
-                    fileName: response.assets[0].fileName,
-                    type: response.assets[0].type,
-                    uri: response.assets[0].uri,
-                    base64: response.assets[0].base64
-                }
-
-                setUrl(response.assets[0].uri)
-                setPersonalData({ ...personalData, image: imgData })
-            }
-        })
-    }
-
-   /* async function handleSignUp() {
+    async function handleCropSelection() {
         try {
-            const formData = new FormData();
-            formData.append('img', {
-                uri: image.uri,
-                name: image.fileName, // Usar 'name' en lugar de 'originalname'
-                type: image.type,
-            });
+            const croppedImage = await ImageCropPicker.openPicker({
+                width: 300, // Ancho deseado de la imagen recortada
+                height: 300, // Altura deseada de la imagen recortada
+                cropping: true, // Habilitar el modo de recorte
+                cropperToolbarTitle: 'Recortar Imagen',
+                includeBase64: true,
+                cropperToolbarOptions: {},
+                compressImageQuality: 0.7,
+                hideBottomControls: true
+            })
 
-            const response = await axios.post(
-                'https://recipes-api-dev.koyeb.app/user/api/test',
-                { img: image }
-            );
+            const timestamp = new Date().getTime()
+            const filename = `cropped_image_${timestamp}.jpg`
 
-            console.log('Respuesta del servidor:', response.data);
+            let imageData = {
+                fileName: filename,
+                base64: croppedImage.data,
+                type: croppedImage.mime
+            }
+
+            setUrl(croppedImage.path)
+            setPersonalData({ ...personalData, image: imageData })
         } catch (error) {
-            console.error('Error al enviar la imagen:', error);
+            console.log(error) // Manejar cualquier error que pueda ocurrir durante el proceso de selección y recorte
         }
-    }*/
+    }
 
     return (
         <View style={styles.container}>
             <View style={{}}>
                 <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Introduce tus datos personales</Text>
-                <TouchableOpacity onPress={handleImageSelection}>
+                <TouchableOpacity onPress={handleCropSelection}>
                     <Image style={styles.image} source={{ uri: imageUrl ? imageUrl : 'https://ik.imagekit.io/uv3u01crv/User_default_v2.png?updatedAt=1710627069144' }} />
                 </TouchableOpacity>
-                <Input Label="Nombre de usuario" onChangeText={(text) => setPersonalData({ ...personalData, username: text })} />
-                <Input Label="Nombre (s)" onChangeText={(text) => setPersonalData({ ...personalData, name: text })} />
-                <Input Label="Apellido (s)" onChangeText={(text) => setPersonalData({ ...personalData, lastname: text })} />
+                <Input Label="Nombre de usuario" onChangeText={(text) => setPersonalData({ ...personalData, username: text })} LabelColor={bluePallete[400]} />
+                <Input Label="Nombre (s)" onChangeText={(text) => setPersonalData({ ...personalData, name: text })} LabelColor={bluePallete[400]} />
+                <Input Label="Apellido (s)" onChangeText={(text) => setPersonalData({ ...personalData, lastname: text })} LabelColor={bluePallete[400]} />
 
-                <Button ButtonText="Siguiente" onPress={() => navigation.navigate('SignUpEmail', personalData)} style={{ backgroundColor: bluePallete[500] }} TextColor={"#f1f1f1"} />
+                <Button ButtonText="Siguiente" onPress={() => navigation.navigate('SignUpEmail', { personalData })} style={{ backgroundColor: bluePallete[500] }} TextColor={"#f1f1f1"} />
                 <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
             </View>
         </View>
