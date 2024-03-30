@@ -32,7 +32,7 @@ Desarrollado por **Rustic Development**, que se compone por:
 
    Dentro de la carpeta **src** se encuentra todo el codigo fuente desarrollado por nosotros, Rustic Development.
    Su estructura es la siguiente:
-```bash
+```shell
     - /components         -> Aquí se encuentran los fragmentos de código que nos servirán para la aplicación.
        ├ /headers         -> Cabeceras reutilizables.
        ├ /svg             -> Iconos
