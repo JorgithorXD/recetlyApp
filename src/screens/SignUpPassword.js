@@ -6,6 +6,7 @@ import bluePallete from "../components/utils/bluePallete"
 import axios from "axios"
 import Loading from "../components/ui/loading/Loading"
 import Warning from "../components/ui/notifications/warnNotification"
+import ProgressBar from "../components/headers/ProgressBar"
 
 export default function SignUpPassword({ navigation, route }) {
     const { personalData } = route.params
@@ -54,6 +55,7 @@ export default function SignUpPassword({ navigation, route }) {
 
     return (
         <View style={{ flex: 1 }}>
+            <ProgressBar active={3}/>
             <View style={styles.container}>
                 <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Crea tu contraseña</Text>
                 <Input Label="Contraseña" LabelColor={bluePallete[400]} onChangeText={handlePasswordChange} />

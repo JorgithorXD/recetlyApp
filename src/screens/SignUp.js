@@ -4,6 +4,7 @@ import { Button } from "../components/ui/buttons/Button"
 import { useState } from "react"
 import bluePallete from "../components/utils/bluePallete"
 import ImageCropPicker from "react-native-image-crop-picker"
+import ProgressBar from "../components/headers/ProgressBar"
 
 export default function SignUp({ navigation }) {
     const [imageUrl, setUrl] = useState(null)
@@ -47,6 +48,7 @@ export default function SignUp({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <ProgressBar active={1}/>
             <View style={{}}>
                 <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Introduce tus datos personales</Text>
                 <TouchableOpacity onPress={handleCropSelection}>

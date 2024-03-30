@@ -5,21 +5,39 @@ import { RoundButton } from "../components/ui/buttons/RoundButton"
 import { View } from "react-native"
 import bluePallete from "../components/utils/bluePallete"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useState, useEffect } from "react"
 
 const Drawer = createDrawerNavigator()
 
 function CustomDrawerContent(props) {
+    const [isLogged, setLogged] = useState(false)
+
+    useEffect(() => {
+        const checkLoggedIn = async () => {
+            try {
+                const userData = await AsyncStorage.getItem('UserData')
+                setLogged(userData && userData.length > 0)
+            } catch (error) {
+                console.error("Error checking login status:", error)
+            }
+        }
+        checkLoggedIn()
+    }, [])
+
     return (
         <DrawerContentScrollView {...props} style={{ paddingTop: 0 }}>
             <View style={{ height: 60, backgroundColor: 'pink', position: 'relative', top: -4, display: 'flex', justifyContent: 'center', paddingHorizontal: 4 }}>
                 <RoundButton style={{ backgroundColor: bluePallete[500] }} onPress={() => props.navigation.closeDrawer()} />
             </View>
-            <DrawerItem label="Home" onPress={() => props.navigation.navigate('Home')} />
+            <DrawerItem label="Pagina principal" onPress={() => props.navigation.navigate('Home')} />
             <DrawerItem label="Perfil" onPress={() => props.navigation.navigate('Perfil')} />
-            <DrawerItem label="Cerrar sesion" onPress={() => {
+            {isLogged && <DrawerItem label="Cerrar sesion" onPress={() => {
                 AsyncStorage.removeItem('UserData')
                 props.navigation.replace('StartScreen')
-            }} />
+            }} />}
+            {!isLogged && <DrawerItem label="Acceder" onPress={() => {
+                props.navigation.replace('StartScreen')
+            }} />}
         </DrawerContentScrollView>
     );
 }

@@ -8,6 +8,7 @@ import Warning from "../components/ui/notifications/warnNotification"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Loading from "../components/ui/loading/Loading"
+import { Anchor } from "../components/ui/buttons/AnchorButton"
 
 export default function LogIn({ navigation }) {
     const [email, setEmail] = useState("")
@@ -98,9 +99,9 @@ export default function LogIn({ navigation }) {
                     />
                     <Button ButtonText={'Volver'} style={{ backgroundColor: '#333333' }} onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} />
                 </View>
-                <View>
-                    <Button ButtonText={"Olvide mi contraseña"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} />
-                    <Button ButtonText={"No tengo una cuenta"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} />
+                <View style = {{gap: 8}}>
+                    <Anchor ButtonText={"Olvide mi contraseña"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} />
+                    {/* <Anchor ButtonText={"No tengo una cuenta"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} onPress={()=>navigation.replace('SignUp')} /> */}
                 </View>
             </View>
             {warn && <Warning text={warnMessage ? warnMessage : 'Introduzca datos validos'} onPress={() => setWarn(false)} />}

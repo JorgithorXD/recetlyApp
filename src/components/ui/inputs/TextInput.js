@@ -1,7 +1,7 @@
 import React from "react"
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 
-export function Input({ Placeholder, Label, onChangeText, style, LabelColor }) {
+export function Input({ Placeholder, Label, onChangeText, style, LabelColor, Type }) {
     return (
         <View>
             <Text style={{ color: LabelColor, fontSize: 28, marginBottom: 4 }}>{Label}</Text>
@@ -9,7 +9,7 @@ export function Input({ Placeholder, Label, onChangeText, style, LabelColor }) {
                 placeholder={Placeholder}
                 onChangeText={onChangeText}
                 style={{ ...style, ...styles.input }}
-                keyboardType="email-address"
+                keyboardType={Type}
                 placeholderTextColor={"#a1a1a1"}
             />
         </View>

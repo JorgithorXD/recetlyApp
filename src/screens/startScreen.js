@@ -6,14 +6,14 @@ import bluePallete from "../components/utils/bluePallete"
 export default function StartScreen({ navigation }) {
     return (
         <ImageBackground style={{ flex: 1, position: 'relative' }} source={{ uri: 'https://ik.imagekit.io/uv3u01crv/background_2.png?updatedAt=1710824830029' }} resizeMode='cover' blurRadius={4}>
-            <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 1, }} />
+            <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.45)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 1, }} />
             <View style={{ flex: 1, ...styles.container }}>
                 <View style={styles.textContainer}>
                     <Text style={{ color: '#f1f1f1', fontSize: 65, fontWeight: 900, textAlign: 'center', }}>
                         ¿Que vamos a <Text style={{ color: bluePallete[100] }}>cocinar</Text> hoy?
                     </Text>
 
-                    <Text style={{ color: bluePallete[300], fontSize: 50, fontWeight: 800, textAlign: 'center', position: 'absolute', bottom: 50, alignSelf: 'center' }}>
+                    <Text style={{ color: bluePallete[200], fontSize: 70, fontWeight: 800, textAlign: 'center', position: 'absolute', bottom: 50, alignSelf: 'center' }}>
                         Recetly
                     </Text>
                 </View>

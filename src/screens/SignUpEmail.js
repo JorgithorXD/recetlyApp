@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
 import { Input } from "../components/ui/inputs/TextInput"
 import { Button } from "../components/ui/buttons/Button"
-import { launchImageLibrary } from "react-native-image-picker"
-import { useState } from "react"
 import bluePallete from "../components/utils/bluePallete"
-import axios from "axios"
+import ProgressBar from "../components/headers/ProgressBar"
+
 
 export default function SignUpEmail({ navigation, route }) {
     const { personalData } = route.params
@@ -15,6 +14,7 @@ export default function SignUpEmail({ navigation, route }) {
 
     return (
         <View style={styles.container}>
+            <ProgressBar active={2}/>
             <View style={{}}>
                 <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Introduce tu correo</Text>
                 <Input Label="Correo electronico" LabelColor={bluePallete[400]} onChangeText={handleEmailChange} />
