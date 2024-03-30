@@ -18,9 +18,9 @@ export default function LoadingScreen() {
         try {
             const userDataString = await AsyncStorage.getItem('UserData')
             if (userDataString !== null) {
-                navigation.navigate('Drawer')
+                navigation.replace('Drawer')
             } else {
-                navigation.navigate('StartScreen')
+                navigation.replace('StartScreen')
             }
         } catch (error) {
             console.error('Error al cargar los datos del usuario:', error)

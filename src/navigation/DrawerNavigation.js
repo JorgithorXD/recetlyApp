@@ -6,6 +6,7 @@ import { View } from "react-native"
 import bluePallete from "../components/utils/bluePallete"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useState, useEffect } from "react"
+import checkLoggedIn from "../utils/authUtil"
 
 const Drawer = createDrawerNavigator()
 
@@ -13,15 +14,11 @@ function CustomDrawerContent(props) {
     const [isLogged, setLogged] = useState(false)
 
     useEffect(() => {
-        const checkLoggedIn = async () => {
-            try {
-                const userData = await AsyncStorage.getItem('UserData')
-                setLogged(userData && userData.length > 0)
-            } catch (error) {
-                console.error("Error checking login status:", error)
-            }
+        const checkUser = async () => {
+            const loggedIn = await checkLoggedIn()
+            setLogged(loggedIn)
         }
-        checkLoggedIn()
+        checkUser()
     }, [])
 
     return (
@@ -39,7 +36,7 @@ function CustomDrawerContent(props) {
                 props.navigation.replace('StartScreen')
             }} />}
         </DrawerContentScrollView>
-    );
+    )
 }
 
 export default function DrawerNavigation() {
