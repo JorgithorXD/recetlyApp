@@ -33,20 +33,21 @@ Desarrollado por **Rustic Development**, que se compone por:
    Dentro de la carpeta **src** se encuentra todo el codigo fuente desarrollado por nosotros, Rustic Development.
    Su estructura es la siguiente:
 
-      - /components         -> Aqui se encuentran los fragmentos de codigo que nos serviran para la aplicacion.
-         ├ /headers         -> Cabeceras reutilizables.
-         ├ /svg             -> Iconos
-         ├ /ui              -> Componentes de la interfaz reutilizables
-         │ ├ /buttons       -> Botones reutilizables
-         │ ├ /inputs        -> Campos de texto reutilizables
-         │ ├ /layouts       -> Plantillas para reutilizar entre pantallas y que mantengan el mismo estilo
-         │ ├ /loading       -> Pantallas de carga, si es que son necesarias
-         │ └ /notifications -> Pantallas, PopUps o mensajes emergentes que muestran mensajes, en caso de ser necesario
-         │
-         └ /utils           -> Archivos con cierta utilidad para el diseño de la interfaz, ejemplo, paletas de colores
+    - /components         -> Aquí se encuentran los fragmentos de código que nos servirán para la aplicación.
+       ├ /headers         -> Cabeceras reutilizables.
+       ├ /svg             -> Iconos
+       ├ /ui              -> Componentes de la interfaz reutilizables
+       │ ├ /buttons       -> Botones reutilizables
+       │ ├ /inputs        -> Campos de texto reutilizables
+       │ ├ /layouts       -> Plantillas para reutilizar entre pantallas y que mantengan el mismo estilo
+       │ ├ /loading       -> Pantallas de carga, si es que son necesarias
+       │ └ /notifications -> Pantallas, PopUps o mensajes emergentes que muestran mensajes, en caso de ser necesario
+       │
+       └ /utils           -> Archivos con cierta utilidad para el diseño de la interfaz, ejemplo, paletas de colores
          
-      - /navigation         -> Aqui se encuentran los archivos que gestionan las pantallas de la aplicacion y su forma de navegar
-      - /screens            -> Aqui estan los archivos de cada pantalla de la aplicacion
-      - /utils              -> Archivos utiles como funciones especificas, por ejemplo, la guncion que revisa si el usuario tiene la sesion iniciada
+    - /navigation         -> Aquí se encuentran los archivos que gestionan las pantallas de la aplicación y su forma de navegar
+    - /screens            -> Aquí están los archivos de cada pantalla de la aplicación
+    - /utils              -> Archivos útiles como funciones específicas, por ejemplo, la función que revisa si el usuario tiene la sesión iniciada
+
 
 3. Explicacion archivos mas importantes
