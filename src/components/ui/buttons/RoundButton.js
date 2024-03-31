@@ -1,13 +1,13 @@
 import React from "react"
-import { TouchableWithoutFeedback, StyleSheet, View } from "react-native"
+import { TouchableOpacity, StyleSheet, View } from "react-native"
 
 export function RoundButton({ style, onPress, children }) {
     return (
-        <TouchableWithoutFeedback onPress={onPress}>
+        <TouchableOpacity onPress={onPress}>
             <View style={{ ...styles.button, ...style }}>
                 {children}
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     )
 }
 

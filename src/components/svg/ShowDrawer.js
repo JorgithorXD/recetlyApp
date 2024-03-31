@@ -3,8 +3,8 @@ import { Svg, Path } from "react-native-svg"
 export default function ShowDrawer() {
     return (
         <Svg
-            width={30}
-            height={30}
+            width={24}
+            height={24}
             viewBox="0 0 448 448"
         >
             <Path

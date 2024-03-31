@@ -1,14 +1,14 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import StartScreen from "../screens/StartScreen";
-import LogIn from "../screens/LogInScreen";
-import DrawerNavigation from "./DrawerNavigation";
-import LoadingScreen from "../screens/RunningScreen";
-import SignUp from "../screens/SignUp";
-import SignUpEmail from "../screens/SignUpEmail";
-import SignUpPassword from "../screens/SignUpPassword";
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import StartScreen from "../screens/StartScreen"
+import LogIn from "../screens/LogInScreen"
+import DrawerNavigation from "./DrawerNavigation"
+import LoadingScreen from "../screens/RunningScreen"
+import SignUp from "../screens/SignUp"
+import SignUpEmail from "../screens/SignUpEmail"
+import SignUpPassword from "../screens/SignUpPassword"
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 export default function MainStack() {
     return (
@@ -27,5 +27,5 @@ export default function MainStack() {
                 <Stack.Screen name="Drawer" component={DrawerNavigation} />
             </Stack.Navigator>
         </NavigationContainer>
-    );
+    )
 }

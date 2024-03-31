@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
 import { Input } from "../components/ui/inputs/TextInput"
 import { Button } from "../components/ui/buttons/Button"
 import { useState } from "react"
-import bluePallete from "../components/utils/bluePallete"
+import bluePallete from "../components/utils/blue"
 import ImageCropPicker from "react-native-image-crop-picker"
 import ProgressBar from "../components/headers/ProgressBar"
 

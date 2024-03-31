@@ -1,7 +1,7 @@
 import React from "react"
 import { View, Text, ImageBackground, StyleSheet, Alert } from 'react-native'
 import { Button } from "../components/ui/buttons/Button"
-import bluePallete from "../components/utils/bluePallete"
+import bluePallete from "../components/utils/blue"
 
 export default function StartScreen({ navigation }) {
     return (

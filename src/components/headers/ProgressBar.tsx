@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native"
-import bluePallete from "../utils/bluePallete"
+import bluePallete from "../utils/blue"
 
 interface Props {
     active: number

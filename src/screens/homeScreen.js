@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Button } from "../components/ui/buttons/Button"
-import bluePallete from "../components/utils/bluePallete"
+import bluePallete from "../components/utils/blue"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import axios from "axios"
 

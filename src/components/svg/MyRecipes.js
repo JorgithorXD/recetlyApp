@@ -1,11 +1,12 @@
 import { Svg, Path } from "react-native-svg"
 
-export default function MyRecipes() {
+export default function MyRecipes({fill}) {
     return (
         <Svg
         width={24}
         height={24}
         viewBox="0 0 34 34"
+        fill = {fill}
       >
         <Path
           className="clr-i-outline clr-i-outline-path-1"

@@ -2,27 +2,26 @@ import React, { useEffect, useState } from "react"
 import { View, Text, Image, StyleSheet, ScrollView, Animated } from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import MainLayout from "../components/ui/layouts/MainLayout"
+import checkLoggedIn from "../utils/authUtil"
 
 export default function UserProfile() {
     const [userData, setUserData] = useState(null)
-    const [fadeAnim] = useState(new Animated.Value(0)) // Estado para la animación de fade
-    const [loadingUserData, setLoadingUserData] = useState(true) // Estado para controlar la carga de datos
+    const [loadingUserData, setLoadingUserData] = useState(true)
+    const [isLogged, setLogged] = useState(false)
 
     useEffect(() => {
-        loadUserData()
-    }, [])
+        const checkUser = async () => {
+            const loggedIn = await checkLoggedIn()
+            setLogged(loggedIn)
+            if (loggedIn) {
+                loadUserData()
+            }
+        }
+        checkUser()
+    }, [isLogged])
 
     const loadUserData = async () => {
         try {
-            Animated.timing(
-                fadeAnim,
-                {
-                    toValue: 1,
-                    duration: 1000,
-                    useNativeDriver: true
-                }
-            ).start()
-
             const userDataString = await AsyncStorage.getItem('UserData')
             if (userDataString !== null) {
                 const userDataObj = JSON.parse(userDataString)
@@ -31,7 +30,7 @@ export default function UserProfile() {
         } catch (error) {
             console.error('Error al cargar los datos del usuario:', error)
         } finally {
-            setLoadingUserData(false) // Marcar la carga de datos como completada, independientemente del resultado
+            setLoadingUserData(false)
         }
     }
 
@@ -40,8 +39,8 @@ export default function UserProfile() {
             <View style={{ flex: 1, ...styles.container }}>
                 <View style={styles.imageDataContainer}>
                     {!loadingUserData && userData && (
-                        <Animated.Image
-                            style={[styles.image, { opacity: fadeAnim }]}
+                        <Image
+                            style={[styles.image]}
                             source={{ uri: userData.user.user_pfp }}
                             width={80}
                             height={80}
@@ -49,10 +48,10 @@ export default function UserProfile() {
                         />
                     )}
                     {!loadingUserData && userData && (
-                        <Animated.View style={[styles.userPersonalData, { opacity: fadeAnim }]}>
+                        <View style={[styles.userPersonalData]}>
                             <Text style={styles.textUserName}>{userData.user.user_username}</Text>
                             <Text style={styles.textName}>{userData.user.user_name + " " + userData.user.user_last_name}</Text>
-                        </Animated.View>
+                        </View>
                     )}
                 </View>
                 {!loadingUserData && userData && (

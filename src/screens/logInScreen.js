@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Keyboard, Alert, Pressable } from 'react-native
 import { Button } from "../components/ui/buttons/Button"
 import { Input } from "../components/ui/inputs/TextInput"
 import { PasswordInput } from "../components/ui/inputs/PasswordInput"
-import bluePallete from "../components/utils/bluePallete"
+import bluePallete from "../components/utils/blue"
 import Warning from "../components/ui/notifications/warnNotification"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
