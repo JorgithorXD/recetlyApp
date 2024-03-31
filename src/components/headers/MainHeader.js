@@ -2,6 +2,8 @@ import { View, StyleSheet, Text } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { RoundButton } from "../ui/buttons/RoundButton"
 import bluePallete from "../utils/bluePallete"
+import ShowDrawer from "../svg/ShowDrawer"
+import Search from "../svg/Search"
 
 export default function MainHeader() {
     const navigation = useNavigation()
@@ -12,9 +14,13 @@ export default function MainHeader() {
 
     return (
         <View style={styles.header} >
-            <RoundButton style={{ backgroundColor: bluePallete[500] }} />
+            <RoundButton style={{ backgroundColor: bluePallete[500] }}>
+                <Search />
+            </RoundButton>
             <Text style={{ fontSize: 40 }}>Recetly</Text>
-            <RoundButton style={{ backgroundColor: bluePallete[500] }} onPress={handleOpenDrawer} />
+            <RoundButton style={{ backgroundColor: bluePallete[500] }} onPress={handleOpenDrawer}>
+                <ShowDrawer />
+            </RoundButton>
         </View >
     )
 }

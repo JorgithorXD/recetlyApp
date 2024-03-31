@@ -9,6 +9,7 @@ import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Loading from "../components/ui/loading/Loading"
 import { Anchor } from "../components/ui/buttons/AnchorButton"
+import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
 
 export default function LogIn({ navigation }) {
     const [email, setEmail] = useState("")
@@ -45,7 +46,7 @@ export default function LogIn({ navigation }) {
     async function handleLogIn() {
         try {
             setLoading(true)
-            const response = await axios.post('https://recipes-api-dev.koyeb.app/user/auth/v1/login', {
+            const response = await axios.post(`${API_BASE_URL}${ENDPOINTS.AuthUser}`, {
                 emailInput: email,
                 passwordInput: password
             })

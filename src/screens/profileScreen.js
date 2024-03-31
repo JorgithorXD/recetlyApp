@@ -4,13 +4,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import MainLayout from "../components/ui/layouts/MainLayout"
 
 export default function UserProfile() {
-    const [userData, setUserData] = useState(null);
-    const [fadeAnim] = useState(new Animated.Value(0)); // Estado para la animación de fade
-    const [loadingUserData, setLoadingUserData] = useState(true); // Estado para controlar la carga de datos
+    const [userData, setUserData] = useState(null)
+    const [fadeAnim] = useState(new Animated.Value(0)) // Estado para la animación de fade
+    const [loadingUserData, setLoadingUserData] = useState(true) // Estado para controlar la carga de datos
 
     useEffect(() => {
-        loadUserData();
-    }, []);
+        loadUserData()
+    }, [])
 
     const loadUserData = async () => {
         try {
@@ -21,19 +21,19 @@ export default function UserProfile() {
                     duration: 1000,
                     useNativeDriver: true
                 }
-            ).start();
+            ).start()
 
-            const userDataString = await AsyncStorage.getItem('UserData');
+            const userDataString = await AsyncStorage.getItem('UserData')
             if (userDataString !== null) {
-                const userDataObj = JSON.parse(userDataString);
-                setUserData(userDataObj);
+                const userDataObj = JSON.parse(userDataString)
+                setUserData(userDataObj)
             }
         } catch (error) {
-            console.error('Error al cargar los datos del usuario:', error);
+            console.error('Error al cargar los datos del usuario:', error)
         } finally {
-            setLoadingUserData(false); // Marcar la carga de datos como completada, independientemente del resultado
+            setLoadingUserData(false) // Marcar la carga de datos como completada, independientemente del resultado
         }
-    };
+    }
 
     return (
         <MainLayout>
@@ -61,7 +61,7 @@ export default function UserProfile() {
 
             </View>
         </MainLayout>
-    );
+    )
 }
 
 const styles = StyleSheet.create({

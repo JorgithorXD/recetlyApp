@@ -7,10 +7,10 @@ interface Props {
 
 export default function ({ active }: Props) {
     return (
-        <View style={{ display: 'flex', position: 'absolute', width: '100%', top: 10, gap: 8, flexDirection: 'row', marginHorizontal: 20 }}>
-            <View style={[styles.defaultCell, active >= 1 ? styles.activeCell: styles.unactiveCell]}></View>
-            <View style={[styles.defaultCell, active >= 2 ? styles.activeCell: styles.unactiveCell]}></View>
-            <View style={[styles.defaultCell, active >= 3 ? styles.activeCell: styles.unactiveCell]}></View>
+        <View style={styles.bar}>
+            <View style={[styles.defaultCell, active >= 1 ? styles.activeCell : styles.unactiveCell]}></View>
+            <View style={[styles.defaultCell, active >= 2 ? styles.activeCell : styles.unactiveCell]}></View>
+            <View style={[styles.defaultCell, active >= 3 ? styles.activeCell : styles.unactiveCell]}></View>
         </View>
     )
 }
@@ -29,5 +29,16 @@ const styles = StyleSheet.create({
     unactiveCell: {
         backgroundColor: bluePallete[500],
         opacity: 0.2
+    },
+    bar: {
+        display: 'flex',
+        width: '100%',
+        gap: 8,
+        flexDirection: 'row',
+        height: 20,
+        alignContent: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 10,
+        alignItems: 'center'
     }
 })

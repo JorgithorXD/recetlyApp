@@ -1,11 +1,11 @@
 import React from "react"
 import { TouchableWithoutFeedback, StyleSheet, View } from "react-native"
 
-export function RoundButton({ style, onPress }) {
+export function RoundButton({ style, onPress, children }) {
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={{ ...styles.button, ...style }}>
-
+                {children}
             </View>
         </TouchableWithoutFeedback>
     )
