@@ -17,6 +17,7 @@ import MyRecipes from "../components/svg/MyRecipes"
 import { lightThemeColors, darkThemeColors } from "../components/styles/theme"
 import RecipeScreen from "../screens/RecipeScreen"
 import FavoriteScreen from "../screens/Favorites"
+import SettingsScreen from "../screens/Settings"
 
 const Drawer = createDrawerNavigator()
 
@@ -68,7 +69,7 @@ function CustomDrawerContent(props) {
                 <DrawerItem label="Perfil" onPress={() => props.navigation.navigate('Perfil')} icon={() => <Profile fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Mis recetas" onPress={() => props.navigation.navigate('Perfil')} icon={() => <MyRecipes fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Favoritos" onPress={() => props.navigation.navigate('Favorite')} icon={() => <FavoriteSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
-                <DrawerItem label="Configuracion" onPress={() => props.navigation.navigate('Perfil')} icon={() => <SettingsSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
+                <DrawerItem label="Configuracion" onPress={() => props.navigation.navigate('Settings')} icon={() => <SettingsSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
             </View>
             {isLogged && <DrawerItem label="Cerrar sesion" onPress={() => {
                 AsyncStorage.removeItem('UserData')
@@ -92,6 +93,7 @@ export default function DrawerNavigation() {
             <Drawer.Screen name="Perfil" component={UserProfile} />
             <Drawer.Screen name="Recipe" component={RecipeScreen} />
             <Drawer.Screen name="Favorite" component={FavoriteScreen} />
+            <Drawer.Screen name="Settings" component={SettingsScreen} />
         </Drawer.Navigator>
     )
 }
