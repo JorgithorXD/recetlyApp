@@ -67,7 +67,7 @@ function CustomDrawerContent(props) {
                 <DrawerItem label="Pagina principal" onPress={() => props.navigation.navigate('Home')} icon={() => <HomeSVG fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Perfil" onPress={() => props.navigation.navigate('Perfil')} icon={() => <Profile fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Mis recetas" onPress={() => props.navigation.navigate('Perfil')} icon={() => <MyRecipes fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
-                <DrawerItem label="Favoritos" onPress={() => props.navigation.navigate('Perfil')} icon={() => <FavoriteSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
+                <DrawerItem label="Favoritos" onPress={() => props.navigation.navigate('Favorite')} icon={() => <FavoriteSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Configuracion" onPress={() => props.navigation.navigate('Perfil')} icon={() => <SettingsSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
             </View>
             {isLogged && <DrawerItem label="Cerrar sesion" onPress={() => {
