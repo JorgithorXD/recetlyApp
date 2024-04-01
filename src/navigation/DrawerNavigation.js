@@ -16,6 +16,7 @@ import FavoriteSvg from "../components/svg/Favorite"
 import MyRecipes from "../components/svg/MyRecipes"
 import { lightThemeColors, darkThemeColors } from "../components/styles/theme"
 import RecipeScreen from "../screens/RecipeScreen"
+import FavoriteScreen from "../screens/Favorites"
 
 const Drawer = createDrawerNavigator()
 
@@ -90,6 +91,7 @@ export default function DrawerNavigation() {
             <Drawer.Screen name="Home" component={Home} />
             <Drawer.Screen name="Perfil" component={UserProfile} />
             <Drawer.Screen name="Recipe" component={RecipeScreen} />
+            <Drawer.Screen name="Favorite" component={FavoriteScreen} />
         </Drawer.Navigator>
     )
 }
