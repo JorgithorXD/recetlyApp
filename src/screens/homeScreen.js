@@ -5,6 +5,7 @@ import { Button } from "../components/ui/buttons/Button"
 import bluePallete from "../components/utils/blue"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import axios from "axios"
+import { RoundButton } from "../components/ui/buttons/RoundButton"
 
 const { width } = Dimensions.get("window")
 const ITEM_WIDTH = width * 0.48
@@ -31,6 +32,9 @@ export default function Home() {
                     <Text>SA</Text>
                 </View>
                 <Text>Recetas destacadas</Text>
+
+                <RoundButton style = {{position: 'absolute'}}/>
+
                 <FlatList
                     data={recipes}
                     numColumns={2}

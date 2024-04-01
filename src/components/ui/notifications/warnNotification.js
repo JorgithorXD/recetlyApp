@@ -2,7 +2,7 @@ import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { Button } from "../buttons/Button"
 
-export default function Warning({ text, onPress }) {
+export default function Warning({ text, onPress, button }) {
     return (
         <View style={styles.container}>
             <View style={styles.black} />
@@ -11,7 +11,7 @@ export default function Warning({ text, onPress }) {
                 <Text style={styles.warnText}>
                     {text}
                 </Text>
-                <Button ButtonText={'Cerrar'} TextColor={"#f3f3f3"} style={{ backgroundColor: '#999999' }} onPress={onPress} />
+                {button && <Button ButtonText={'Cerrar'} TextColor={"#f3f3f3"} style={{ backgroundColor: '#999999' }} onPress={onPress} />}
             </View>
         </View>
     )

@@ -53,6 +53,10 @@ export default function LogIn({ navigation }) {
 
             const data = response.data
 
+            if (data.error || data.status == "Error") {
+                throw new Error(data.error)
+            }
+            
             if (data.id) {
                 const userDataResponse = await axios.get(`https://recipes-api-dev.koyeb.app/user/get-data/${data.id}`)
                 const userData = JSON.stringify(userDataResponse.data)
@@ -66,7 +70,9 @@ export default function LogIn({ navigation }) {
             }
 
         } catch (error) {
-            console.log(error)
+            setLoading(false)
+            setWarnMessage(error.message)
+            setWarn(true)
         }
     }
 
@@ -105,7 +111,7 @@ export default function LogIn({ navigation }) {
                     {/* <Anchor ButtonText={"No tengo una cuenta"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} onPress={()=>navigation.replace('SignUp')} /> */}
                 </View>
             </View>
-            {warn && <Warning text={warnMessage ? warnMessage : 'Introduzca datos validos'} onPress={() => setWarn(false)} />}
+            {warn && <Warning text={warnMessage ? warnMessage : 'Introduzca datos validos'} onPress={() => setWarn(false)} button={true}/>}
             {loading && <Loading />}
         </View>
     )

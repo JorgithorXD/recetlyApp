@@ -3,10 +3,11 @@ import { View, Text, Image, StyleSheet, ScrollView, Animated } from 'react-nativ
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import checkLoggedIn from "../utils/authUtil"
+import UserProfileLoading from "../components/ui/loading/UserProgileLoading"
 
 export default function UserProfile() {
     const [userData, setUserData] = useState(null)
-    const [loadingUserData, setLoadingUserData] = useState(true)
+    const [loadingUserData, setLoadingUserData] = useState(false)
     const [isLogged, setLogged] = useState(false)
 
     useEffect(() => {
@@ -21,6 +22,7 @@ export default function UserProfile() {
     }, [isLogged])
 
     const loadUserData = async () => {
+        setLoadingUserData(true)
         try {
             const userDataString = await AsyncStorage.getItem('UserData')
             if (userDataString !== null) {
@@ -34,8 +36,25 @@ export default function UserProfile() {
         }
     }
 
+    if (!isLogged) {
+        return (
+            <MainLayout>
+                <View style={{ flex: 1, ...styles.container }}>
+                    <UserProfileLoading />
+                </View>
+            </MainLayout>
+        )
+    }
+
     return (
         <MainLayout>
+            {
+                loadingUserData 
+                &&
+                <View style={{ flex: 1, ...styles.container }}>
+                    <UserProfileLoading />
+                </View>
+            }
             <View style={{ flex: 1, ...styles.container }}>
                 <View style={styles.imageDataContainer}>
                     {!loadingUserData && userData && (
