@@ -4,7 +4,8 @@ const ENDPOINTS = {
     AuthUser: 'user/auth/v1/login',
     PostNewUser: 'user/auth/v2/register',
     GetUserData: (id) => `user/get-data/${id}`,
-    AddFavorite: (userId, recipeId) => `user/api/favorite/add/${userId}/recipe/${recipeId}`
+    AddFavorite: (userId, recipeId) => `user/api/favorite/add/${userId}/recipe/${recipeId}`,
+    GetRecipe: (id) => `recipe/get/${id}`
 }
 
 export {

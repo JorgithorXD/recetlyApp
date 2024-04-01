@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView } from "react-native"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Button } from "../components/ui/buttons/Button"
-import bluePallete from "../components/utils/blue"
+import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView, TouchableOpacity } from "react-native"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import axios from "axios"
 import { RoundButton } from "../components/ui/buttons/RoundButton"
+import { useNavigation } from "@react-navigation/native"
 
 const { width } = Dimensions.get("window")
 const ITEM_WIDTH = width * 0.48
+
 export default function Home() {
     const [recipes, setRecipes] = useState(null)
+    const navigation = useNavigation()
 
     async function getRecipes() {
         try {
@@ -26,24 +26,26 @@ export default function Home() {
     }, [])
 
     return (
-        <MainLayout>
+        <MainLayout back={false}>
             <ScrollView>
                 <View style={{ width: '98%', aspectRatio: 16 / 9, backgroundColor: 'green', alignSelf: 'center', marginVertical: 10 }}>
                     <Text>SA</Text>
                 </View>
                 <Text>Recetas destacadas</Text>
 
-                <RoundButton style = {{position: 'absolute'}}/>
+                <RoundButton style={{ position: 'absolute' }} />
 
                 <FlatList
                     data={recipes}
                     numColumns={2}
                     columnWrapperStyle={{ gap: 8, alignSelf: 'center' }}
                     renderItem={({ item: recipe }) => (
-                        <View style={styles.card}>
-                            <Image source={{ uri: recipe.mainImg }} style={styles.image} resizeMode="cover" />
-                            <Text style={{ color: "black", fontSize: 16, fontWeight: 700 }}>{recipe.name}</Text>
-                        </View>
+                        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', {id: recipe.id})}>
+                            <View>
+                                <Image source={{ uri: recipe.mainImg }} style={styles.image} resizeMode="cover" />
+                                <Text style={{ color: "black", fontSize: 16, fontWeight: 700 }}>{recipe.name}</Text>
+                            </View>
+                        </TouchableOpacity>
                     )}
                 />
             </ScrollView>

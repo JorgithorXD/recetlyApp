@@ -4,8 +4,9 @@ import { RoundButton } from "../ui/buttons/RoundButton"
 import bluePallete from "../utils/blue"
 import ShowDrawer from "../svg/ShowDrawer"
 import Search from "../svg/Search"
+import Back from "../svg/Back"
 
-export default function MainHeader({headerStyle, buttonStyle, textStyle}) {
+export default function MainHeader({ headerStyle, buttonStyle, textStyle, back }) {
     const navigation = useNavigation()
 
     const handleOpenDrawer = () => {
@@ -13,12 +14,19 @@ export default function MainHeader({headerStyle, buttonStyle, textStyle}) {
     }
 
     return (
-        <View style={{...styles.header, ...headerStyle}} >
-            <RoundButton style={{...buttonStyle }}>
-                <Search />
-            </RoundButton>
-            <Text style={{ fontSize: 52, fontWeight: '600', ...textStyle }}>RECETLY</Text>
-            <RoundButton style={{...buttonStyle }} onPress={handleOpenDrawer}>
+        <View style={{ ...styles.header, ...headerStyle }} >
+            {!back &&
+                <RoundButton style={{ ...buttonStyle }}>
+                    <Search />
+                </RoundButton>
+            }
+            {back &&
+                <RoundButton style={{ ...buttonStyle }} onPress={()=>navigation.goBack()}>
+                    <Back />
+                </RoundButton>
+            }
+            <Text style={{ fontSize: 42, fontWeight: '600', ...textStyle }}>RECETLY</Text>
+            <RoundButton style={{ ...buttonStyle }} onPress={handleOpenDrawer}>
                 <ShowDrawer />
             </RoundButton>
         </View >

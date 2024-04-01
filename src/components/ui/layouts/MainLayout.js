@@ -5,7 +5,7 @@ import Separate from "../../utils/hr"
 
 import { lightThemeColors, darkThemeColors } from "../../styles/theme"
 
-export default function MainLayout({ children }) {
+export default function MainLayout({ children, back }) {
     const [theme, setTheme] = useState(Appearance.getColorScheme() === 'dark' ? darkThemeColors : lightThemeColors)
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function MainLayout({ children }) {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
-            <MainHeader headerStyle={{ backgroundColor: theme.headerBackgroundColor }} textStyle={{ color: theme.textColor }} />
+            <MainHeader headerStyle={{ backgroundColor: theme.headerBackgroundColor }} textStyle={{ color: theme.textColor }} back={back}/>
             <Separate backgroundColor={theme.intermediateColor} />
             {children}
         </View>

@@ -38,7 +38,7 @@ export default function UserProfile() {
 
     if (!isLogged) {
         return (
-            <MainLayout>
+            <MainLayout back={true}>
                 <View style={{ flex: 1, ...styles.container }}>
                     <UserProfileLoading />
                 </View>
