@@ -52,11 +52,11 @@ Desarrollado por **Rustic Development**, que se compone por:
 
 3. Explicacion archivos / carpetas mas importantes
 
-   **Archivo de codigo independiente y reutilizable -> modulo**
+**Archivo de codigo independiente y reutilizable -> modulo**
 
-   **Antes que nada** al trabajar con React Native en este proyecto se maneja los siguientes puntos:
+**Antes que nada** al trabajar con React Native en este proyecto se maneja los siguientes puntos:
 
-   - Import
+- Import
 ```shell 
       import LoadingScreen from './src/screens/RunningScreen'
       import {Button} from './src/components/ui/buttons/Button'
@@ -67,7 +67,7 @@ Desarrollado por **Rustic Development**, que se compone por:
 
    Por otro lado, el segundo import, se usa para extraer elementos, especificos (exportados) de un modulo, por si necesitamos algo en especifico y no todo el modulo.
 
-   - Funciones
+- Funciones
 ```shell 
       export o export default function NombreDeLaFuncion ({propiedades} o props) {
          //Logica
