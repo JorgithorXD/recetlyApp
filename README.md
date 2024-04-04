@@ -51,10 +51,12 @@ Desarrollado por **Rustic Development**, que se compone por:
 ```
 
 3. Explicacion archivos / carpetas mas importantes
+
    **Archivo de codigo independiente y reutilizable -> modulo**
+
    **Antes que nada** al trabajar con React Native en este proyecto se maneja los siguientes puntos:
 
-   1. Import
+   - Import
 ```shell 
       import LoadingScreen from './src/screens/RunningScreen'
       import {Button} from './src/components/ui/buttons/Button'
@@ -65,7 +67,7 @@ Desarrollado por **Rustic Development**, que se compone por:
 
    Por otro lado, el segundo import, se usa para extraer elementos, especificos (exportados) de un modulo, por si necesitamos algo en especifico y no todo el modulo.
 
-   2. Funciones
+   - Funciones
 ```shell 
       export o export default function NombreDeLaFuncion ({propiedades} o props) {
          //Logica
@@ -96,8 +98,6 @@ Desarrollado por **Rustic Development**, que se compone por:
 
       //Se puede declarar el export junto con la inicializacion de la funcion o despues
       export o export default NombreDeLaFuncion
-
-      
 ```
    Si bien ambas pueden ser lo mismo, por temas de legibilidad y comodidad, en la **MAYORIA** de los archivos del proyecto se utiliza la primera forma de definir funciones. Y realmente no hay problema en usar la segunda, sirven para lo mismo o puede que tengan sus ventajas unas sobre otras, pero, nuevamente, es por temas de legibilidad y comodidad.
 
