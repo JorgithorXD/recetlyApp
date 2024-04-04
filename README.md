@@ -50,4 +50,59 @@ Desarrollado por **Rustic Development**, que se compone por:
     - /utils              -> Archivos útiles como funciones específicas, por ejemplo, la función que revisa si el usuario tiene la sesión iniciada
 ```
 
-3. Explicacion archivos mas importantes
+3. Explicacion archivos / carpetas mas importantes
+   **Archivo de codigo independiente y reutilizable -> modulo**
+   **Antes que nada** al trabajar con React Native en este proyecto se maneja los siguientes puntos:
+
+   1. Import
+```shell 
+      import LoadingScreen from './src/screens/RunningScreen'
+      import {Button} from './src/components/ui/buttons/Button'
+```
+   En este caso, ambos son maneras de importar ya sean archivos, modulos, funciones, metodos de los propios archivos del proyecto o de librerias y dependencias de las cuales podemos hacer uso.
+
+   Su manera de escribir depende de la manera de exportar del archivo que vienen, el primer import es para un elemento exportado de manera predeterminada, osea el elemento, funcion, etc, que el modulo / archivo exporta de manera por defecto.
+
+   Por otro lado, el segundo import, se usa para extraer elementos, especificos (exportados) de un modulo, por si necesitamos algo en especifico y no todo el modulo.
+
+   2. Funciones
+```shell 
+      export o export default function NombreDeLaFuncion ({propiedades} o props) {
+         //Logica
+         // Codigo
+         // Etc
+
+         return (
+            //Lo que la funcion debe realizar
+            // Generalmente, elemenots JSX
+         )
+      }
+
+      //Se puede declarar el export junto con la inicializacion de la funcion o despues
+      export o export default NombreDeLaFuncion
+
+      o
+
+      export o export default const NombreDeLaFuncion = ({propiedades} o props) => {
+         //Logica
+         // Codigo
+         // Etc
+
+         return (
+            //Lo que la funcion debe realizar
+            // Generalmente, elemenots JSX
+         )
+      }
+
+      //Se puede declarar el export junto con la inicializacion de la funcion o despues
+      export o export default NombreDeLaFuncion
+
+      
+```
+   Si bien ambas pueden ser lo mismo, por temas de legibilidad y comodidad, en la **MAYORIA** de los archivos del proyecto se utiliza la primera forma de definir funciones. Y realmente no hay problema en usar la segunda, sirven para lo mismo o puede que tengan sus ventajas unas sobre otras, pero, nuevamente, es por temas de legibilidad y comodidad.
+
+   **Entonces**, continuemos con la explicacion.
+   
+   Como se menciono anteriormente, el desarrollo de la aplicacion se encuentra en **SRC**, entonces, de lo mas importante es:
+   - /src/navigation: Carpeta que contiene la inicializacion y/o definicion del como se navega en la aplicacion. Esta carpeta cuenta con los archivos:
+      * /mainStack.js: Haciendo uso de las librerias **@react-navigation/native** y **@react-navigation/native-stack** se crea el sismte

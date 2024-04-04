@@ -6,7 +6,7 @@ import { RoundButton } from "../components/ui/buttons/RoundButton"
 import { useNavigation } from "@react-navigation/native"
 
 const { width } = Dimensions.get("window")
-const ITEM_WIDTH = width * 0.48
+const ITEM_WIDTH = width * 0.40
 
 export default function Home() {
     const [recipes, setRecipes] = useState(null)
@@ -28,7 +28,7 @@ export default function Home() {
     return (
         <MainLayout back={false}>
             <ScrollView>
-                <View style={{ width: '98%', aspectRatio: 16 / 9, backgroundColor: 'green', alignSelf: 'center', marginVertical: 10 }}>
+                <View style={{ width: '90%', aspectRatio: 16 / 9, backgroundColor: 'green', alignSelf: 'center', marginVertical: 10, borderRadius: 8 }}>
                     <Text>SA</Text>
                 </View>
                 <Text>Recetas destacadas</Text>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
     },
     card: {
-        width: '48%',
+        width: '44%',
         backgroundColor: 'red',
         marginBottom: 10,
         aspectRatio: 1,
