@@ -61,9 +61,9 @@ Desarrollado por **Rustic Development**, que se compone por:
       import LoadingScreen from './src/screens/RunningScreen'
       import {Button} from './src/components/ui/buttons/Button'
 ```
-   En este caso, ambos son maneras de importar ya sean archivos, modulos, funciones, metodos de los propios archivos del proyecto o de librerias y dependencias de las cuales podemos hacer uso.
+   En este caso, ambos son maneras de importar ya sean funciones, metodos, variables, etc, de archivos/modulos del proyecto o de librerias y dependencias de las cuales podemos hacer uso.
 
-   Su manera de escribir depende de la manera de exportar del archivo que vienen, el primer import es para un elemento exportado de manera predeterminada, osea el elemento, funcion, etc, que el modulo / archivo exporta de manera por defecto.
+   Su manera de escribir depende de la manera de exportar del archivo que vienen, el primer import es para un elemento exportado de manera predeterminada, osea el elemento, funcion, etc, que el modulo/archivo exporta de manera por defecto.
 
    Por otro lado, el segundo import, se usa para extraer elementos, especificos (exportados) de un modulo, por si necesitamos algo en especifico y no todo el modulo.
 
