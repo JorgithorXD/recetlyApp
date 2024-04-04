@@ -105,4 +105,69 @@ Desarrollado por **Rustic Development**, que se compone por:
    
    Como se menciono anteriormente, el desarrollo de la aplicacion se encuentra en **SRC**, entonces, de lo mas importante es:
    - /src/navigation: Carpeta que contiene la inicializacion y/o definicion del como se navega en la aplicacion. Esta carpeta cuenta con los archivos:
-      * /mainStack.js: Haciendo uso de las librerias **@react-navigation/native** y **@react-navigation/native-stack** se crea el sismte
+      * /mainStack.js: Haciendo uso de las librerias **@react-navigation/native** y **@react-navigation/native-stack** se inicializa la forma de navegacion de la siguiente manera:
+      ```shell
+
+         const Stack = createNativeStackNavigator()
+         Creamos una constante que almacena el resultado de la funcion createNativeStackNavigator(), un navegador de pila.
+
+         Definimos una funcion la cual sera nuestra pila de pantallas.
+         export default function MainStack() {
+         return (
+            <NavigationContainer> -> Componente de @react-navigation/native, devuelve la estructura de navegacion de la aplicacion
+               <Stack.Navigator   -> Crea el navegador de pila
+                  screenOptions={{
+                     headerShown: false,
+                   }}
+               >
+                  <Stack.Screen name="Run" component={LoadingScreen} />  -> Define la pantalla "Run" y el componente que le pertenece
+                  <Stack.Screen name="StartScreen" component={StartScreen} /> -> Define la pantalla "StartScreen" y el componente que le pertenece
+                  <Stack.Screen name="LogIn" component={LogIn} /> -> Define la pantalla "LogIn" y el componente que le pertenece
+                  <Stack.Screen name="SignUp" component={SignUp} /> -> Define la pantalla "SignUp" y el componente que le pertenece
+                  <Stack.Screen name="SignUpEmail" component={SignUpEmail} /> -> Define la pantalla "SignUpEmail" y el componente que le pertenece
+                  <Stack.Screen name="SignUpPassword" component={SignUpPassword} /> -> Define la pantalla "SignUpPassword" y el componente que le pertenece
+                  <Stack.Screen name="Drawer" component={DrawerNavigation} /> -> Define otro navegador como nueva pantalla
+               </Stack.Navigator>
+            </NavigationContainer>
+            )
+         }
+
+      ```
+      Algo que comentar: La primera pantalla definida es la primera pantalla mostrada al iniciar la aplicacion.
+
+      * /DrawerNavigation.js: Haciendo uso de la libreria **@react-navigation/drawer** se crea un metodo de navegacion similar al STACK, pero este utiliza un menu desplegable para poder moverse entre pantallas. De la siguiente manera:
+      ```shell
+         export default function DrawerNavigation() {
+            return (
+               <Drawer.Navigator screenOptions={{ drawerPosition: "right", headerShown: false }} drawerContent={props => <CustomDrawerContent {...props} />}>
+                  <Drawer.Screen name="Home" component={Home} />
+                  <Drawer.Screen name="Perfil" component={UserProfile} />
+                  <Drawer.Screen name="Recipe" component={RecipeScreen} />
+                  <Drawer.Screen name="Favorite" component={FavoriteScreen} />
+                  <Drawer.Screen name="Settings" component={SettingsScreen} />
+               </Drawer.Navigator>
+            )
+         }
+      ```
+      Es la misma forma de definir el navegador y pantallas que tiene el stack.
+
+   - App.tsx: Archivo por defecto, el cual maneja y define el componente principal de la aplicacion
+      ```shell
+         import React from 'react'
+         import { SafeAreaView } from 'react-native'
+
+         import MainStack from './src/navigation/mainStack'
+
+         export default function App() {
+            return (
+            <SafeAreaView style={{ flex: 1 }}>
+               <MainStack />
+            </SafeAreaView>
+            )
+         }
+      ```
+   Aqui podemos notar que:
+   - Se importa SafeAreaView, un componente que sirve como un contenedor que respeta las dimensiones de la pantalla, y se ajusta por si la pantalla posee **notch**
+   - Se importa MainStack, o sea, el navegador que gestiona las pantallas, y dado que, la primera pantalla definida es RUN, es la primera mostrada.
+   
+   - 
