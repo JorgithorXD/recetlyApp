@@ -133,7 +133,7 @@ Desarrollado por **Rustic Development**, que se compone por:
          }
 
       ```
-      Algo que comentar: La primera pantalla definida es la primera pantalla mostrada al iniciar la aplicacion.
+      Nota: La primera pantalla definida es la primera pantalla mostrada al iniciar la aplicacion.
 
       * /DrawerNavigation.js: Haciendo uso de la libreria **@react-navigation/drawer** se crea un metodo de navegacion similar al STACK, pero este utiliza un menu desplegable para poder moverse entre pantallas. De la siguiente manera:
       ```shell
@@ -167,7 +167,55 @@ Desarrollado por **Rustic Development**, que se compone por:
          }
       ```
    Aqui podemos notar que:
-   - Se importa SafeAreaView, un componente que sirve como un contenedor que respeta las dimensiones de la pantalla, y se ajusta por si la pantalla posee **notch**
-   - Se importa MainStack, o sea, el navegador que gestiona las pantallas, y dado que, la primera pantalla definida es RUN, es la primera mostrada.
+   * Se importa SafeAreaView, un componente que sirve como un contenedor que respeta las dimensiones de la pantalla, y se ajusta por si la pantalla posee **notch**
+   * Se importa MainStack, o sea, el navegador que gestiona las pantallas, y dado que, la primera pantalla definida es RUN, es la primera mostrada.
    
-   - 
+   - src/screens: Aqui se encuentran todas las pantallas de la aplicacion, las cuales son:
+      * /Favorites.js: La pantalla que se usa para mostrar los favoritos del usuario
+      * /HomeScreen.js: La pantalla principal de la aplicaion
+      * /LogInScreen.js: La pantalla del formulario para iniciar sesion
+      * /ProfileScreen.js: La pantalla que muestra el perfil de un usuario
+      * /RecipeScreen.js: La pantalla que muestra los detalles de una receta
+      * /RunningScreen.js: Pantalla de carga, en esta pantalla ocurren procesos para saber si el usuario tiene una sesion activa y redirigirlo a la pagina principal, o, por otro lado, redirigirlo al menu de opciones
+      * /Settings: Pantalla de ajustes
+      * /SignUpScreen: Formulario que pide al usuario datos basicos para crear su cuenta
+      * /SignUpEmail: Formulario que pide al usuario introduccir su correo electronico
+      * /SignUpPassword: Formulario que pide al usuario la creacion de su contraseña
+      * /StartScreen: La pantalla de inicio que muestra las opciones como: Iniciar sesion, registrarse, entrar como invitado
+
+   - src/components/iu/buttons:
+      * button.js: Es un boton reutilizable con caracteristicas especificas y al cual se le pueden pasar ciertos parametros extras.
+
+      ```shell
+
+         import { TouchableWithoutFeedback, Text, StyleSheet, View } from "react-native"
+
+         export function Button({ ButtonText, style, onPress, TextColor, TextStyle }) {
+            return (
+               <TouchableWithoutFeedback onPress={onPress}>
+                  <View style={{ ...styles.button, ...style }}>
+                      <Text style={{ fontSize: 30, color: TextColor, ...TextStyle }}>
+                        {ButtonText}
+                     </Text>
+                  </View>
+               </TouchableWithoutFeedback>
+               )
+            }
+
+            const styles = StyleSheet.create({
+               button: {
+                  height: 50,
+                  borderRadius: 50,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+               }
+            })
+      ```
+      Aqui: 
+      - Importamos los componentes:
+         * TouchableWithoutFeedback: Contenedor que permite a su contenido ser tocado, realizar una accion PERO, sin mostrar algun tipo de reaccion.
+         * Text: Componente que permite renderizar texto, sin esto, no es posible mostrar texto en la aplicacion.
+         * View: Contenedor donde podemos agregar otras cosas, necesario para renderizar cualquier cosa y definir sus dimensiones y estilos.
+
+         y StyleSheet, que nos permite crear una hoja de estilos para aplicarlo a un compontente.
