@@ -218,4 +218,4 @@ Desarrollado por **Rustic Development**, que se compone por:
          * Text: Componente que permite renderizar texto, sin esto, no es posible mostrar texto en la aplicacion.
          * View: Contenedor donde podemos agregar otras cosas, necesario para renderizar cualquier cosa y definir sus dimensiones y estilos.
 
-         y StyleSheet, que nos permite crear una hoja de estilos para aplicarlo a un compontente.
+         y StyleSheet, que nos permite crear una hoja de estilos para aplicarlo a un compontente. 
