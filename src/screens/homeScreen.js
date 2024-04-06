@@ -28,10 +28,10 @@ export default function Home() {
     return (
         <MainLayout back={false}>
             <ScrollView>
-                <View style={{ width: '90%', aspectRatio: 16 / 9, backgroundColor: 'green', alignSelf: 'center', marginVertical: 10, borderRadius: 8 }}>
-                    <Text>SA</Text>
+                <View style={{ width: '90%', aspectRatio: 16 / 9, backgroundColor: '#B8C0FF', alignSelf: 'center', marginVertical: 10, borderRadius: 8 }}>
+                    <Text>SA .-. ._. .///.</Text>
                 </View>
-                <Text>Recetas destacadas</Text>
+                <Text style={styles.tittle}>Recetas destacadas</Text>
 
                 <RoundButton style={{ position: 'absolute' }} />
 
@@ -48,6 +48,10 @@ export default function Home() {
                         </TouchableOpacity>
                     )}
                 />
+
+                {/*Este View sirve para dejar un esoacio al final de la pantalla*/}
+                <View style={{marginBottom: 30}}></View>
+
             </ScrollView>
         </MainLayout>
     )
@@ -68,11 +72,18 @@ const styles = StyleSheet.create({
     },
     card: {
         width: '44%',
-        backgroundColor: 'red',
+        backgroundColor: '#BBD0FF',
         marginBottom: 10,
         aspectRatio: 1,
         borderRadius: 10,
         overflow: 'hidden',
-        padding: 4
+        padding: 4,
+        opacity: 1,
+        marginVertical: 3
+    },
+    tittle: {
+        fontSize: 45,
+        textAlign: 'center',
+        marginVertical: '3%'
     }
 })
