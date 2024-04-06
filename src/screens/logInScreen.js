@@ -85,12 +85,12 @@ export default function LogIn({ navigation }) {
                 </Text>
 
                 <View style={{ gap: 8 }}>
-                    <Input Label={'Correo'} Placeholder={"Introduzca su correo"} LabelColor={bluePallete[400]} onChangeText={handleEmailChange} />
+                    <Input Label={'Correo'} Placeholder={"Introduzca su correo"} LabelColor={bluePallete[400]} onChangeText={handleEmailChange}  style={{marginBottom: '5%'}}/>
                     <PasswordInput Label={'Contraseña'} Placeholder={"Introduzca su contraseña"} LabelColor={bluePallete[400]} onChangeText={handlePasswordChange} />
                 </View>
 
                 <View style={{ gap: 8, marginTop: 16 }}>
-                    <Button ButtonText={'Iniciar sesion'} style={{ backgroundColor: bluePallete[500] }} onPress={
+                    <Button ButtonText={'Iniciar sesion'} style={{ backgroundColor: bluePallete[500], marginBottom: '5%' }} onPress={
                         () => {
                             Keyboard.dismiss()
                             const showWarn = Warn()

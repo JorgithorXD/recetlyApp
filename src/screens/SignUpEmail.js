@@ -16,13 +16,17 @@ export default function SignUpEmail({ navigation, route }) {
         <View style={styles.container}>
             <ProgressBar active={2}/>
             <View style={{}}>
-                <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Introduce tu correo</Text>
-                <Input Label="Correo electronico" LabelColor={bluePallete[400]} onChangeText={handleEmailChange} />
-                <Input Label="Confimar correo electronico" LabelColor={bluePallete[400]} />
-                <Button ButtonText="Siguiente" style={{ backgroundColor: bluePallete[500] }} TextColor={"#f1f1f1"}
-                    onPress={() => navigation.navigate('SignUpPassword', {personalData})}
-                />
-                <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
+                <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1", marginBottom: '5%' }}>Introduce tu correo</Text>
+                <Input Label="Correo electronico" LabelColor={bluePallete[400]} onChangeText={handleEmailChange} style={{marginBottom: '5%'}}/>
+                <Input Label="Confimar correo electronico" LabelColor={bluePallete[400]} style={{marginBottom: '48%'}}/>
+
+                {/*este view es para los botones y poder acomodarlos mas facil*/}
+                <View style={styles.buttons}>  
+                    <Button ButtonText="Siguiente" style={{ backgroundColor: bluePallete[500], marginBottom: '5%'}} TextColor={"#f1f1f1"}
+                    onPress={() => navigation.navigate('SignUpPassword', {personalData})}/>
+
+                    <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
+                </View>
             </View>
         </View>
     )
@@ -31,7 +35,7 @@ export default function SignUpEmail({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        paddingHorizontal: 20,
         zIndex: 1,
         justifyContent: 'space-around',
         backgroundColor: '#222222'
@@ -42,5 +46,10 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         resizeMode: 'center',
         alignSelf: 'center'
+    },
+    buttons: {
+        marginTop: '30%',
+        paddingTop: 10
+
     }
 })
