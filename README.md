@@ -6,7 +6,7 @@ Desarrollado por **Rustic Development**, que se compone por:
 - Aguilar Avila Said Sebastian
 - De Leon Barrios kevin Antonio
 - Garcia Avitia Jesus Roberto
-- Gomez Gonzalez Jesus Roberto
+- Gomez Gonzalez Christopher Jesus
 - Gomez Zavala Brian Alexander
 - Medina Gonzalez Ramon Alberto
 - Medina Ramos Daniel Alejandro
