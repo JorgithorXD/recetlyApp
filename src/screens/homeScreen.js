@@ -4,13 +4,12 @@ import MainLayout from "../components/ui/layouts/MainLayout"
 import axios from "axios"
 import { RoundButton } from "../components/ui/buttons/RoundButton"
 import { useNavigation } from "@react-navigation/native"
-
-const { width } = Dimensions.get("window")
-const ITEM_WIDTH = width * 0.40
+import useDynamicStyles from '../components/styles/genericStyles.ts'
 
 export default function Home() {
     const [recipes, setRecipes] = useState(null)
     const navigation = useNavigation()
+    const theme = useDynamicStyles()
 
     async function getRecipes() {
         try {
@@ -31,7 +30,7 @@ export default function Home() {
                 <View style={{ width: '90%', aspectRatio: 16 / 9, backgroundColor: '#B8C0FF', alignSelf: 'center', marginVertical: 10, borderRadius: 8 }}>
                     <Text>SA .-. ._. .///.</Text>
                 </View>
-                <Text style={styles.tittle}>Recetas destacadas</Text>
+                <Text style={{...theme.titleText}}>Recetas destacadas</Text>
 
                 <RoundButton style={{ position: 'absolute' }} />
 

@@ -48,6 +48,41 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         flexDirection: 'column',
         gap: 8,
         justifyContent: 'center'
+    },
+    WarningNotification: {
+        warn: {
+            width: '80%',
+            height: '30%',
+            backgroundColor: theme.background,
+            alignSelf: 'center',
+            borderRadius: 8,
+            justifyContent: 'space-between',
+            zIndex: 4,
+            padding: 20,
+        },
+        warnText: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: 'black',
+            alignSelf: 'center'
+        },
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+        },
+        black: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 3,
+        }
     }
 })
 

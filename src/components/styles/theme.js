@@ -33,5 +33,5 @@ export const darkThemeColors = {
     secondButton: "#222222",
     mainButtonTextColor: '#f1f1f1',
     secondButtonTextColor: '#dbd9d9',
-    titleText: '#f1f1f1'
+    titleText: '#dedede'
 }
