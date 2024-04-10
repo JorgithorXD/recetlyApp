@@ -1,5 +1,5 @@
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer"
-import Home from "../screens/HomeScreen"
+import Home from "../screens/homeScreen"
 import UserProfile from "../screens/ProfileScreen"
 import { RoundButton } from "../components/ui/buttons/RoundButton"
 import { View, StyleSheet, Appearance } from "react-native"
