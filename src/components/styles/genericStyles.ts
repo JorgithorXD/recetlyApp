@@ -1,8 +1,9 @@
 import { StyleSheet, Appearance } from "react-native"
 import { useEffect, useState } from "react"
 import { lightThemeColors, darkThemeColors } from "./theme"
+import { type Theme } from "../../types/styleTypes"
 
-const createStyles = (theme) => StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.backgroundColor,

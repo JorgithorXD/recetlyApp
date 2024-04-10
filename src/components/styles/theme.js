@@ -16,7 +16,6 @@ export const lightThemeColors = {
     mainButtonTextColor: '#f1f1f1',
     secondButtonTextColor: '#999999',
     titleText: '#4f4f4f'
-
 }
 
 export const darkThemeColors = {
