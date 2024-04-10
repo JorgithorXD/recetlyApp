@@ -8,6 +8,8 @@ import ProgressBar from "../components/headers/ProgressBar"
 import ExtraLayout from "../components/ui/layouts/ExtraLayout"
 
 export default function SignUp({ navigation }) {
+    const [warn, setWarn] = useState(false)
+    const [warnMessage, setWarnMessage] = useState("")
     const [imageUrl, setUrl] = useState(null)
     const [personalData, setPersonalData] = useState({
         username: '',
@@ -21,9 +23,9 @@ export default function SignUp({ navigation }) {
     async function handleCropSelection() {
         try {
             const croppedImage = await ImageCropPicker.openPicker({
-                width: 300, // Ancho deseado de la imagen recortada
-                height: 300, // Altura deseada de la imagen recortada
-                cropping: true, // Habilitar el modo de recorte
+                width: 300,
+                height: 300,
+                cropping: true, 
                 cropperToolbarTitle: 'Recortar Imagen',
                 includeBase64: true,
                 cropperToolbarOptions: {},
@@ -43,22 +45,49 @@ export default function SignUp({ navigation }) {
             setUrl(croppedImage.path)
             setPersonalData({ ...personalData, image: imageData })
         } catch (error) {
-            console.log(error) // Manejar cualquier error que pueda ocurrir durante el proceso de selección y recorte
+            console.log(error)
         }
     }
+
+    function checkInput(input){
+        if (input === null || input === undefined || input === "") {
+            return false
+        }
+        return true
+    }
+
+    checkInput({ ...personalData, username})
+    checkInput({ ...personalData, name})
+    checkInput({ ...personalData, lastname})
 
     return (
         <ExtraLayout>
             <View style={styles.container}>
                 <ProgressBar active={1} />
                 <View style={{}}>
-                    <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Introduce tus datos personales</Text>
+                    <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>
+                        Introduce tus datos personales
+                    </Text>
+                    
                     <TouchableOpacity onPress={handleCropSelection} style={{ marginVertical: "5%" }}>
                         <Image style={styles.image} source={{ uri: imageUrl ? imageUrl : 'https://ik.imagekit.io/uv3u01crv/User_default_v2.png?updatedAt=1710627069144' }} />
                     </TouchableOpacity>
-                    <Input Label="Nombre de usuario" onChangeText={(text) => setPersonalData({ ...personalData, username: text })} LabelColor={bluePallete[400]} style={{ marginBottom: "5%" }} />
-                    <Input Label="Nombre (s)" onChangeText={(text) => setPersonalData({ ...personalData, name: text })} LabelColor={bluePallete[400]} style={{ marginBottom: "5%" }} />
-                    <Input Label="Apellido (s)" onChangeText={(text) => setPersonalData({ ...personalData, lastname: text })} LabelColor={bluePallete[400]} />
+
+                    <Input 
+                        Label="Nombre de usuario" 
+                        onChangeText={(text) => setPersonalData({ ...personalData, username: text })} 
+                        LabelColor={bluePallete[400]} style={{ marginBottom: "5%" }} 
+                    />
+                    <Input 
+                        Label="Nombre (s)"
+                        onChangeText={(text) => setPersonalData({ ...personalData, name: text })}
+                        LabelColor={bluePallete[400]} style={{ marginBottom: "5%" }} 
+                    />
+                    <Input 
+                        Label="Apellido (s)" 
+                        onChangeText={(text) => setPersonalData({ ...personalData, lastname: text })} 
+                        LabelColor={bluePallete[400]} 
+                    />
 
                     <Button ButtonText="Siguiente" onPress={() => navigation.navigate('SignUpEmail', { personalData })} style={{ backgroundColor: bluePallete[500], marginBottom: "5%", marginTop: "8%" }} TextColor={"#f1f1f1"} />
                     <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
