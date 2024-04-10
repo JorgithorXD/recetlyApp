@@ -37,10 +37,10 @@ export default function Home() {
 
                 <FlatList
                     data={recipes}
-                    numColumns={2}
-                    columnWrapperStyle={{ gap: 8, alignSelf: 'center' }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
                     renderItem={({ item: recipe }) => (
-                        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', {id: recipe.id})}>
+                        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', { id: recipe.id })}>
                             <View>
                                 <Image source={{ uri: recipe.mainImg }} style={styles.image} resizeMode="cover" />
                                 <Text style={{ color: "black", fontSize: 16, fontWeight: 700 }}>{recipe.name}</Text>
@@ -50,7 +50,7 @@ export default function Home() {
                 />
 
                 {/*Este View sirve para dejar un esoacio al final de la pantalla*/}
-                <View style={{marginBottom: 30}}></View>
+                <View style={{ marginBottom: 30 }}></View>
 
             </ScrollView>
         </MainLayout>
@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         aspectRatio: 16 / 9,
-        borderRadius: 8
     },
     container: {
         flex: 1,
@@ -71,15 +70,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
     },
     card: {
-        width: '44%',
+        width: 250,
         backgroundColor: '#BBD0FF',
         marginBottom: 10,
         aspectRatio: 1,
-        borderRadius: 10,
+        borderRadius: (1, 100, 10, 4),
         overflow: 'hidden',
-        padding: 4,
         opacity: 1,
-        marginVertical: 3
+        marginHorizontal: 4
     },
     tittle: {
         fontSize: 45,

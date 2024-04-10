@@ -7,6 +7,7 @@ import axios from "axios"
 import Loading from "../components/ui/loading/Loading"
 import Warning from "../components/ui/notifications/warnNotification"
 import ProgressBar from "../components/headers/ProgressBar"
+import ExtraLayout from "../components/ui/layouts/ExtraLayout"
 
 export default function SignUpPassword({ navigation, route }) {
     const { personalData } = route.params
@@ -54,23 +55,24 @@ export default function SignUpPassword({ navigation, route }) {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <ProgressBar active={3}/>
-            <View style={styles.container}>
+        <ExtraLayout>
+            <ProgressBar active={3} />
+            <View style={{}}>
                 <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1", marginBottom: '5%', marginTop: '30%' }}>Crea tu contraseña</Text>
-                <Input Label="Contraseña" LabelColor={bluePallete[400]} onChangeText={handlePasswordChange} style={{marginBottom: '5%'}}/>
-                <Input Label="Confimar contraseña" LabelColor={bluePallete[400]} style={{marginBottom: '45%'}}/>
-                
-                <View style={styles.buttons}>    
-                    <Button ButtonText="Siguiente" style={{ backgroundColor: bluePallete[500], marginBottom: '5%' }} TextColor={"#f1f1f1"} onPress={handleSignUp} />
+                <Input Label="Contraseña" LabelColor={bluePallete[400]} onChangeText={handlePasswordChange} style={{ marginBottom: '5%' }} />
+                <Input Label="Confimar contraseña" LabelColor={bluePallete[400]} style={{ marginBottom: '45%' }} />
+
+                <View style={styles.buttons}>
+                    <Button ButtonText="Crear cuenta" style={{ backgroundColor: bluePallete[500], marginBottom: '5%' }} TextColor={"#f1f1f1"} onPress={handleSignUp} />
                     <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
                 </View>
             </View>
             {loading && <Loading />}
             {warning && <Warning text={warnMessage} onPress={() => setWarn(false)} />}
-        </View>
+        </ExtraLayout>
     )
 }
+
 
 const styles = StyleSheet.create({
     container: {

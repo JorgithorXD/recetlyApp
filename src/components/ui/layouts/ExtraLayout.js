@@ -14,7 +14,7 @@ export default function ExtraLayout({ children }) {
     }, [])
 
     return (
-        <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
+        <View style={{ flex: 1, backgroundColor: theme.backgroundColor}}>
             {children}
         </View>
     )

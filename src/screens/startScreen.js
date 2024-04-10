@@ -2,8 +2,11 @@ import React from "react"
 import { View, Text, ImageBackground, StyleSheet, Alert } from 'react-native'
 import { Button } from "../components/ui/buttons/Button"
 import bluePallete from "../components/utils/blue"
+import useDynamicStyles from "../components/styles/genericStyles"
 
 export default function StartScreen({ navigation }) {
+    const theme = useDynamicStyles()
+
     return (
         <ImageBackground style={{ flex: 1, position: 'relative' }} source={{ uri: 'https://ik.imagekit.io/uv3u01crv/background_2.png?updatedAt=1710824830029' }} resizeMode='cover' blurRadius={4}>
             <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.45)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 1, }} />
@@ -17,7 +20,7 @@ export default function StartScreen({ navigation }) {
                         Recetly
                     </Text>
                 </View>
-                <View style={styles.buttonContainer}>
+                <View style={{ ...theme.container.button, height: '30%' }}>
                     <Button
                         ButtonText={'Iniciar Sesion'}
                         style={{ backgroundColor: bluePallete[500] }}
@@ -37,13 +40,6 @@ export default function StartScreen({ navigation }) {
 
 const styles = StyleSheet.create(
     {
-        buttonContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-            height: '30%',
-            justifyContent: 'center'
-        },
         container: {
             display: 'flex',
             flexDirection: 'column',

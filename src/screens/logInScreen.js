@@ -10,6 +10,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import Loading from "../components/ui/loading/Loading"
 import { Anchor } from "../components/ui/buttons/AnchorButton"
 import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
+import ExtraLayout from "../components/ui/layouts/ExtraLayout"
+import useDynamicStyles from "../components/styles/genericStyles"
 
 export default function LogIn({ navigation }) {
     const [email, setEmail] = useState("")
@@ -17,6 +19,7 @@ export default function LogIn({ navigation }) {
     const [warn, setWarn] = useState(false)
     const [warnMessage, setWarnMessage] = useState("")
     const [loading, setLoading] = useState(false)
+    const theme = useDynamicStyles()
 
     function handleEmailChange(txt) {
         setEmail(txt)
@@ -56,7 +59,7 @@ export default function LogIn({ navigation }) {
             if (data.error || data.status == "Error") {
                 throw new Error(data.error)
             }
-            
+
             if (data.id) {
                 const userDataResponse = await axios.get(`https://recipes-api-dev.koyeb.app/user/get-data/${data.id}`)
                 const userData = JSON.stringify(userDataResponse.data)
@@ -77,43 +80,45 @@ export default function LogIn({ navigation }) {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ backgroundColor: "#222222", ...styles.constainer }}>
+        <ExtraLayout>
+            <View style={{ flex: 1 }}>
+                <View style={{ ...styles.constainer }}>
 
-                <Text style={{ fontSize: 70, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>
-                    Bienvenido de nuevo
-                </Text>
+                    <Text style={{ fontSize: 70, ...theme.titleText }}>
+                        Bienvenido de nuevo
+                    </Text>
 
-                <View style={{ gap: 8 }}>
-                    <Input Label={'Correo'} Placeholder={"Introduzca su correo"} LabelColor={bluePallete[400]} onChangeText={handleEmailChange}  style={{marginBottom: '5%'}}/>
-                    <PasswordInput Label={'Contraseña'} Placeholder={"Introduzca su contraseña"} LabelColor={bluePallete[400]} onChangeText={handlePasswordChange} />
+                    <View style={{ gap: 8 }}>
+                        <Input Label={'Correo'} Placeholder={"Introduzca su correo"} LabelColor={bluePallete[400]} onChangeText={handleEmailChange} style={{ marginBottom: '5%' }} />
+                        <PasswordInput Label={'Contraseña'} Placeholder={"Introduzca su contraseña"} LabelColor={bluePallete[400]} onChangeText={handlePasswordChange} />
+                    </View>
+
+                    <View style={{ ...theme.buttonContainer }}>
+                        <Button ButtonText={'Iniciar sesion'} style={{ ...theme.mainButton }} onPress={
+                            () => {
+                                Keyboard.dismiss()
+                                const showWarn = Warn()
+                                if (!showWarn) {
+                                    setWarn(true)
+                                } else {
+                                    setWarn(false)
+                                    handleLogIn()
+                                }
+
+                            }}
+                            TextColor={"#f1f1f1"}
+                        />
+                        <Button ButtonText={'Volver'} style={{ ...theme.secondaryButton }} onPress={() => navigation.goBack()} TextColor={{ ...theme.secondaryButtonText }} />
+                    </View>
+                    <View style={{ gap: 8 }}>
+                        <Anchor ButtonText={"Olvide mi contraseña"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} />
+                        {/* <Anchor ButtonText={"No tengo una cuenta"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} onPress={()=>navigation.replace('SignUp')} /> */}
+                    </View>
                 </View>
-
-                <View style={{ gap: 8, marginTop: 16 }}>
-                    <Button ButtonText={'Iniciar sesion'} style={{ backgroundColor: bluePallete[500], marginBottom: '5%' }} onPress={
-                        () => {
-                            Keyboard.dismiss()
-                            const showWarn = Warn()
-                            if (!showWarn) {
-                                setWarn(true)
-                            } else {
-                                setWarn(false)
-                                handleLogIn()
-                            }
-
-                        }}
-                        TextColor={"#f1f1f1"}
-                    />
-                    <Button ButtonText={'Volver'} style={{ backgroundColor: '#333333' }} onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} />
-                </View>
-                <View style = {{gap: 8}}>
-                    <Anchor ButtonText={"Olvide mi contraseña"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} />
-                    {/* <Anchor ButtonText={"No tengo una cuenta"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} onPress={()=>navigation.replace('SignUp')} /> */}
-                </View>
+                {warn && <Warning text={warnMessage ? warnMessage : 'Introduzca datos validos'} onPress={() => setWarn(false)} button={true} />}
+                {loading && <Loading />}
             </View>
-            {warn && <Warning text={warnMessage ? warnMessage : 'Introduzca datos validos'} onPress={() => setWarn(false)} button={true}/>}
-            {loading && <Loading />}
-        </View>
+        </ExtraLayout >
     )
 }
 

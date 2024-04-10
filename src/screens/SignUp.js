@@ -5,6 +5,7 @@ import { useState } from "react"
 import bluePallete from "../components/utils/blue"
 import ImageCropPicker from "react-native-image-crop-picker"
 import ProgressBar from "../components/headers/ProgressBar"
+import ExtraLayout from "../components/ui/layouts/ExtraLayout"
 
 export default function SignUp({ navigation }) {
     const [imageUrl, setUrl] = useState(null)
@@ -47,21 +48,23 @@ export default function SignUp({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
-            <ProgressBar active={1}/>
-            <View style={{}}>
-                <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Introduce tus datos personales</Text>
-                <TouchableOpacity onPress={handleCropSelection} style={{marginVertical: "5%"}}>
-                    <Image style={styles.image} source={{ uri: imageUrl ? imageUrl : 'https://ik.imagekit.io/uv3u01crv/User_default_v2.png?updatedAt=1710627069144' }} />
-                </TouchableOpacity>
-                <Input Label="Nombre de usuario" onChangeText={(text) => setPersonalData({ ...personalData, username: text })} LabelColor={bluePallete[400]} style={{marginBottom: "5%"}}/>
-                <Input Label="Nombre (s)" onChangeText={(text) => setPersonalData({ ...personalData, name: text })} LabelColor={bluePallete[400]} style={{marginBottom:"5%"}}/>
-                <Input Label="Apellido (s)" onChangeText={(text) => setPersonalData({ ...personalData, lastname: text })} LabelColor={bluePallete[400]} />
+        <ExtraLayout>
+            <View style={styles.container}>
+                <ProgressBar active={1} />
+                <View style={{}}>
+                    <Text style={{ fontSize: 45, textAlign: 'center', fontWeight: '700', color: "#f1f1f1" }}>Introduce tus datos personales</Text>
+                    <TouchableOpacity onPress={handleCropSelection} style={{ marginVertical: "5%" }}>
+                        <Image style={styles.image} source={{ uri: imageUrl ? imageUrl : 'https://ik.imagekit.io/uv3u01crv/User_default_v2.png?updatedAt=1710627069144' }} />
+                    </TouchableOpacity>
+                    <Input Label="Nombre de usuario" onChangeText={(text) => setPersonalData({ ...personalData, username: text })} LabelColor={bluePallete[400]} style={{ marginBottom: "5%" }} />
+                    <Input Label="Nombre (s)" onChangeText={(text) => setPersonalData({ ...personalData, name: text })} LabelColor={bluePallete[400]} style={{ marginBottom: "5%" }} />
+                    <Input Label="Apellido (s)" onChangeText={(text) => setPersonalData({ ...personalData, lastname: text })} LabelColor={bluePallete[400]} />
 
-                <Button ButtonText="Siguiente" onPress={() => navigation.navigate('SignUpEmail', { personalData })} style={{ backgroundColor: bluePallete[500], marginBottom: "5%", marginTop: "8%" }} TextColor={"#f1f1f1"} />
-                <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
+                    <Button ButtonText="Siguiente" onPress={() => navigation.navigate('SignUpEmail', { personalData })} style={{ backgroundColor: bluePallete[500], marginBottom: "5%", marginTop: "8%" }} TextColor={"#f1f1f1"} />
+                    <Button ButtonText="Volver" onPress={() => navigation.goBack()} TextColor={"#f1f1f1"} style={{ backgroundColor: '#333333' }} />
+                </View>
             </View>
-        </View>
+        </ExtraLayout>
     )
 }
 
@@ -71,7 +74,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20, //paddin solamente para los lados izquierda y derecha. y el vertical para los otros dos faltantes,
         zIndex: 1,
         justifyContent: 'space-around',
-        backgroundColor: '#222222'
     },
     image: {
         width: 100,

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { View, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
+import ExtraLayout from '../components/ui/layouts/ExtraLayout'
 
 export default function LoadingScreen() {
     const navigation = useNavigation()
@@ -28,8 +29,11 @@ export default function LoadingScreen() {
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" color="#0000ff" />
-        </View>
+        <ExtraLayout >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        </ExtraLayout>
     )
 }
+

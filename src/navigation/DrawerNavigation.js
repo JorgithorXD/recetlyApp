@@ -2,7 +2,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@rea
 import Home from "../screens/homeScreen"
 import UserProfile from "../screens/ProfileScreen"
 import { RoundButton } from "../components/ui/buttons/RoundButton"
-import { View, StyleSheet, Appearance } from "react-native"
+import { View } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useState, useEffect } from "react"
 import checkLoggedIn from "../utils/authUtil"
@@ -14,73 +14,41 @@ import LogInSvg from "../components/svg/LogIn"
 import SettingsSvg from "../components/svg/Settings"
 import FavoriteSvg from "../components/svg/Favorite"
 import MyRecipes from "../components/svg/MyRecipes"
-import { lightThemeColors, darkThemeColors } from "../components/styles/theme"
 import RecipeScreen from "../screens/RecipeScreen"
 import FavoriteScreen from "../screens/Favorites"
 import SettingsScreen from "../screens/Settings"
+import useDynamicStyles from "../components/styles/genericStyles"
 
 const Drawer = createDrawerNavigator()
 
 function CustomDrawerContent(props) {
     const [isLogged, setLogged] = useState(false)
-    const [theme, setTheme] = useState(Appearance.getColorScheme() === 'dark' ? darkThemeColors : lightThemeColors)
-
-    useEffect(() => {
-        const subscription = Appearance.addChangeListener(({ colorScheme }) => {
-            setTheme(colorScheme === 'dark' ? darkThemeColors : lightThemeColors)
-        })
-
-        const checkUser = async () => {
-            const loggedIn = await checkLoggedIn()
-            setLogged(loggedIn)
-        }
-        checkUser()
-        return () => subscription.remove()
-    }, [])
-
-    const styles = StyleSheet.create({
-        label: {
-            fontSize: 22,
-            marginHorizontal: -16,
-            color: theme.labelColor
-        },
-        lastItem: {
-            marginBottom: 50
-        },
-        drawerStyle: {
-            paddingTop: 0,
-            flex: 1,
-            justifyContent: 'space-between'
-        },
-        item: {
-            backgroundColor: theme.drawerItemBackgroundColor
-        },
-    })
+    const theme = useDynamicStyles()
 
     return (
-        <DrawerContentScrollView {...props} contentContainerStyle={{ ...styles.drawerStyle, backgroundColor: theme.drawerBackgroundColor }}>
+        <DrawerContentScrollView {...props} contentContainerStyle={{ ...theme.drawerStyle }}>
             <View>
                 <View style={{ height: 60, position: 'relative', display: 'flex', justifyContent: 'center', paddingHorizontal: 4 }}>
                     <RoundButton onPress={() => props.navigation.closeDrawer()}>
-                        <CloseDrawer fill={theme.svgColor} />
+                        <CloseDrawer fill={theme.svg} />
                     </RoundButton>
                 </View>
-                <DrawerItem label="Pagina principal" onPress={() => props.navigation.navigate('Home')} icon={() => <HomeSVG fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
-                <DrawerItem label="Perfil" onPress={() => props.navigation.navigate('Perfil')} icon={() => <Profile fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
-                <DrawerItem label="Mis recetas" onPress={() => props.navigation.navigate('Perfil')} icon={() => <MyRecipes fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
-                <DrawerItem label="Favoritos" onPress={() => props.navigation.navigate('Favorite')} icon={() => <FavoriteSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
-                <DrawerItem label="Configuracion" onPress={() => props.navigation.navigate('Settings')} icon={() => <SettingsSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
+                <DrawerItem label="Pagina principal" onPress={() => props.navigation.navigate('Home')} icon={() => <HomeSVG fill={theme.svg} />} style={{ ...theme.item }} labelStyle={theme.label} />
+                <DrawerItem label="Perfil" onPress={() => props.navigation.navigate('Perfil')} icon={() => <Profile fill={theme.svg} />} style={{ ...theme.item }} labelStyle={theme.label} />
+                <DrawerItem label="Mis recetas" onPress={() => props.navigation.navigate('Perfil')} icon={() => <MyRecipes fill={theme.svg} />} style={{ ...theme.item }} labelStyle={theme.label} />
+                <DrawerItem label="Favoritos" onPress={() => props.navigation.navigate('Favorite')} icon={() => <FavoriteSvg fill={theme.svg} />} style={{ ...theme.item }} labelStyle={theme.label} />
+                <DrawerItem label="Configuracion" onPress={() => props.navigation.navigate('Settings')} icon={() => <SettingsSvg fill={theme.svg} />} style={{ ...theme.item }} labelStyle={theme.label} />
             </View>
             {isLogged && <DrawerItem label="Cerrar sesion" onPress={() => {
                 AsyncStorage.removeItem('UserData')
                 props.navigation.replace('StartScreen')
             }}
-                icon={() => <LogOut color={theme.svgColor} />} style={{ ...styles.item, ...styles.lastItem }} labelStyle={styles.label}
+                icon={() => <LogOut color={theme.svg} />} style={{ ...theme.item, ...theme.lastItem }} labelStyle={theme.label}
             />}
             {!isLogged && <DrawerItem label="Acceder" onPress={() => {
                 props.navigation.replace('StartScreen')
             }}
-                icon={() => <LogInSvg fill={theme.svgColor} />} style={{ ...styles.item, ...styles.lastItem }} labelStyle={styles.label}
+                icon={() => <LogInSvg fill={`${theme.svg}`} />} style={{ ...theme.item, ...theme.lastItem }} labelStyle={theme.label}
             />}
         </DrawerContentScrollView>
     )
