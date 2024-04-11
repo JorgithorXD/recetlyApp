@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Appearance } from 'react-native'
+import { View, Appearance, StatusBar } from 'react-native'
 import { lightThemeColors, darkThemeColors } from '../../styles/theme'
 
 export default function ExtraLayout({ children }) {
@@ -15,6 +15,7 @@ export default function ExtraLayout({ children }) {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.backgroundColor}}>
+            <StatusBar barStyle={theme.statusBarContent} backgroundColor={theme.backgroundColor}/>
             {children}
         </View>
     )

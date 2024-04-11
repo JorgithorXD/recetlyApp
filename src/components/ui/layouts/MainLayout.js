@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, Appearance } from "react-native"
+import { View, Appearance, StatusBar } from "react-native"
 import MainHeader from "../../headers/MainHeader"
 import Separate from "../../utils/hr"
 
@@ -18,6 +18,7 @@ export default function MainLayout({ children, back }) {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
+            <StatusBar barStyle={theme.statusBarContent} backgroundColor={theme.mainColor}/>
             <MainHeader headerStyle={{ backgroundColor: theme.headerBackgroundColor }} textStyle={{ color: theme.textColor }} back={back}/>
             <Separate backgroundColor={theme.intermediateColor} />
             {children}

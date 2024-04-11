@@ -26,16 +26,18 @@ export default function Home() {
 
     return (
         <MainLayout back={false}>
-            <ScrollView>
-                <View style={{ width: '90%', aspectRatio: 16 / 9, backgroundColor: '#B8C0FF', alignSelf: 'center', marginVertical: 10, borderRadius: 8 }}>
+            <ScrollView style={{ paddingHorizontal: 10 }}>
+                <View style={{ width: '100%', aspectRatio: 16 / 9, backgroundColor: '#B8C0FF', alignSelf: 'center', marginVertical: 10, borderRadius: 8 }}>
                     <Text>SA .-. ._. .///.</Text>
                 </View>
-                <Text style={{...theme.titleText}}>Recetas destacadas</Text>
+                <Text style={{ ...theme.titleText }}>Recetas destacadas</Text>
 
                 <RoundButton style={{ position: 'absolute' }} />
 
                 <FlatList
                     data={recipes}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 6 }}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item: recipe }) => (
@@ -69,14 +71,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
     },
     card: {
-        width: 250,
+        width: 170,
         backgroundColor: '#BBD0FF',
-        marginBottom: 10,
         aspectRatio: 1,
-        borderRadius: (1, 100, 10, 4),
         overflow: 'hidden',
         opacity: 1,
-        marginHorizontal: 4
     },
     tittle: {
         fontSize: 45,

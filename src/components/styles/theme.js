@@ -15,7 +15,9 @@ export const lightThemeColors = {
     secondButton: "#dbdbdb",
     mainButtonTextColor: '#f1f1f1',
     secondButtonTextColor: '#999999',
-    titleText: '#4f4f4f'
+    titleText: '#4f4f4f',
+    statusBarContent: 'dark-content',
+    mainColor: blue[500]
 }
 
 export const darkThemeColors = {
@@ -33,5 +35,7 @@ export const darkThemeColors = {
     secondButton: "#222222",
     mainButtonTextColor: '#f1f1f1',
     secondButtonTextColor: '#dbd9d9',
-    titleText: '#dedede'
+    titleText: '#dedede',
+    statusBarContent: 'ligth-content',
+    mainColor: blue[500]
 }

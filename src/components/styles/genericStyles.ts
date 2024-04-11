@@ -1,16 +1,25 @@
-import { StyleSheet, Appearance } from "react-native"
+import { StyleSheet, Appearance, ViewStyle } from "react-native"
 import { useEffect, useState } from "react"
 import { lightThemeColors, darkThemeColors } from "./theme"
 import { type Theme } from "../../types/styleTypes"
 
 const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: theme.backgroundColor,
-        zIndex: 1,
-        justifyContent: 'space-around',
-        paddingHorizontal: 20
-    },
+        main: {
+            flex: 1,
+            backgroundColor: theme.backgroundColor,
+            zIndex: 1,
+            justifyContent: 'space-around',
+            paddingHorizontal: 20,
+        },
+        button: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+            justifyContent: 'center'
+        }
+    } as ViewStyle,
+    
     mainButton: {
         backgroundColor: theme.mainButton
     },
@@ -25,35 +34,11 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         textAlign: 'center',
         fontWeight: '700'
     },
-    label: {
-        fontSize: 22,
-        marginHorizontal: -16,
-        color: theme.labelColor
-    },
-    lastItem: {
-        marginBottom: 50
-    },
-    drawerStyle: {
-        paddingTop: 0,
-        flex: 1,
-        justifyContent: 'space-between',
-        backgroundColor: theme.drawerBackgroundColor
-    },
-    item: {
-        backgroundColor: theme.drawerItemBackgroundColor
-    },
-    svg: theme.svgColor,
-    buttonContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 8,
-        justifyContent: 'center'
-    },
     WarningNotification: {
         warn: {
             width: '80%',
             height: '30%',
-            backgroundColor: theme.background,
+            backgroundColor: theme.backgroundColor,
             alignSelf: 'center',
             borderRadius: 8,
             justifyContent: 'space-between',
@@ -83,7 +68,37 @@ const createStyles = (theme: Theme) => StyleSheet.create({
             right: 0,
             zIndex: 3,
         }
-    }
+    } as ViewStyle,
+    statusBar: {
+        runScreen: {
+            backgroundColor: theme.backgroundColor,
+        },
+        header: {
+            backgroundColor: theme.mainColor
+        },
+        contentStyle: theme.statusBarContent
+
+    } as ViewStyle,
+    drawerStyle: {
+        style: {
+            paddingTop: 0,
+            flex: 1,
+            justifyContent: 'space-between',
+            backgroundColor: theme.drawerBackgroundColor
+        },
+        item: {
+            backgroundColor: theme.drawerItemBackgroundColor
+        },
+        lastItem: {
+            marginBottom: 50
+        },
+        label: {
+            fontSize: 22,
+            marginHorizontal: -16,
+            color: theme.labelColor
+        },
+        svg: theme.svgColor as ViewStyle,
+    } as ViewStyle
 })
 
 export default function useDynamicStyles() {

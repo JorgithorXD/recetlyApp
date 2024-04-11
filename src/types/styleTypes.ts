@@ -13,5 +13,7 @@ export type Theme = {
     secondButton: string,
     mainButtonTextColor: string,
     secondButtonTextColor: string,
-    titleText: string
+    titleText: string,
+    statusBarContent: string,
+    mainColor: string
 }
