@@ -1,9 +1,10 @@
 import blue from "../utils/blue"
+import purple from "../utils/purple"
 
 export const lightThemeColors = {
     backgroundColor: '#f1f1f1',
     headerBackgroundColor: '#fafafa',
-    textColor: blue[500],
+    textColor: "#353535",
     buttonBackgroundColor: 'transparent',
     intermediateColor: '#e0e0e0',
     drawerBackgroundColor: "#f1f1f1", // drawer => Menu lateral
@@ -17,7 +18,8 @@ export const lightThemeColors = {
     secondButtonTextColor: '#222222',
     titleText: '#4f4f4f',
     statusBarContent: 'dark-content',
-    mainColor: '#fafafa'
+    mainColor: '#fafafa',
+    tagColor: purple[700],
 }
 
 export const darkThemeColors = {
@@ -37,5 +39,6 @@ export const darkThemeColors = {
     secondButtonTextColor: '#f1f1f1',
     titleText: "#dedede",
     statusBarContent: 'ligth-content',
-    mainColor: "#252525"
+    mainColor: "#252525",
+    tagColor: purple[500],
 }

@@ -17,7 +17,7 @@ export default function LoadingScreen() {
 
     const checkUserData = async () => {
         try {
-            const userDataString = await AsyncStorage.getItem('UserData')
+            const userDataString = await AsyncStorage.getItem('UserId')
             if (userDataString !== null) {
                 navigation.replace('Drawer')
             } else {

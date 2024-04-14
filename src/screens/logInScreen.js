@@ -60,17 +60,9 @@ export default function LogIn({ navigation }) {
                 throw new Error(data.error)
             }
 
-            if (data.id) {
-                const userDataResponse = await axios.get(`${API_BASE_URL}user/get-data/${data.id}`)
-                const userData = JSON.stringify(userDataResponse.data)
-
-                await AsyncStorage.removeItem('UserData')
-                await AsyncStorage.setItem('UserData', userData)
-
-                setLoading(false)
-
-                navigation.replace('Drawer')
-            }
+            AsyncStorage.setItem('UserId', JSON.stringify(data.id))
+            setLoading(false)
+            navigation.replace('Drawer')
 
         } catch (error) {
             setLoading(false)

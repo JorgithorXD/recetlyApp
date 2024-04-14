@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { View, Text, Image, StyleSheet, Pressable } from "react-native"
+import { useState, useEffect } from "react"
+import { View, Text, Image, StyleSheet, Pressable, Alert } from "react-native"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import EmptyStar from "../components/svg/EmpyStar"
 import FullStar from "../components/svg/FullStar"
@@ -8,52 +8,95 @@ import useDynamicStyles from "../components/styles/genericStyles"
 import { RoundButton } from "../components/ui/buttons/RoundButton"
 import FavoriteSvg from "../components/svg/Favorite"
 import { ScrollView } from "react-native"
+import axios from "axios"
+import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export default function RecipeScreen({ navigation, route }) {
     const { recipe } = route.params
+    const [UserId, setUserId] = useState()
     const [score, setScore] = useState(0)
     const theme = useDynamicStyles()
 
-    console.log(recipe)
+    useEffect(() => {
+        setScore(0)
+        getUserId()
+    }, [recipe.id])
+
+    async function getUserId() {
+        try {
+            const UserId = await AsyncStorage.getItem('UserId')
+            setUserId(UserId)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function uploadCalification(score, userId, recipeId) {
+        try {
+            const response = await axios.post(`${API_BASE_URL}${ENDPOINTS.CalificateRecipe(score, userId.replace(/"/g, ''), recipeId)}`)
+            const data = await response.data
+
+            Alert.alert(data.data != null ? data.data : data.errorMessage)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function addFavorite(userId, recipeId) {
+        try {
+            const response = await axios.post(`${API_BASE_URL}${ENDPOINTS.AddFavorite(userId.replace(/"/g, ''), recipeId)}`)
+            const data = await response.data
+
+            Alert.alert(data.message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
 
         <MainLayout back={true}>
             <ScrollView style={{ paddingHorizontal: 10 }}>
                 <Image style={styles.image} source={{ uri: recipe.mainImg }} />
-                <Text style={{ ...styles.titleText, color: theme.titleText }}>{recipe.name}</Text>
-                <Text>Autor: {recipe.owner}</Text>
-                <RoundButton style={{ borderWidth: 1, borderColor: theme.mainButton }}>
-                    <FavoriteSvg fill={theme.svgColor} />
-                </RoundButton>
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+                    <View style={{ flex: 1 }}>
+                        <Text style={{ ...styles.titleText, color: theme.textColor, fontSize: 30 }}>{recipe.name}</Text>
+                        <Text style={{ color: theme.textColor, fontSize: 24 }}>Autor: {recipe.owner.username}</Text>
+                    </View>
+                    <RoundButton style={{ borderWidth: 1, borderColor: theme.mainButton }} onPress={() => addFavorite(UserId, recipe.id)}>
+                        <FavoriteSvg fill={theme.svgColor} />
+                    </RoundButton>
+                </View>
 
-                <Text>{recipe.description}</Text>
-                <View style={{ gap: 4, display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                <Text style={{ color: theme.textColor, fontSize: 20, marginVertical: 16 }}>{recipe.description}</Text>
+                <Text style={{ ...styles.titleText, color: theme.textColor }}>Etiquetas</Text>
+                <View style={{ gap: 4, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: 8, marginBottom: 24 }}>
                     {
                         (recipe.tag.tags).map(tag => {
                             return (
-                                <View style={{ height: 40, flex: 1, borderWidth: 1, borderColor: theme.intermediateColor, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }}>
-                                    <Text style={{ fontSize: 24 }}>{tag.value}</Text>
+                                <View style={{ height: 40, flex: 1, borderWidth: 1, borderColor: theme.tagColor, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }}>
+                                    <Text style={{ fontSize: 24, color: theme.textColor }}>{tag.value}</Text>
                                 </View>
                             )
                         })
                     }
                 </View>
 
-                <Text style={styles.titleText}>Tiempo aproximado de preparacion: </Text>
-                <View style={{ height: 40, width: 180, borderWidth: 1, borderColor: theme.intermediateColor, alignItems: 'center', justifyContent: 'center', borderRadius: 8 }}>
-                    <Text style={{ fontSize: 18 }}>De {recipe.time.from} a {recipe.time.to}</Text>
+                <Text style={{ ...styles.titleText, color: theme.textColor, marginBottom: 8 }}>Tiempo aproximado de preparacion: </Text>
+                <View style={{ marginBottom: 24, height: 40, flex: 1, borderWidth: 1, borderColor: theme.intermediateColor, alignItems: 'center', justifyContent: 'center', borderRadius: 8 }}>
+                    <Text style={{ fontSize: 20, color: theme.textColor }}>De {recipe.time.from} a {recipe.time.to}</Text>
                 </View>
 
-                <Text style={styles.titleText}>Ingredientes</Text>
-                <Text>Esta receta requiere de aproximadamente <Text style={{ fontWeight: 'bold' }}>{recipe.ingredients.count}</Text> ingredientes, los cuales son: </Text>
+                <Text style={{ ...styles.titleText, color: theme.textColor, marginBottom: 8 }}>Ingredientes</Text>
+                <Text style={{ fontSize: 20, color: theme.textColor, marginBottom: 8 }}>Esta receta requiere de <Text style={{ fontWeight: 'bold' }}>{recipe.ingredients.count}</Text> ingredientes, los cuales son: </Text>
 
-                <View style={{ gap: 2, display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                <View style={{ gap: 2, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 24 }}>
                     {
                         (recipe.ingredients.ingredients).map(ingredient => {
                             return (
                                 <View style={{ paddingVertical: 4, paddingHorizontal: 12, borderRadius: 4, borderWidth: 1, borderColor: theme.intermediateColor }}>
-                                    <Text style={{ fontSize: 14 }}>{ingredient.amount > 0 ? `${ingredient.amount} ${ingredient.unit.value} de ${ingredient.name}` : `${ingredient.unit.value} de ${ingredient.name}`}</Text>
+                                    <Text style={{ fontSize: 14, color: theme.textColor }}>{ingredient.amount > 0 ? `${ingredient.amount} ${ingredient.unit.value} de ${ingredient.name}` : `${ingredient.unit.value} de ${ingredient.name}`}</Text>
                                 </View>
 
                             )
@@ -61,15 +104,17 @@ export default function RecipeScreen({ navigation, route }) {
                     }
                 </View>
 
-                <Text style={styles.titleText}>Pasos</Text>
-                <View>
+                <Text style={{ ...styles.titleText, color: theme.textColor, marginBottom: 4 }}>Pasos</Text>
+                <View style={{ marginBottom: 20 }}>
                     {
                         (recipe.steps.steps).map((step, index) => {
                             let count = index + 1
                             return (
-                                <View style={{ display: 'flex', flexDirection: 'row', width: '100%', flex: 1 }}>
-                                    <Text>{count}.- </Text>
-                                    <Text style={{ flex: 1 }}>{step}</Text>
+                                <View style={{ marginVertical: 4, padding: 8, backgroundColor: theme.intermediateColor, borderRadius: 4 }}>
+                                    <Text style={{ color: theme.textColor, fontSize: 20, }}>{count}.-  
+                                        <Text style={{ flex: 1 }}>{step}</Text>
+                                    </Text>
+
                                 </View>
                             )
                         })
@@ -77,26 +122,31 @@ export default function RecipeScreen({ navigation, route }) {
                 </View>
 
                 <View>
-                    <Text style={{ ...styles.titleText, color: theme.titleText }}>Califica esta receta: </Text>
-                    <View style={styles.scoreContainer}>
+                    <Text style={{ ...styles.titleText, color: theme.titleText, marginBottom: 8 }}>Califica esta receta: </Text>
+                    <View style={{...styles.scoreContainer, marginBottom: 8}}>
                         <Pressable onPress={() => setScore(score === 1 ? 0 : 1)}>
-                            {score >= 1 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={"#f1f1f1"} size={40} />}
+                            {score >= 1 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 2 ? 0 : 2)}>
-                            {score >= 2 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={"#f1f1f1"} size={40} />}
+                            {score >= 2 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 3 ? 0 : 3)}>
-                            {score >= 3 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={"#f1f1f1"} size={40} />}
+                            {score >= 3 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 4 ? 0 : 4)}>
-                            {score >= 4 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={"#f1f1f1"} size={40} />}
+                            {score >= 4 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 5 ? 0 : 5)}>
-                            {score >= 5 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={"#f1f1f1"} size={40} />}
+                            {score >= 5 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                     </View>
 
-                    <Button ButtonText="Enviar calificacion" TextStyle={{ fontSize: 16 }} />
+                    <Button
+                        ButtonText="Enviar calificacion"
+                        TextStyle={{ fontSize: 20, color: theme.textColor }}
+                        style={{ borderWidth: 1, borderColor: theme.intermediateColor, marginBottom: 24 }}
+                        onPress={() => uploadCalification(score, UserId, recipe.id)}
+                    />
                 </View>
             </ScrollView>
         </MainLayout >
@@ -107,10 +157,12 @@ export default function RecipeScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     image: {
         width: '100%',
-        aspectRatio: 16 / 9
+        aspectRatio: 16 / 9,
+        borderRadius: 10,
+        marginVertical: 10
     },
     titleText: {
-        fontSize: 26,
+        fontSize: 28,
         fontWeight: "bold"
     },
     scoreContainer: {
