@@ -6,7 +6,7 @@ import ShowDrawer from "../svg/ShowDrawer"
 import Search from "../svg/Search"
 import Back from "../svg/Back"
 
-export default function MainHeader({ headerStyle, buttonStyle, textStyle, back }) {
+export default function MainHeader({ headerStyle, buttonStyle, textStyle, back, svg }) {
     const navigation = useNavigation()
 
     const handleOpenDrawer = () => {
@@ -17,17 +17,17 @@ export default function MainHeader({ headerStyle, buttonStyle, textStyle, back }
         <View style={{ ...styles.header, ...headerStyle }} >
             {!back &&
                 <RoundButton style={{ ...buttonStyle }}>
-                    <Search />
+                    <Search stroke={svg} />
                 </RoundButton>
             }
             {back &&
-                <RoundButton style={{ ...buttonStyle }} onPress={()=>navigation.goBack()}>
-                    <Back />
+                <RoundButton style={{ ...buttonStyle }} onPress={() => navigation.goBack()}>
+                    <Back fill={svg} />
                 </RoundButton>
             }
             <Text style={{ fontSize: 42, fontWeight: '600', ...textStyle }}>RECETLY</Text>
             <RoundButton style={{ ...buttonStyle }} onPress={handleOpenDrawer}>
-                <ShowDrawer />
+                <ShowDrawer stroke={svg} />
             </RoundButton>
         </View >
     )

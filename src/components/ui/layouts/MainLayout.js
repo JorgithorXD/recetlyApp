@@ -18,8 +18,8 @@ export default function MainLayout({ children, back }) {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
-            <StatusBar barStyle={theme.statusBarContent} backgroundColor={theme.mainColor}/>
-            <MainHeader headerStyle={{ backgroundColor: theme.headerBackgroundColor }} textStyle={{ color: theme.textColor }} back={back}/>
+            <StatusBar barStyle={theme.statusBarContent} backgroundColor={theme.mainColor} />
+            <MainHeader headerStyle={{ backgroundColor: theme.headerBackgroundColor }} textStyle={{ color: theme.textColor }} back={back} svg={theme.svgColor} />
             <Separate backgroundColor={theme.intermediateColor} />
             {children}
         </View>

@@ -61,7 +61,7 @@ export default function LogIn({ navigation }) {
             }
 
             if (data.id) {
-                const userDataResponse = await axios.get(`https://recipes-api-dev.koyeb.app/user/get-data/${data.id}`)
+                const userDataResponse = await axios.get(`${API_BASE_URL}user/get-data/${data.id}`)
                 const userData = JSON.stringify(userDataResponse.data)
 
                 await AsyncStorage.removeItem('UserData')
@@ -79,12 +79,40 @@ export default function LogIn({ navigation }) {
         }
     }
 
+    const styles = StyleSheet.create(
+        {
+            constainer: {
+                flex: 1,
+                padding: 20,
+                zIndex: 1,
+                justifyContent: 'space-around'
+            },
+            mainButton: {
+                backgroundColor: theme.mainButton
+            },
+            secondaryButton: {
+                backgroundColor: theme.headerBackgroundColor,
+            },
+            titleText: {
+                color: theme.titleText,
+                textAlign: 'center',
+                fontWeight: '700'
+            },
+            buttonContainer: {
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8,
+                justifyContent: 'center'
+            }
+        }
+    )
+
     return (
         <ExtraLayout>
             <View style={{ flex: 1 }}>
                 <View style={{ ...styles.constainer }}>
 
-                    <Text style={{ fontSize: 70, ...theme.titleText }}>
+                    <Text style={{ fontSize: 70, ...styles.titleText }}>
                         Bienvenido de nuevo
                     </Text>
 
@@ -93,8 +121,8 @@ export default function LogIn({ navigation }) {
                         <PasswordInput Label={'Contraseña'} Placeholder={"Introduzca su contraseña"} LabelColor={bluePallete[400]} onChangeText={handlePasswordChange} />
                     </View>
 
-                    <View style={{ ...theme.buttonContainer }}>
-                        <Button ButtonText={'Iniciar sesion'} style={{ ...theme.mainButton }} onPress={
+                    <View style={{ ...styles.buttonContainer }}>
+                        <Button ButtonText={'Iniciar sesion'} style={{ ...styles.mainButton }} onPress={
                             () => {
                                 Keyboard.dismiss()
                                 const showWarn = Warn()
@@ -108,7 +136,7 @@ export default function LogIn({ navigation }) {
                             }}
                             TextColor={"#f1f1f1"}
                         />
-                        <Button ButtonText={'Volver'} style={{ ...theme.secondaryButton }} onPress={() => navigation.goBack()} TextColor={{ ...theme.secondaryButtonText }} />
+                        <Button ButtonText={'Volver'} style={{ ...styles.secondaryButton }} onPress={() => navigation.goBack()} TextColor={theme.secondaryButtonText} />
                     </View>
                     <View style={{ gap: 8 }}>
                         <Anchor ButtonText={"Olvide mi contraseña"} TextColor={bluePallete[500]} TextStyle={{ textDecorationLine: 'underline', fontSize: 25 }} />
@@ -121,16 +149,3 @@ export default function LogIn({ navigation }) {
         </ExtraLayout >
     )
 }
-
-const styles = StyleSheet.create(
-    {
-        constainer: {
-            flex: 1,
-            padding: 20,
-            zIndex: 1,
-            justifyContent: 'space-around'
-        },
-        inputContainer: {
-        },
-    }
-)

@@ -1,6 +1,6 @@
 import { Svg, Path, Circle } from "react-native-svg"
 
-export default function Search() {
+export default function Search({ stroke = "#ebebeb" }) {
     return (
         <Svg
             width={30}
@@ -11,7 +11,7 @@ export default function Search() {
             <Path
                 style={{
                     fill: "none",
-                    stroke: "#000",
+                    stroke: stroke,
                     strokeLinecap: "round",
                     strokeLinejoin: "round",
                     strokeWidth: 2,
@@ -24,7 +24,7 @@ export default function Search() {
                 r={7}
                 style={{
                     fill: "none",
-                    stroke: "#000",
+                    stroke: stroke,
                     strokeLinecap: "round",
                     strokeLinejoin: "round",
                     strokeWidth: 2,

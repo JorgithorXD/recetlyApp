@@ -56,10 +56,6 @@ export default function SignUp({ navigation }) {
         return true
     }
 
-    checkInput({ ...personalData, username})
-    checkInput({ ...personalData, name})
-    checkInput({ ...personalData, lastname})
-
     return (
         <ExtraLayout>
             <View style={styles.container}>

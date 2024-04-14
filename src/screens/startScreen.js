@@ -20,7 +20,7 @@ export default function StartScreen({ navigation }) {
                         Recetly
                     </Text>
                 </View>
-                <View style={{ ...theme.container.button, height: '30%' }}>
+                <View style={{ ...styles.buttonContainer, height: '30%' }}>
                     <Button
                         ButtonText={'Iniciar Sesion'}
                         style={{ backgroundColor: bluePallete[500] }}
@@ -51,6 +51,12 @@ const styles = StyleSheet.create(
             flexDirection: 'column',
             height: '70%',
             justifyContent: 'space-evenly'
+        },
+        buttonContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+            justifyContent: 'center'
         }
     }
 )

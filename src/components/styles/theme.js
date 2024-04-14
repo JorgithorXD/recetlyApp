@@ -5,37 +5,37 @@ export const lightThemeColors = {
     headerBackgroundColor: '#fafafa',
     textColor: blue[500],
     buttonBackgroundColor: 'transparent',
-    intermediateColor: '#d1cdcd',
+    intermediateColor: '#e0e0e0',
     drawerBackgroundColor: "#f1f1f1", // drawer => Menu lateral
-    svgColor: '#363636',
+    svgColor: "#363636",
     drawerItemBackgroundColor: blue[400], // drawerItem => Boton del menu lateral
     labelColor: "#363636",
     activeDrawerItem: blue[925], // No se usa (creo)
     mainButton: blue[500],
     secondButton: "#dbdbdb",
     mainButtonTextColor: '#f1f1f1',
-    secondButtonTextColor: '#999999',
+    secondButtonTextColor: '#222222',
     titleText: '#4f4f4f',
     statusBarContent: 'dark-content',
-    mainColor: blue[500]
+    mainColor: '#fafafa'
 }
 
 export const darkThemeColors = {
-    backgroundColor: '#141414',
-    headerBackgroundColor: blue[500],
+    backgroundColor: '#212121',
+    headerBackgroundColor: '#252525',
     textColor: '#e8e8e8',
     buttonBackgroundColor: 'transparent',
-    intermediateColor: '#010101',
-    drawerBackgroundColor: blue[950], // drawer => Menu lateral
-    svgColor: blue[50],
+    intermediateColor: '#383838',
+    drawerBackgroundColor: '#212121', // drawer => Menu lateral
+    svgColor: "#f1f1f1",
     drawerItemBackgroundColor: blue[900], // drawerItem => Boton del menu lateral
     labelColor: '#e8e8e8',
     activeDrawerItem: blue[925], // No se usa (creo)
     mainButton: blue[500],
-    secondButton: "#222222",
+    secondButton: "#212121",
     mainButtonTextColor: '#f1f1f1',
-    secondButtonTextColor: '#dbd9d9',
-    titleText: '#dedede',
+    secondButtonTextColor: '#f1f1f1',
+    titleText: "#dedede",
     statusBarContent: 'ligth-content',
-    mainColor: blue[500]
+    mainColor: "#252525"
 }

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView, TouchableOpacity } from "react-native"
-import MainLayout from "../components/ui/layouts/MainLayout"
-import axios from "axios"
-import { RoundButton } from "../components/ui/buttons/RoundButton"
 import { useNavigation } from "@react-navigation/native"
+import axios from "axios"
+import React, { useEffect, useState } from "react"
+import { FlatList, ScrollView, Text, View, StyleSheet } from "react-native"
 import useDynamicStyles from '../components/styles/genericStyles.ts'
+import RecipeCard from "../components/ui/RecipeCard.js"
+import { RoundButton } from "../components/ui/buttons/RoundButton"
+import MainLayout from "../components/ui/layouts/MainLayout"
 
 export default function Home() {
     const [recipes, setRecipes] = useState(null)
@@ -13,7 +14,7 @@ export default function Home() {
 
     async function getRecipes() {
         try {
-            const response = await axios.get('https://recipes-api-dev.koyeb.app/recipe/basic/get/all')
+            const response = await axios.get('https://recipes-api-dev.koyeb.app/api/v1/recipe/get/all')
             setRecipes(response.data)
         } catch (error) {
             console.log(error)
@@ -27,13 +28,14 @@ export default function Home() {
     return (
         <MainLayout back={false}>
             <ScrollView style={{ paddingHorizontal: 10 }}>
-                <View style={{ width: '100%', aspectRatio: 16 / 9, backgroundColor: '#B8C0FF', alignSelf: 'center', marginVertical: 10, borderRadius: 8 }}>
-                    <Text>SA .-. ._. .///.</Text>
-                </View>
-                <Text style={{ ...theme.titleText }}>Recetas destacadas</Text>
-
                 <RoundButton style={{ position: 'absolute' }} />
 
+                <Text style={{...styles.categoryTitle, color: theme.titleText}}>Recetas del dia</Text>
+                <View style={{ width: '100%', aspectRatio: 16 / 9, backgroundColor: '#B8C0FF', alignSelf: 'center', borderRadius: 8 }}>
+                    <Text>SA .-. ._. .///.</Text>
+                </View>
+
+                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Recetas destacadas</Text>
                 <FlatList
                     data={recipes}
                     style={{ alignSelf: 'center' }}
@@ -41,14 +43,69 @@ export default function Home() {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item: recipe }) => (
-                        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', { id: recipe.id })}>
-                            <View>
-                                <Image source={{ uri: recipe.mainImg }} style={styles.image} resizeMode="cover" />
-                                <Text style={{ color: "black", fontSize: 16, fontWeight: 700 }}>{recipe.name}</Text>
-                            </View>
-                        </TouchableOpacity>
+                        <RecipeCard recipe={recipe} navigation={navigation}/>
                     )}
                 />
+
+                {/* <Text style={{ ...styles.categoryTitle }}>Lo mejor de Mexico</Text>
+                <FlatList
+                    data={recipes}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 6 }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item: recipe }) => (
+                        <RecipeCard recipe={recipe} />
+                    )}
+                />
+
+                <Text style={{ ...styles.categoryTitle }}>Prueba la Italiana!</Text>
+                <FlatList
+                    data={recipes}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 6 }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item: recipe }) => (
+                        <RecipeCard recipe={recipe} />
+                    )}
+                />
+
+                <Text style={{ ...styles.categoryTitle }}>¿Que tal la Oriental?</Text>
+                <FlatList
+                    data={recipes}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 6 }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item: recipe }) => (
+                        <RecipeCard recipe={recipe} />
+                    )}
+                />
+
+                <Text style={{ ...styles.categoryTitle }}>Hora de un Postre</Text>
+                <FlatList
+                    data={recipes}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 6 }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item: recipe }) => (
+                        <RecipeCard recipe={recipe} />
+                    )}
+                />
+
+                <Text style={{ ...styles.categoryTitle }}>¿No tienes sed?</Text>
+                <FlatList
+                    data={recipes}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 6 }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item: recipe }) => (
+                        <RecipeCard recipe={recipe} />
+                    )}
+                /> */}
 
                 {/*Este View sirve para dejar un esoacio al final de la pantalla*/}
                 <View style={{ marginBottom: 30 }}></View>
@@ -59,27 +116,9 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-    image: {
-        width: '100%',
-        aspectRatio: 16 / 9,
-    },
-    container: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        backgroundColor: 'green',
-    },
-    card: {
-        width: 170,
-        backgroundColor: '#BBD0FF',
-        aspectRatio: 1,
-        overflow: 'hidden',
-        opacity: 1,
-    },
-    tittle: {
-        fontSize: 45,
-        textAlign: 'center',
-        marginVertical: '3%'
+    categoryTitle: {
+        fontSize: 30,
+        marginVertical: 10,
+        marginBottom: 4
     }
 })

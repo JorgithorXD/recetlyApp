@@ -5,12 +5,49 @@ import useDynamicStyles from '../../styles/genericStyles'
 
 export default function Warning({ text, onPress, button }) {
     const theme = useDynamicStyles()
+
+    const styles = StyleSheet.create({
+        warn: {
+            width: '80%',
+            height: '30%',
+            backgroundColor: theme.backgroundColor,
+            alignSelf: 'center',
+            borderRadius: 8,
+            justifyContent: 'space-between',
+            zIndex: 4,
+            padding: 20,
+        },
+        warnText: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: 'black',
+            alignSelf: 'center'
+        },
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+        },
+        black: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 3,
+        }
+    })
+
     return (
-        <View style={theme.WarningNotification.container}>
-            <View style={theme.WarningNotification.black} />
-            <View style={theme.WarningNotification.warn}>
+        <View style={styles.container}>
+            <View style={styles.black} />
+            <View style={styles.warn}>
                 <Text style={{ color: 'black', fontWeight: '500', fontSize: 30 }}>Advertencia</Text>
-                <Text style={theme.WarningNotification.warnText}>
+                <Text style={styles.warnText}>
                     {text}
                 </Text>
                 {button && <Button ButtonText={'Cerrar'} TextColor={"#f3f3f3"} style={{ backgroundColor: '#999999' }} onPress={onPress} />}

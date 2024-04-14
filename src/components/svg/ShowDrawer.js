@@ -1,19 +1,21 @@
 import { Svg, Path } from "react-native-svg"
 
-export default function ShowDrawer() {
+export default function ShowDrawer({ stroke = "#ebebeb" }) {
     return (
         <Svg
-            width={24}
-            height={24}
-            viewBox="0 0 448 448"
+            width={36}
+            height={36}
+            viewBox="0 0 24 24"
         >
             <Path
+                d="M3 12h18M9 18h12M3 6h12"
                 style={{
-                    fillOpacity: 1,
-                    stroke: "none",
+                    fill: "none",
+                    stroke: stroke,
+                    strokeLinecap: "round",
+                    strokeLinejoin: "round",
+                    strokeWidth: 2,
                 }}
-                d="M0 636.362h448v64H0zm0 160h448v64H0zm0 160h448v64H0z"
-                transform="translate(0 -604.362)"
             />
         </Svg>
     )
