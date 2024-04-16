@@ -6,7 +6,8 @@ const ENDPOINTS = {
     GetUserData: (id) => `user/get-data/${id}`,
     AddFavorite: (userId, recipeId) => `user/add/favorite/${userId}/recipe/${recipeId}`, // Modificar, no es la ruta
     GetRecipe: (id) => `recipe/get/${id}`,
-    CalificateRecipe: (score, userId, recipeId) => `recipe/add/score/${score}/${userId}/recipe/${recipeId}`
+    CalificateRecipe: (score, userId, recipeId) => `recipe/add/score/${score}/${userId}/recipe/${recipeId}`,
+    GetRecipesByCategory: (cat) => `recipe/get/category/${cat}`
 }
 
 export {

@@ -1,14 +1,19 @@
 import { Svg, Path } from "react-native-svg"
 
-export default function FavoriteSvg({ fill }) {
+export default function FavoriteSvg({ fill, color = null }) {
     return (
         <Svg
-            width={24}
-            height={24}
-            viewBox="0 0 35 35"
-            fill={fill}
+            width={28}
+            height={28}
+            viewBox="0 0 28 28"
+            fill="none"
         >
-            <Path d="M6.32 34.75a2.86 2.86 0 0 1-1.26-.29 3.37 3.37 0 0 1-1.88-3.1V3.64A3.27 3.27 0 0 1 6.31.25h22.38a3.27 3.27 0 0 1 3.13 3.39v27.72a3.37 3.37 0 0 1-1.88 3.1 2.91 2.91 0 0 1-3.14-.39l-9-7.33a.46.46 0 0 0-.6 0l-9 7.33a3 3 0 0 1-1.88.68M17.5 24.13a3 3 0 0 1 1.88.67l9 7.33a.42.42 0 0 0 .49.07.87.87 0 0 0 .45-.84V3.64c0-.47-.3-.89-.63-.89H6.31c-.33 0-.63.42-.63.89v27.72a.87.87 0 0 0 .45.84.42.42 0 0 0 .49-.07l9-7.33a3 3 0 0 1 1.88-.67" />
+            <Path
+                d="M9.25 3.5A3.25 3.25 0 0 0 6 6.75v18a.75.75 0 0 0 1.203.598L14 20.19l6.797 5.157A.75.75 0 0 0 22 24.75v-18a3.25 3.25 0 0 0-3.25-3.25z"
+                fill={color}
+                stroke={fill}
+                strokeWidth={1.5}
+            />
         </Svg>
     )
 }

@@ -1,34 +1,40 @@
+import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { View, Text, Image, StyleSheet, ScrollView, Animated } from 'react-native'
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
 import MainLayout from "../components/ui/layouts/MainLayout"
-import checkLoggedIn from "../utils/authUtil"
 import UserProfileLoading from "../components/ui/loading/UserProgileLoading"
+import checkLoggedIn from "../utils/authUtil"
 
 export default function UserProfile() {
     const [userData, setUserData] = useState(null)
     const [loadingUserData, setLoadingUserData] = useState(false)
     const [isLogged, setLogged] = useState(false)
+    const [id, setId] = useState()
 
     useEffect(() => {
-        const checkUser = async () => {
-            const loggedIn = await checkLoggedIn()
-            setLogged(loggedIn)
-            if (loggedIn) {
-                loadUserData()
-            }
-        }
+
         checkUser()
     }, [isLogged])
 
-    const loadUserData = async () => {
+    async function checkUser() {
         setLoadingUserData(true)
+        const loggedIn = await checkLoggedIn()
+
+        setId(loggedIn.id)
+        setLogged(loggedIn.logged)
+        if (loggedIn) {
+            await loadUserData()
+        }
+    }
+
+    const loadUserData = async () => {
         try {
-            const userDataString = await AsyncStorage.getItem('UserData')
-            if (userDataString !== null) {
-                const userDataObj = JSON.parse(userDataString)
-                setUserData(userDataObj)
-            }
+            const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GetUserData(id.replace(/"/g, ''))}`)
+            const data = await response.data
+
+            setUserData(data)
+            setLoadingUserData(false)
         } catch (error) {
             console.error('Error al cargar los datos del usuario:', error)
         } finally {
@@ -36,7 +42,7 @@ export default function UserProfile() {
         }
     }
 
-    if (!isLogged) {
+    if (!isLogged || loadingUserData) {
         return (
             <MainLayout back={true}>
                 <View style={{ flex: 1, ...styles.container }}>
@@ -48,13 +54,6 @@ export default function UserProfile() {
 
     return (
         <MainLayout>
-            {
-                loadingUserData 
-                &&
-                <View style={{ flex: 1, ...styles.container }}>
-                    <UserProfileLoading />
-                </View>
-            }
             <View style={{ flex: 1, ...styles.container }}>
                 <View style={styles.imageDataContainer}>
                     {!loadingUserData && userData && (

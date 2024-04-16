@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { View, Text, Image, StyleSheet, Pressable, Alert } from "react-native"
+import { useState, useEffect, useRef } from "react"
+import { View, Text, Image, StyleSheet, Pressable, Alert, Modal } from "react-native"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import EmptyStar from "../components/svg/EmpyStar"
 import FullStar from "../components/svg/FullStar"
@@ -11,25 +11,26 @@ import { ScrollView } from "react-native"
 import axios from "axios"
 import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import AlertNotification from "../components/ui/notifications/AlertNotification"
 
 export default function RecipeScreen({ navigation, route }) {
-    const { recipe } = route.params
-    const [UserId, setUserId] = useState()
+    const { recipe, uFavs, uID } = route.params
     const [score, setScore] = useState(0)
     const theme = useDynamicStyles()
+    const [isFavorite, setFavorite] = useState(false)
+
+    const scrollViewRef = useRef()
 
     useEffect(() => {
         setScore(0)
-        getUserId()
+        checkFavorite()
+
+        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
     }, [recipe.id])
 
-    async function getUserId() {
-        try {
-            const UserId = await AsyncStorage.getItem('UserId')
-            setUserId(UserId)
-        } catch (error) {
-            console.log(error)
-        }
+    function checkFavorite() {
+        if (uFavs.includes(recipe.id)) setFavorite(true)
+        if (!(uFavs.includes(recipe.id))) setFavorite(false)
     }
 
     async function uploadCalification(score, userId, recipeId) {
@@ -57,15 +58,18 @@ export default function RecipeScreen({ navigation, route }) {
     return (
 
         <MainLayout back={true}>
-            <ScrollView style={{ paddingHorizontal: 10 }}>
+            <ScrollView style={{ paddingHorizontal: 10 }} ref={scrollViewRef}>
                 <Image style={styles.image} source={{ uri: recipe.mainImg }} />
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
                     <View style={{ flex: 1 }}>
                         <Text style={{ ...styles.titleText, color: theme.textColor, fontSize: 30 }}>{recipe.name}</Text>
-                        <Text style={{ color: theme.textColor, fontSize: 24 }}>Autor: {recipe.owner.username}</Text>
+                        <Text style={{ color: theme.textColor, fontSize: 26, textDecorationLine: 'underline' }}>{recipe.owner.username}</Text>
                     </View>
-                    <RoundButton style={{ borderWidth: 1, borderColor: theme.mainButton }} onPress={() => addFavorite(UserId, recipe.id)}>
-                        <FavoriteSvg fill={theme.svgColor} />
+                    <RoundButton
+                        style={{ borderWidth: 2, borderColor: theme.mainButton, backgroundColor: isFavorite === true ? theme.mainButton : null }}
+                        onPress={() => addFavorite(uID, recipe.id)}
+                    >
+                        <FavoriteSvg fill={theme.svgColor} color={isFavorite === true ? theme.svgColor : null} />
                     </RoundButton>
                 </View>
 
@@ -73,9 +77,9 @@ export default function RecipeScreen({ navigation, route }) {
                 <Text style={{ ...styles.titleText, color: theme.textColor }}>Etiquetas</Text>
                 <View style={{ gap: 4, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: 8, marginBottom: 24 }}>
                     {
-                        (recipe.tag.tags).map(tag => {
+                        (recipe.tag.tags).map((tag, index) => {
                             return (
-                                <View style={{ height: 40, flex: 1, borderWidth: 1, borderColor: theme.tagColor, alignItems: 'center', justifyContent: 'center', borderRadius: 20 }}>
+                                <View style={{ ...styles.tagContainer, borderColor: theme.tagColor }} key={index}>
                                     <Text style={{ fontSize: 24, color: theme.textColor }}>{tag.value}</Text>
                                 </View>
                             )
@@ -111,7 +115,7 @@ export default function RecipeScreen({ navigation, route }) {
                             let count = index + 1
                             return (
                                 <View style={{ marginVertical: 4, padding: 8, backgroundColor: theme.intermediateColor, borderRadius: 4 }}>
-                                    <Text style={{ color: theme.textColor, fontSize: 20, }}>{count}.-  
+                                    <Text style={{ color: theme.textColor, fontSize: 20, }}>{count}.-
                                         <Text style={{ flex: 1 }}>{step}</Text>
                                     </Text>
 
@@ -123,7 +127,7 @@ export default function RecipeScreen({ navigation, route }) {
 
                 <View>
                     <Text style={{ ...styles.titleText, color: theme.titleText, marginBottom: 8 }}>Califica esta receta: </Text>
-                    <View style={{...styles.scoreContainer, marginBottom: 8}}>
+                    <View style={{ ...styles.scoreContainer, marginBottom: 8 }}>
                         <Pressable onPress={() => setScore(score === 1 ? 0 : 1)}>
                             {score >= 1 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
@@ -145,9 +149,11 @@ export default function RecipeScreen({ navigation, route }) {
                         ButtonText="Enviar calificacion"
                         TextStyle={{ fontSize: 20, color: theme.textColor }}
                         style={{ borderWidth: 1, borderColor: theme.intermediateColor, marginBottom: 24 }}
-                        onPress={() => uploadCalification(score, UserId, recipe.id)}
+                        onPress={() => uploadCalification(score, uID, recipe.id)}
                     />
                 </View>
+
+                <AlertNotification />
             </ScrollView>
         </MainLayout >
 
@@ -168,5 +174,13 @@ const styles = StyleSheet.create({
     scoreContainer: {
         display: 'flex',
         flexDirection: 'row'
+    },
+    tagContainer: {
+        height: 40,
+        flex: 1,
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 20
     }
 })

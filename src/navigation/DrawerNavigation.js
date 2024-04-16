@@ -52,7 +52,7 @@ function CustomDrawerContent(props) {
     async function checkUserLogged() {
         try {
             const loggedIn = await checkLoggedIn()
-            setLogged(loggedIn)
+            setLogged(loggedIn.logged)
         } catch (error) {
             console.error("Error checking login status:", error)
         }

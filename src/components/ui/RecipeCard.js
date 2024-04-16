@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native"
 import useDynamicStyles from "../styles/genericStyles"
 
-export default function RecipeCard({ recipe, navigation }) {
+export default function RecipeCard({ recipe, navigation, userId, userFavorites }) {
     const theme = useDynamicStyles()
 
     const styles = StyleSheet.create({
@@ -31,7 +31,7 @@ export default function RecipeCard({ recipe, navigation }) {
     })
 
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', { recipe: recipe })}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', { recipe: recipe, uID: userId, uFavs: userFavorites })}>
             <View>
                 <Image source={{ uri: recipe.mainImg }} style={styles.image} resizeMode="cover" />
                 <View style={styles.textContainer}>
