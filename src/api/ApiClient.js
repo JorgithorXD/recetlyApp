@@ -7,7 +7,9 @@ const ENDPOINTS = {
     AddFavorite: (userId, recipeId) => `user/add/favorite/${userId}/recipe/${recipeId}`, // Modificar, no es la ruta
     GetRecipe: (id) => `recipe/get/${id}`,
     CalificateRecipe: (score, userId, recipeId) => `recipe/add/score/${score}/${userId}/recipe/${recipeId}`,
-    GetRecipesByCategory: (cat) => `recipe/get/category/${cat}`
+    GetRecipesByCategory: (cat) => `recipe/get/category/${cat}`,
+    Daily: `recipe/get/daily`,
+    RemoveFavorite: (userId, recipeId) => `user/remove/favorite/${userId}/recipe/${recipeId}`,
 }
 
 export {

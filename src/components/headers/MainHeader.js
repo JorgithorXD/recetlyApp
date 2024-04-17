@@ -16,7 +16,7 @@ export default function MainHeader({ headerStyle, buttonStyle, textStyle, back, 
     return (
         <View style={{ ...styles.header, ...headerStyle }} >
             {!back &&
-                <RoundButton style={{ ...buttonStyle }}>
+                <RoundButton style={{ ...buttonStyle }} onPress={() => navigation.navigate('Search')}>
                     <Search stroke={svg} />
                 </RoundButton>
             }

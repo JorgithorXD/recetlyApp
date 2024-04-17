@@ -18,14 +18,16 @@ export default function RecipeScreen({ navigation, route }) {
     const [score, setScore] = useState(0)
     const theme = useDynamicStyles()
     const [isFavorite, setFavorite] = useState(false)
+    const [alertNotification, setAlert] = useState(false)
+    const [view, setView] = useState()
 
     const scrollViewRef = useRef()
 
     useEffect(() => {
-        setScore(0)
+        setScore(score)
         checkFavorite()
 
-        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
+        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false })
     }, [recipe.id])
 
     function checkFavorite() {
@@ -38,6 +40,8 @@ export default function RecipeScreen({ navigation, route }) {
             const response = await axios.post(`${API_BASE_URL}${ENDPOINTS.CalificateRecipe(score, userId.replace(/"/g, ''), recipeId)}`)
             const data = await response.data
 
+            setScore(score)
+
             Alert.alert(data.data != null ? data.data : data.errorMessage)
         } catch (error) {
             console.log(error)
@@ -49,16 +53,35 @@ export default function RecipeScreen({ navigation, route }) {
             const response = await axios.post(`${API_BASE_URL}${ENDPOINTS.AddFavorite(userId.replace(/"/g, ''), recipeId)}`)
             const data = await response.data
 
+            setFavorite(true)
+
             Alert.alert(data.message)
         } catch (error) {
             console.log(error)
         }
     }
 
-    return (
+    async function removeFavorite(userId, recipeId) {
+        try {
+            const response = await axios.post(`${API_BASE_URL}${ENDPOINTS.RemoveFavorite(userId.replace(/"/g, ''), recipeId)}`)
+            const data = await response.data
 
+            setFavorite(false)
+
+            Alert.alert(data.message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function handleScroll(evt) {
+        const position = evt.nativeEvent.contentOffset.y
+        setView(position)
+    }
+
+    return (
         <MainLayout back={true}>
-            <ScrollView style={{ paddingHorizontal: 10 }} ref={scrollViewRef}>
+            <ScrollView key="RecipeScrollView" style={{ paddingHorizontal: 10 }} ref={scrollViewRef} onScroll={handleScroll}>
                 <Image style={styles.image} source={{ uri: recipe.mainImg }} />
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
                     <View style={{ flex: 1 }}>
@@ -67,20 +90,38 @@ export default function RecipeScreen({ navigation, route }) {
                     </View>
                     <RoundButton
                         style={{ borderWidth: 2, borderColor: theme.mainButton, backgroundColor: isFavorite === true ? theme.mainButton : null }}
-                        onPress={() => addFavorite(uID, recipe.id)}
+                        onPress={() => {
+                            if (!isFavorite) addFavorite(uID, recipe.id)
+                            if (isFavorite) removeFavorite(uID, recipe.id)
+                        }}
                     >
                         <FavoriteSvg fill={theme.svgColor} color={isFavorite === true ? theme.svgColor : null} />
                     </RoundButton>
                 </View>
 
                 <Text style={{ color: theme.textColor, fontSize: 20, marginVertical: 16 }}>{recipe.description}</Text>
+
+                <Text style={{ ...styles.titleText, color: theme.textColor }}>Categorias</Text>
+                <View style={{ gap: 8, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: 8, marginBottom: 24 }}>
+                    {
+                        (recipe.category.tags).map((tag, index) => {
+
+                            return (
+                                <View key={`${index}CatV`} style={{ ...styles.tagContainer, borderColor: theme.tagColor, paddingHorizontal: 24 }}>
+                                    <Text key={`${index}Cat`} style={{ fontSize: 24, color: theme.textColor }}>{tag.value}</Text>
+                                </View>
+                            )
+                        })
+                    }
+                </View>
+
                 <Text style={{ ...styles.titleText, color: theme.textColor }}>Etiquetas</Text>
-                <View style={{ gap: 4, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: 8, marginBottom: 24 }}>
+                <View style={{ gap: 8, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: 8, marginBottom: 24 }}>
                     {
                         (recipe.tag.tags).map((tag, index) => {
                             return (
-                                <View style={{ ...styles.tagContainer, borderColor: theme.tagColor }} key={index}>
-                                    <Text style={{ fontSize: 24, color: theme.textColor }}>{tag.value}</Text>
+                                <View key={`${index}TagV`} style={{ ...styles.tagContainer, borderColor: theme.tagColor, paddingHorizontal: 24 }}>
+                                    <Text key={`${index}Tag`} style={{ fontSize: 24, color: theme.textColor }}>{tag.value}</Text>
                                 </View>
                             )
                         })
@@ -97,10 +138,10 @@ export default function RecipeScreen({ navigation, route }) {
 
                 <View style={{ gap: 2, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 24 }}>
                     {
-                        (recipe.ingredients.ingredients).map(ingredient => {
+                        (recipe.ingredients.ingredients).map((ingredient, index) => {
                             return (
-                                <View style={{ paddingVertical: 4, paddingHorizontal: 12, borderRadius: 4, borderWidth: 1, borderColor: theme.intermediateColor }}>
-                                    <Text style={{ fontSize: 14, color: theme.textColor }}>{ingredient.amount > 0 ? `${ingredient.amount} ${ingredient.unit.value} de ${ingredient.name}` : `${ingredient.unit.value} de ${ingredient.name}`}</Text>
+                                <View key={`${index}IngV`} style={{ paddingVertical: 4, paddingHorizontal: 12, borderRadius: 4, borderWidth: 1, borderColor: theme.intermediateColor }}>
+                                    <Text key={`${index}Ing`} style={{ fontSize: 14, color: theme.textColor }}>{ingredient.amount > 0 ? `${ingredient.amount} ${ingredient.unit.value} de ${ingredient.name}` : `${ingredient.unit.value} de ${ingredient.name}`}</Text>
                                 </View>
 
                             )
@@ -114,9 +155,9 @@ export default function RecipeScreen({ navigation, route }) {
                         (recipe.steps.steps).map((step, index) => {
                             let count = index + 1
                             return (
-                                <View style={{ marginVertical: 4, padding: 8, backgroundColor: theme.intermediateColor, borderRadius: 4 }}>
+                                <View key={`${index}StepV`} style={{ marginVertical: 4, padding: 8, backgroundColor: theme.intermediateColor, borderRadius: 4 }}>
                                     <Text style={{ color: theme.textColor, fontSize: 20, }}>{count}.-
-                                        <Text style={{ flex: 1 }}>{step}</Text>
+                                        <Text key={`${index}Step`} style={{ flex: 1 }}>{step}</Text>
                                     </Text>
 
                                 </View>
@@ -129,19 +170,19 @@ export default function RecipeScreen({ navigation, route }) {
                     <Text style={{ ...styles.titleText, color: theme.titleText, marginBottom: 8 }}>Califica esta receta: </Text>
                     <View style={{ ...styles.scoreContainer, marginBottom: 8 }}>
                         <Pressable onPress={() => setScore(score === 1 ? 0 : 1)}>
-                            {score >= 1 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
+                            {score >= 1 ? <FullStar color={theme.svgColor} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 2 ? 0 : 2)}>
-                            {score >= 2 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
+                            {score >= 2 ? <FullStar color={theme.svgColor} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 3 ? 0 : 3)}>
-                            {score >= 3 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
+                            {score >= 3 ? <FullStar color={theme.svgColor} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 4 ? 0 : 4)}>
-                            {score >= 4 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
+                            {score >= 4 ? <FullStar color={theme.svgColor} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                         <Pressable onPress={() => setScore(score === 5 ? 0 : 5)}>
-                            {score >= 5 ? <FullStar color={"#f1f1f1"} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
+                            {score >= 5 ? <FullStar color={theme.svgColor} size={40} /> : <EmptyStar color={theme.svgColor} size={40} />}
                         </Pressable>
                     </View>
 
@@ -152,8 +193,6 @@ export default function RecipeScreen({ navigation, route }) {
                         onPress={() => uploadCalification(score, uID, recipe.id)}
                     />
                 </View>
-
-                <AlertNotification />
             </ScrollView>
         </MainLayout >
 
@@ -177,10 +216,9 @@ const styles = StyleSheet.create({
     },
     tagContainer: {
         height: 40,
-        flex: 1,
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 20
+        borderRadius: 20,
     }
 })

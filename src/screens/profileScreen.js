@@ -5,12 +5,16 @@ import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import UserProfileLoading from "../components/ui/loading/UserProgileLoading"
 import checkLoggedIn from "../utils/authUtil"
+import useDynamicStyles from "../components/styles/genericStyles"
 
 export default function UserProfile() {
     const [userData, setUserData] = useState(null)
     const [loadingUserData, setLoadingUserData] = useState(false)
     const [isLogged, setLogged] = useState(false)
     const [id, setId] = useState()
+    const [favRecipes, setFavRecipes] = useState()
+
+    const theme = useDynamicStyles()
 
     useEffect(() => {
 
@@ -42,78 +46,64 @@ export default function UserProfile() {
         }
     }
 
-    if (!isLogged || loadingUserData) {
-        return (
-            <MainLayout back={true}>
-                <View style={{ flex: 1, ...styles.container }}>
-                    <UserProfileLoading />
-                </View>
-            </MainLayout>
-        )
-    }
+    const styles = StyleSheet.create({
+        image: {
+            borderRadius: 65,
+            alignSelf: 'center',
+        },
+        userPersonalData: {
+            borderRadius: 15,
+            padding: 15,
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: theme.intermediateColor
+        },
+        textUserName: {
+            fontSize: 32,
+            fontWeight: '500',
+            color: theme.textColor
+        },
+        textName: {
+            fontSize: 22,
+            fontWeight: '400',
+            color: theme.textColor
+        },
+        container: {
+            padding: 10,
+        },
+        sectionTitle: {
+            fontSize: 25,
+            fontWeight: '400',
+            color: theme.textColor
+        }
+    })
 
     return (
         <MainLayout>
             <View style={{ flex: 1, ...styles.container }}>
-                <View style={styles.imageDataContainer}>
+                <View style={{ width: '100%', aspectRatio: 16 / 6, backgroundColor: theme.intermediateColor, zIndex: 1, borderRadius: 8, marginBottom: 8 }} >
                     {!loadingUserData && userData && (
                         <Image
-                            style={[styles.image]}
+                            style={{ ...styles.image, position: 'absolute', bottom: -45, zIndex: 2, right: 20 }}
                             source={{ uri: userData.user.user_pfp }}
-                            width={80}
-                            height={80}
+                            width={130}
+                            height={130}
                             resizeMode={'contain'}
                         />
                     )}
+                </View>
+                <View style={[styles.userPersonalData]}>
                     {!loadingUserData && userData && (
-                        <View style={[styles.userPersonalData]}>
+                        <View>
                             <Text style={styles.textUserName}>{userData.user.user_username}</Text>
                             <Text style={styles.textName}>{userData.user.user_name + " " + userData.user.user_last_name}</Text>
                         </View>
                     )}
                 </View>
-                {!loadingUserData && userData && (
-                    <Text style={{ fontSize: 32, color: "#222222", textAlign: 'center', marginVertical: 10, fontWeight: '500' }}>Recetas de {userData.user.user_username}</Text>
-                )}
+
+                <Text style={{ ...styles.sectionTitle }}>Recetas</Text>
 
             </View>
         </MainLayout>
     )
 }
-
-const styles = StyleSheet.create({
-    image: {
-        borderRadius: 40,
-        alignSelf: 'center',
-        borderWidth: 2,
-        borderColor: 'red'
-    },
-    userPersonalData: {
-        backgroundColor: 'pink',
-        borderRadius: 15,
-        padding: 15,
-        flex: 1,
-        justifyContent: 'center',
-    },
-    textUserName: {
-        fontSize: 30,
-        fontWeight: '500'
-    },
-    textName: {
-        fontSize: 22,
-        fontWeight: '400'
-    },
-    container: {
-        padding: 10,
-    },
-    imageDataContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
-        overflow: 'hidden',
-        gap: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 8
-    }
-})

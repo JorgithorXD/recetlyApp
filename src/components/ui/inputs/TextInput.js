@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 export function Input({ Placeholder, Label, onChangeText, style, LabelColor, Type }) {
     return (
         <View>
-            <Text style={{ color: LabelColor, fontSize: 28, marginBottom: 4 }}>{Label}</Text>
+            {Label != null && <Text style={{ color: LabelColor, fontSize: 28, marginBottom: 4 }}>{Label}</Text>}
             <TextInput
                 placeholder={Placeholder}
                 onChangeText={onChangeText}
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
         color: '#010101',
         paddingHorizontal: 10,
         fontSize: 20,
-        borderRadius: 4
+        borderRadius: 4,
     }
 })

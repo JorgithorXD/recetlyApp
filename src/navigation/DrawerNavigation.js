@@ -18,6 +18,7 @@ import RecipeScreen from "../screens/RecipeScreen"
 import FavoriteScreen from "../screens/Favorites"
 import SettingsScreen from "../screens/Settings"
 import useDynamicStyles from "../components/styles/genericStyles"
+import SearchScreen from "../screens/SearchScreen"
 
 const Drawer = createDrawerNavigator()
 
@@ -95,6 +96,7 @@ export default function DrawerNavigation() {
             <Drawer.Screen name="Recipe" component={RecipeScreen} />
             <Drawer.Screen name="Favorite" component={FavoriteScreen} />
             <Drawer.Screen name="Settings" component={SettingsScreen} />
+            <Drawer.Screen name="Search" component={SearchScreen} />
         </Drawer.Navigator>
     )
 }

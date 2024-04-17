@@ -1,42 +1,46 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { View, Text, Animated, TouchableOpacity, StyleSheet, Easing, Dimensions } from "react-native"
 
-export default function AlertNotification() {
+export default function AlertNotification({ onEnd, Message, Pos }) {
     const height = Dimensions.get('screen')
+    const height2 = Dimensions.get('window')
+
+    console.log(Pos)
+
+    console.log(height.height)
+    console.log(height2.height)
 
     const [progressWidth] = useState(new Animated.Value(0))
-    const [notificationPosition] = useState(new Animated.Value(height.height))
-
-
+    const [notificationPosition] = useState(new Animated.Value(-100))
+    const [scroll, setScroll] = useState(0)
 
     useEffect(() => {
         const moveUpAnimation = Animated.timing(notificationPosition, {
-            toValue: height.height - 200,
+            toValue: 20,
             duration: 500,
             useNativeDriver: false,
             easing: Easing.inOut(Easing.ease),
-        });
+        })
 
         const progressAnimation = Animated.timing(progressWidth, {
             toValue: 1,
-            duration: 4000,
+            duration: 3000,
             useNativeDriver: false,
             easing: Easing.inOut(Easing.ease),
-        });
+        })
 
         const moveDownAnimation = Animated.timing(notificationPosition, {
-            toValue: height.height + 500,
-            duration: 800,
+            toValue: -150,
+            duration: 400,
             useNativeDriver: false,
             easing: Easing.inOut(Easing.ease),
-        });
+        })
 
-        // Encadenar las animaciones en el orden deseado
         Animated.sequence([
             moveUpAnimation,
             progressAnimation,
             moveDownAnimation,
-        ]).start();
+        ]).start(() => onEnd(false))
     }, [])
 
     const styles = StyleSheet.create({
@@ -53,7 +57,7 @@ export default function AlertNotification() {
             flexDirection: "column",
             overflow: "hidden",
             position: "absolute", // Ajusta la posición para animarla
-            top: notificationPosition, // Aplica la posición animada
+            bottom: notificationPosition, // Aplica la posición animada
         },
         notificationText: {
             color: "#222222",
@@ -64,27 +68,28 @@ export default function AlertNotification() {
             position: "absolute",
             bottom: 0,
         },
-    });
+    })
 
-    // Estilo dinámico para la barra de progreso utilizando Animated.View
     const progressBarStyle = {
         width: progressWidth.interpolate({
             inputRange: [0, 1],
             outputRange: ["0%", "100%"],
         }),
-    };
+    }
 
     return (
-        <Animated.View style={[styles.notification]}>
-            <View style={{ padding: 10, backgroundColor: "#c1c1c1" }}>
-                <TouchableOpacity onPress={() => { }}>
-                    {/* Aquí puedes agregar la lógica para mostrar la notificación */}
-                </TouchableOpacity>
-                <Text style={styles.notificationText}>
-                    ¡Hola! Esta es una notificación.
-                </Text>
-            </View>
-            <Animated.View style={[styles.progressBar, progressBarStyle]} />
-        </Animated.View>
-    );
+        <View style={{ backgroundColor: 'pink', position: 'absolute', top: 0, width: '100%', height: height2.height }}>
+            <Animated.View style={[styles.notification]}>
+                <View style={{ padding: 10, backgroundColor: "#c1c1c1" }}>
+                    <TouchableOpacity onPress={() => { onEnd(false) }}>
+                        {/* Aquí puedes agregar la lógica para mostrar la notificación */}
+                    </TouchableOpacity>
+                    <Text style={styles.notificationText}>
+                        {Message}
+                    </Text>
+                </View>
+                <Animated.View style={[styles.progressBar, progressBarStyle]} />
+            </Animated.View>
+        </View>
+    )
 }

@@ -8,6 +8,7 @@ import { RoundButton } from "../components/ui/buttons/RoundButton"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import DailyCard from "../components/ui/DailyCard.js"
 
 export default function Home() {
     const [recipes, setRecipes] = useState(null)
@@ -16,6 +17,8 @@ export default function Home() {
     const theme = useDynamicStyles()
     const [UserId, setUserId] = useState()
     const [userFavorites, setUserData] = useState()
+    const [daily, setDaily] = useState()
+    const [mex, setMex] = useState()
 
     async function getUserData() {
         try {
@@ -50,21 +53,40 @@ export default function Home() {
         }
     }
 
+    async function getMex() {
+        try {
+            const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GetRecipesByCategory('1')}`)
+            setMex(await response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function getDaily() {
+        try {
+            const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.Daily}`)
+            setDaily(await response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         getRecipes()
         getUserData()
         getPostres()
+        getDaily()
+        getMex()
     }, [])
 
     return (
         <MainLayout back={false}>
-            <ScrollView style={{ paddingHorizontal: 10 }}>
+            <ScrollView key={'HomeScrollView'} style={{ paddingHorizontal: 10 }}>
                 <RoundButton style={{ position: 'absolute' }} />
 
-                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Recetas del dia</Text>
-                <View style={{ width: '100%', aspectRatio: 16 / 9, backgroundColor: '#B8C0FF', alignSelf: 'center', borderRadius: 8 }}>
-                    <Text>SA .-. ._. .///.</Text>
+                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Receta del dia</Text>
+                <View style={{ width: '100%', aspectRatio: 16 / 9, alignSelf: 'center', borderRadius: 8, borderWidth: 1, borderColor: theme.intermediateColor, overflow: 'hidden' }}>
+                    {daily && <DailyCard navigation={navigation} recipe={daily} userId={UserId} userFavorites={userFavorites} />}
                 </View>
 
                 <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Recetas destacadas</Text>
@@ -82,6 +104,18 @@ export default function Home() {
                 <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Hora de un Postre</Text>
                 <FlatList
                     data={postres}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 6 }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item: recipe }) => (
+                        <RecipeCard recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
+                    )}
+                />
+
+                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>¡Viva Mexico!</Text>
+                <FlatList
+                    data={mex}
                     style={{ alignSelf: 'center' }}
                     contentContainerStyle={{ gap: 6 }}
                     horizontal={true}
