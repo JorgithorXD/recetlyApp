@@ -35,9 +35,9 @@ export default function MyRecipesScreen() {
     return (
         <MainLayout back={true} Title={"Mis recetas"}>
             <ScrollView style = {{flex: 1, paddingHorizontal: 10}}>
-                <View></View>
+                <View style={{margin: '3%'}}></View>
 
-                <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'center',}}>
                     {recipes && recipes.map(recipe => {
                         return (
                             <RecipeCard key={recipe.id} recipe={recipe} />
