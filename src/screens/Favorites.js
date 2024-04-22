@@ -35,7 +35,7 @@ export default function FavoriteScreen() {
     return (
         <MainLayout back={true} Title={"Favoritos"}>
             <ScrollView style={{ flex: 1, paddingHorizontal: 10 }}>
-                <View></View>
+                <View style={{margin: '3%'}}></View>
 
                 <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'center' }}>
                     {recipes && recipes.map(recipe => {
