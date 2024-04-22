@@ -20,7 +20,7 @@ export default function SignUpPassword({ navigation, route }) {
         try {
             setLoading(true)
             const response = await axios.post(
-                'https://recipes-api-dev.koyeb.app/user/auth/v2/register',
+                'https://recipes-api-dev.koyeb.app/user/auth/v1/register',
                 {
                     img: personalData.image,
                     name: personalData.name,

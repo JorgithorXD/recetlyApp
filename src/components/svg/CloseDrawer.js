@@ -3,8 +3,8 @@ import { Svg, Path } from "react-native-svg"
 export default function CloseDrawer({ fill }) {
     return (
         <Svg
-            width={30}
-            height={30}
+            width={28}
+            height={28}
             viewBox="0 0 16 16"
             fill={fill}
         >

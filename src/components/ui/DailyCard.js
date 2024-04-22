@@ -7,27 +7,22 @@ export default function DailyCard({ recipe, navigation, userId, userFavorites })
     const styles = StyleSheet.create({
         card: {
             flex: 1,
+            height: 'auto'
         },
         image: {
-            flex: 1
+            flex: 1,
+            width: '100%',
         },
         imageContainer: {
-            paddingVertical: 4,
             paddingHorizontal: 8,
-            flex: 1,
-            position: 'absolute',
             display: 'flex',
-            justifyContent: 'flex-end',
-            backgroundColor: theme.intermediateColor,
             borderRadius: 4,
-            bottom: 8,
-            left: 8,
+            backgroundColor: theme.backgroundColor,
         },
         text: {
             fontSize: 30,
             fontWeight: '700',
-            color: "#111111",
-            paddingHorizontal: 8,
+            color: theme.textColor
         }
     })
 

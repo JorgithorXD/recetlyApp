@@ -1,95 +1,84 @@
-import { useState, useEffect, useRef } from "react"
-import { View, Text, Animated, TouchableOpacity, StyleSheet, Easing, Dimensions } from "react-native"
+import React, { useState, useEffect } from 'react'
+import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native'
+import CloseDrawer from '../../svg/CloseDrawer'
+import useDynamicStyles from '../../styles/genericStyles'
+import WarnIcon from '../../svg/Warn'
+import SuccessIcon from '../../../screens/Success'
 
-export default function AlertNotification({ onEnd, Message, Pos }) {
-    const height = Dimensions.get('screen')
-    const height2 = Dimensions.get('window')
+export default function AlertNotification({ Message, OnEnd, icon }) {
+    const [modalVisible, setModalVisible] = useState(true)
+    const theme = useDynamicStyles()
 
-    console.log(Pos)
-
-    console.log(height.height)
-    console.log(height2.height)
-
-    const [progressWidth] = useState(new Animated.Value(0))
-    const [notificationPosition] = useState(new Animated.Value(-100))
-    const [scroll, setScroll] = useState(0)
+    function timerClose() {
+        setTimeout(() => {
+            OnEnd(false)
+        }, 1700)
+    }
 
     useEffect(() => {
-        const moveUpAnimation = Animated.timing(notificationPosition, {
-            toValue: 20,
-            duration: 500,
-            useNativeDriver: false,
-            easing: Easing.inOut(Easing.ease),
-        })
-
-        const progressAnimation = Animated.timing(progressWidth, {
-            toValue: 1,
-            duration: 3000,
-            useNativeDriver: false,
-            easing: Easing.inOut(Easing.ease),
-        })
-
-        const moveDownAnimation = Animated.timing(notificationPosition, {
-            toValue: -150,
-            duration: 400,
-            useNativeDriver: false,
-            easing: Easing.inOut(Easing.ease),
-        })
-
-        Animated.sequence([
-            moveUpAnimation,
-            progressAnimation,
-            moveDownAnimation,
-        ]).start(() => onEnd(false))
+        timerClose()
     }, [])
 
     const styles = StyleSheet.create({
-        notification: {
-            backgroundColor: "#fff2d3",
-            borderRadius: 5,
+        centeredView: {
             flex: 1,
-            width: "100%",
-            borderWidth: 2,
-            borderColor: "#ffa732",
-            borderRadius: 20,
+            justifyContent: 'flex-end',
+        },
+        modalView: {
+            margin: 16,
+            backgroundColor: theme.intermediateColor,
+            borderRadius: 30,
+            alignItems: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
+            display: 'flex',
+            flexDirection: 'row',
             height: 60,
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-            position: "absolute", // Ajusta la posición para animarla
-            bottom: notificationPosition, // Aplica la posición animada
+            justifyContent: 'space-between'
         },
-        notificationText: {
-            color: "#222222",
-        },
-        progressBar: {
-            height: 10,
-            backgroundColor: "red",
-            position: "absolute",
-            bottom: 0,
+        modalText: {
+            color: theme.textColor,
+            fontSize: 22,
         },
     })
 
-    const progressBarStyle = {
-        width: progressWidth.interpolate({
-            inputRange: [0, 1],
-            outputRange: ["0%", "100%"],
-        }),
+    const iconVariant = {
+        warn: <WarnIcon fill={theme.svgColor} />,
+        success: <SuccessIcon fill={theme.svgColor} />
     }
 
     return (
-        <View style={{ backgroundColor: 'pink', position: 'absolute', top: 0, width: '100%', height: height2.height }}>
-            <Animated.View style={[styles.notification]}>
-                <View style={{ padding: 10, backgroundColor: "#c1c1c1" }}>
-                    <TouchableOpacity onPress={() => { onEnd(false) }}>
-                        {/* Aquí puedes agregar la lógica para mostrar la notificación */}
-                    </TouchableOpacity>
-                    <Text style={styles.notificationText}>
-                        {Message}
-                    </Text>
+        <View style={{}}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.')
+                    setModalVisible(!modalVisible)
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={{ marginLeft: 16 }}>
+                            {iconVariant[icon]}
+                        </View>
+
+                        <Text style={styles.modalText}>{Message}</Text>
+
+                        <Pressable
+                            style={{ backgroundColor: theme.mainButton, padding: 4, borderRadius: 50, marginRight: 16 }}
+                            onPress={() => OnEnd(false)}>
+                            <CloseDrawer fill={theme.svgColor} />
+                        </Pressable>
+                    </View>
                 </View>
-                <Animated.View style={[styles.progressBar, progressBarStyle]} />
-            </Animated.View>
+            </Modal>
         </View>
     )
 }

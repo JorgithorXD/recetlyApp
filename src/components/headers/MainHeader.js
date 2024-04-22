@@ -1,12 +1,12 @@
-import { View, StyleSheet, Text } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import { RoundButton } from "../ui/buttons/RoundButton"
-import bluePallete from "../utils/blue"
-import ShowDrawer from "../svg/ShowDrawer"
-import Search from "../svg/Search"
+import { StyleSheet, Text, View } from "react-native"
 import Back from "../svg/Back"
+import Search from "../svg/Search"
+import ShowDrawer from "../svg/ShowDrawer"
+import { RoundButton } from "../ui/buttons/RoundButton"
+import { Pressable } from "react-native"
 
-export default function MainHeader({ headerStyle, buttonStyle, textStyle, back, svg }) {
+export default function MainHeader({ headerStyle, buttonStyle, textStyle, back, svg, text = "RECETLY", drawer = true }) {
     const navigation = useNavigation()
 
     const handleOpenDrawer = () => {
@@ -25,10 +25,15 @@ export default function MainHeader({ headerStyle, buttonStyle, textStyle, back, 
                     <Back fill={svg} />
                 </RoundButton>
             }
-            <Text style={{ fontSize: 42, fontWeight: '600', ...textStyle }}>RECETLY</Text>
-            <RoundButton style={{ ...buttonStyle }} onPress={handleOpenDrawer}>
-                <ShowDrawer stroke={svg} />
-            </RoundButton>
+            <Pressable onPress={()=> navigation.replace('Drawer')}><Text style={{ fontSize: 42, fontWeight: '600', ...textStyle }}>{text}</Text></Pressable>
+            {drawer &&
+                <RoundButton style={{ ...buttonStyle }} onPress={handleOpenDrawer}>
+                    <ShowDrawer stroke={svg} />
+                </RoundButton>}
+
+            {!drawer &&
+                <RoundButton />
+            }
         </View >
     )
 }

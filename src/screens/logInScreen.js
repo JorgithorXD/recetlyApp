@@ -1,17 +1,17 @@
-import React, { useState } from "react"
-import { View, Text, StyleSheet, Keyboard, Alert, Pressable } from 'react-native'
-import { Button } from "../components/ui/buttons/Button"
-import { Input } from "../components/ui/inputs/TextInput"
-import { PasswordInput } from "../components/ui/inputs/PasswordInput"
-import bluePallete from "../components/utils/blue"
-import Warning from "../components/ui/notifications/warnNotification"
-import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import Loading from "../components/ui/loading/Loading"
-import { Anchor } from "../components/ui/buttons/AnchorButton"
+import axios from "axios"
+import React, { useState } from "react"
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
-import ExtraLayout from "../components/ui/layouts/ExtraLayout"
 import useDynamicStyles from "../components/styles/genericStyles"
+import { Anchor } from "../components/ui/buttons/AnchorButton"
+import { Button } from "../components/ui/buttons/Button"
+import { PasswordInput } from "../components/ui/inputs/PasswordInput"
+import { Input } from "../components/ui/inputs/TextInput"
+import ExtraLayout from "../components/ui/layouts/ExtraLayout"
+import Loading from "../components/ui/loading/Loading"
+import Warning from "../components/ui/notifications/warnNotification"
+import bluePallete from "../components/utils/blue"
 
 export default function LogIn({ navigation }) {
     const [email, setEmail] = useState("")

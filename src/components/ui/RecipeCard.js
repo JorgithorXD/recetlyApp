@@ -12,7 +12,6 @@ export default function RecipeCard({ recipe, navigation, userId, userFavorites }
         },
         card: {
             width: 170,
-            aspectRatio: 1,
             overflow: 'hidden',
             opacity: 1,
             display: 'flex',
@@ -26,7 +25,8 @@ export default function RecipeCard({ recipe, navigation, userId, userFavorites }
             flex: 1,
             marginTop: 4,
             paddingHorizontal: 8,
-            paddingTop: 4
+            paddingTop: 4,
+            minHeight: 30
         },
     })
 

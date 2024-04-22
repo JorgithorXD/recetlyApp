@@ -1,10 +1,10 @@
+import { ScrollView, Text, View, StyleSheet } from "react-native"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import IsLoggedIn from "../utils/authUtil"
-import { View, Text, ScrollView } from "react-native"
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import RecipeCard from "../components/ui/RecipeCard"
 
-export default function FavoriteScreen() {
+export default function MyRecipesScreen() {
     const [recipes, setRecipes] = useState()
     const [loading, setLoading] = useState(false)
 
@@ -17,7 +17,7 @@ export default function FavoriteScreen() {
         try {
             const Data = await IsLoggedIn()
 
-            setRecipes(Data.dataFavRecipes)
+            setRecipes(Data.UserRecipes)
             setLoading(false)
         } catch (error) {
             console.log(error)
@@ -33,8 +33,8 @@ export default function FavoriteScreen() {
     }
 
     return (
-        <MainLayout back={true} Title={"Favoritos"}>
-            <ScrollView style={{ flex: 1, paddingHorizontal: 10 }}>
+        <MainLayout back={true} Title={"Mis recetas"}>
+            <ScrollView style = {{flex: 1, paddingHorizontal: 10}}>
                 <View></View>
 
                 <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center', justifyContent: 'center' }}>

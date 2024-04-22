@@ -1,14 +1,15 @@
 import { useNavigation } from "@react-navigation/native"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { FlatList, ScrollView, Text, View, StyleSheet } from "react-native"
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native"
+import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
 import useDynamicStyles from '../components/styles/genericStyles.ts'
+import DailyCard from "../components/ui/DailyCard.js"
 import RecipeCard from "../components/ui/RecipeCard.js"
 import { RoundButton } from "../components/ui/buttons/RoundButton"
 import MainLayout from "../components/ui/layouts/MainLayout"
-import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import DailyCard from "../components/ui/DailyCard.js"
+import IsLoggedIn from "../utils/authUtil.js"
+import Add from "../components/svg/AddRecipe.js"
 
 export default function Home() {
     const [recipes, setRecipes] = useState(null)
@@ -22,14 +23,11 @@ export default function Home() {
 
     async function getUserData() {
         try {
-            const UserId = await AsyncStorage.getItem('UserId')
+            const Data = await IsLoggedIn()
+            setUserId(Data.ID)
+            setUserData(Data.favRecipes)
 
-            const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GetUserData(UserId.replace(/"/g, ''))}`)
-            const data = await response.data
-
-            setUserData(data.favoriteRecipes.recipes_id)
-
-            setUserId(UserId)
+            setUserId(Data.ID)
         } catch (error) {
             console.log(error)
         }
@@ -37,7 +35,7 @@ export default function Home() {
 
     async function getRecipes() {
         try {
-            const response = await axios.get('https://recipes-api-dev.koyeb.app/api/v1/recipe/get/all')
+            const response = await axios.get('https://recipes-api-dev.koyeb.app/api/v1/recipe/get/all/')
             setRecipes(await response.data)
         } catch (error) {
             console.log(error)
@@ -82,8 +80,6 @@ export default function Home() {
     return (
         <MainLayout back={false}>
             <ScrollView key={'HomeScrollView'} style={{ paddingHorizontal: 10 }}>
-                <RoundButton style={{ position: 'absolute' }} />
-
                 <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Receta del dia</Text>
                 <View style={{ width: '100%', aspectRatio: 16 / 9, alignSelf: 'center', borderRadius: 8, borderWidth: 1, borderColor: theme.intermediateColor, overflow: 'hidden' }}>
                     {daily && <DailyCard navigation={navigation} recipe={daily} userId={UserId} userFavorites={userFavorites} />}
@@ -97,7 +93,7 @@ export default function Home() {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item: recipe }) => (
-                        <RecipeCard recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
+                        <RecipeCard key={recipe.id} recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
                     )}
                 />
 
@@ -125,9 +121,14 @@ export default function Home() {
                     )}
                 />
 
-                {/*Este View sirve para dejar un esoacio al final de la pantalla*/}
-                <View style={{ marginBottom: 30 }}></View>
+                <RoundButton
+                    onPress={() => navigation.navigate('AddRecipe')}
+                    style={{ position: 'sticky', backgroundColor: theme.mainButton, zIndex: 2, bottom: 32, right: 8, width: 70, aspectRatio: 1, borderRadius: 25 }}>
+                    <Add size={40} fill={theme.svgColor} />
+                </RoundButton>
 
+                {/*Este View sirve para dejar un esoacio al final de la pantalla*/}
+                <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
         </MainLayout>
     )

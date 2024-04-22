@@ -6,10 +6,12 @@ const ENDPOINTS = {
     GetUserData: (id) => `user/get-data/${id}`,
     AddFavorite: (userId, recipeId) => `user/add/favorite/${userId}/recipe/${recipeId}`, // Modificar, no es la ruta
     GetRecipe: (id) => `recipe/get/${id}`,
+    GetRecipeCard: (id) => `recipe/get/${id}/basic`,
     CalificateRecipe: (score, userId, recipeId) => `recipe/add/score/${score}/${userId}/recipe/${recipeId}`,
     GetRecipesByCategory: (cat) => `recipe/get/category/${cat}`,
     Daily: `recipe/get/daily`,
     RemoveFavorite: (userId, recipeId) => `user/remove/favorite/${userId}/recipe/${recipeId}`,
+    GetRecipesBasic: `recipe/get/all/basic`
 }
 
 export {

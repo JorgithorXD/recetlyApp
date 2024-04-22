@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import MainStack from './src/navigation/mainStack'
+import MainStack from './src/navigation/StackNavigation'
 
 
 export default function App() {

@@ -1,24 +1,25 @@
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer"
-import Home from "../screens/homeScreen"
-import UserProfile from "../screens/ProfileScreen"
-import { RoundButton } from "../components/ui/buttons/RoundButton"
-import { View, StyleSheet } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useState, useEffect } from "react"
-import checkLoggedIn from "../utils/authUtil"
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer"
+import { useEffect, useState } from "react"
+import { StyleSheet, View } from "react-native"
+import useDynamicStyles from "../components/styles/genericStyles"
 import CloseDrawer from "../components/svg/CloseDrawer"
-import Profile from "../components/svg/Profile"
-import LogOut from "../components/svg/LogOut"
+import FavoriteSvg from "../components/svg/Favorite"
 import HomeSVG from "../components/svg/Home"
 import LogInSvg from "../components/svg/LogIn"
-import SettingsSvg from "../components/svg/Settings"
-import FavoriteSvg from "../components/svg/Favorite"
+import LogOut from "../components/svg/LogOut"
 import MyRecipes from "../components/svg/MyRecipes"
-import RecipeScreen from "../screens/RecipeScreen"
+import Profile from "../components/svg/Profile"
+import SettingsSvg from "../components/svg/Settings"
+import { RoundButton } from "../components/ui/buttons/RoundButton"
+import AddRecipeScreen from "../screens/AddRecipeScreen"
 import FavoriteScreen from "../screens/Favorites"
-import SettingsScreen from "../screens/Settings"
-import useDynamicStyles from "../components/styles/genericStyles"
+import Home from "../screens/homeScreen"
+import MyRecipesScreen from "../screens/MyRecipesScreen"
+import RecipeScreen from "../screens/RecipeScreen"
 import SearchScreen from "../screens/SearchScreen"
+import SettingsScreen from "../screens/Settings"
+import { ProfileStack } from "./StackNavigation"
 
 const Drawer = createDrawerNavigator()
 
@@ -47,13 +48,15 @@ function CustomDrawerContent(props) {
     })
 
     useEffect(() => {
-        checkUserLogged()
+        IsLogged()
     }, [])
 
-    async function checkUserLogged() {
+    async function IsLogged() {
         try {
-            const loggedIn = await checkLoggedIn()
-            setLogged(loggedIn.logged)
+            const UserId = await AsyncStorage.getItem('UserId')
+            const Data = await JSON.parse(UserId)
+
+            setLogged(Data && Data.length > 0)
         } catch (error) {
             console.error("Error checking login status:", error)
         }
@@ -69,12 +72,12 @@ function CustomDrawerContent(props) {
                 </View>
                 <DrawerItem label="Pagina principal" onPress={() => props.navigation.navigate('Home')} icon={() => <HomeSVG fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Perfil" onPress={() => props.navigation.navigate('Perfil')} icon={() => <Profile fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
-                <DrawerItem label="Mis recetas" onPress={() => props.navigation.navigate('Perfil')} icon={() => <MyRecipes fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
+                <DrawerItem label="Mis recetas" onPress={() => props.navigation.navigate('MyRecipes')} icon={() => <MyRecipes fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Favoritos" onPress={() => props.navigation.navigate('Favorite')} icon={() => <FavoriteSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
                 <DrawerItem label="Configuracion" onPress={() => props.navigation.navigate('Settings')} icon={() => <SettingsSvg fill={theme.svgColor} />} style={{ ...styles.item }} labelStyle={styles.label} />
             </View>
             {isLogged && <DrawerItem label="Cerrar sesion" onPress={() => {
-                AsyncStorage.removeItem('UserData')
+                AsyncStorage.removeItem('UserId')
                 props.navigation.replace('StartScreen')
             }}
                 icon={() => <LogOut color={theme.svgColor} />} style={{ ...styles.item, ...styles.lastItem }} labelStyle={styles.label}
@@ -90,13 +93,15 @@ function CustomDrawerContent(props) {
 
 export default function DrawerNavigation() {
     return (
-        <Drawer.Navigator screenOptions={{ drawerPosition: "right", headerShown: false }} drawerContent={props => <CustomDrawerContent {...props} />}>
+        <Drawer.Navigator screenOptions={{ drawerPosition: "right", headerShown: false, }} backBehavior="history" drawerContent={props => <CustomDrawerContent {...props} />}>
             <Drawer.Screen name="Home" component={Home} />
-            <Drawer.Screen name="Perfil" component={UserProfile} />
+            <Drawer.Screen name="Perfil" component={ProfileStack} />
             <Drawer.Screen name="Recipe" component={RecipeScreen} />
             <Drawer.Screen name="Favorite" component={FavoriteScreen} />
             <Drawer.Screen name="Settings" component={SettingsScreen} />
             <Drawer.Screen name="Search" component={SearchScreen} />
+            <Drawer.Screen name="AddRecipe" component={AddRecipeScreen} />
+            <Drawer.Screen name="MyRecipes" component={MyRecipesScreen} />
         </Drawer.Navigator>
     )
 }

@@ -7,8 +7,23 @@ import LoadingScreen from "../screens/RunningScreen"
 import SignUp from "../screens/SignUp"
 import SignUpEmail from "../screens/SignUpEmail"
 import SignUpPassword from "../screens/SignUpPassword"
+import UserProfile from "../screens/ProfileScreen"
+import EditProfile from "../screens/EditProfile"
 
 const Stack = createNativeStackNavigator()
+
+export function ProfileStack() {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Group>
+                <Stack.Screen name="ProfileScreen" component={UserProfile} />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: 'modal', animation: "slide_from_bottom" }}>
+                <Stack.Screen name="EditProfileScreen" component={EditProfile} />
+            </Stack.Group>
+        </Stack.Navigator>
+    )
+}
 
 export default function MainStack() {
     return (
