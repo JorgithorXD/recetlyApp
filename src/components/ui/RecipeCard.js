@@ -11,11 +11,12 @@ export default function RecipeCard({ recipe, navigation, userId, userFavorites }
             borderRadius: 8
         },
         card: {
-            width: 170,
+            width: 180,
             overflow: 'hidden',
             opacity: 1,
             display: 'flex',
             flexDirection: 'row',
+            margin: 3,
         },
         textContainer: {
             width: '100%',
@@ -23,10 +24,11 @@ export default function RecipeCard({ recipe, navigation, userId, userFavorites }
             borderWidth: 1,
             borderColor: theme.intermediateColor,
             flex: 1,
-            marginTop: 4,
+            marginTop: 6,
             paddingHorizontal: 8,
             paddingTop: 4,
-            minHeight: 30
+            minHeight: 30,
+            alignItems: 'center',
         },
     })
 
