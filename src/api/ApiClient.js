@@ -11,7 +11,10 @@ const ENDPOINTS = {
     GetRecipesByCategory: (cat) => `recipe/get/category/${cat}`,
     Daily: `recipe/get/daily`,
     RemoveFavorite: (userId, recipeId) => `user/remove/favorite/${userId}/recipe/${recipeId}`,
-    GetRecipesBasic: `recipe/get/all/basic`
+    GetRecipesBasic: `recipe/get/all/basic`,
+    CheckRecipeFavorite: (userId, recipeId) => `user/check/favorite/${userId}/recipe/${recipeId}`,
+    GetUserScores: (userId) => `user/get/score/${userId}`,
+    GetRecipeScore: (recipeId) => `recipe/get/score/${recipeId}`
 }
 
 export {

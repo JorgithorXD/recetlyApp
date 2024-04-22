@@ -10,8 +10,10 @@ import CameraIcon from '../components/svg/Camera'
 import { Button } from "../components/ui/buttons/Button"
 import MainLayout from "../components/ui/layouts/MainLayout"
 import AlertNotification from '../components/ui/notifications/AlertNotification'
+import { useNavigation } from '@react-navigation/native'
 
-export default function EditProfile({ navigation, route }) {
+export default function EditProfile({ route }) {
+    const navigation = useNavigation()
     const theme = useDynamicStyles()
     const { data, uID } = route.params
     const [colorPicker, setColorPicker] = useState(false)
@@ -22,6 +24,8 @@ export default function EditProfile({ navigation, route }) {
     const [alertVariant, setAlertVariant] = useState()
     const [alertMessage, setAlertMessage] = useState("")
     const [alertNotification, setAlert] = useState()
+
+    const setEdit = navigation.getParam('setEdit')
 
     const [updateData, setUpdateData] = useState({
         name: data.user.user_name,
@@ -81,6 +85,7 @@ export default function EditProfile({ navigation, route }) {
             setAlert(true)
 
             setUploading(false)
+            setEdit(true)
 
             navigation.goBack()
         } catch (error) {
@@ -155,7 +160,7 @@ export default function EditProfile({ navigation, route }) {
                                 resizeMode={'contain'}
                             />
                             <View style={{ position: 'absolute', width: 130, aspectRatio: 1, opacity: 0.3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <CameraIcon fill={theme.svgColor} size={80}/>
+                                <CameraIcon fill={theme.svgColor} size={80} />
                             </View>
                         </TouchableOpacity>
                     )}

@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native"
+import { FlatList, ScrollView, StyleSheet, Text, View, RefreshControl } from "react-native"
 import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
 import useDynamicStyles from '../components/styles/genericStyles.ts'
 import DailyCard from "../components/ui/DailyCard.js"
@@ -20,6 +20,12 @@ export default function Home() {
     const [userFavorites, setUserData] = useState()
     const [daily, setDaily] = useState()
     const [mex, setMex] = useState()
+
+    const [refreshing, setRefreshing] = useState(false)
+
+    function onRefresh() {
+        setRefreshing(true)
+    }
 
     async function getUserData() {
         try {
@@ -75,11 +81,15 @@ export default function Home() {
         getPostres()
         getDaily()
         getMex()
-    }, [])
+
+        if (refreshing) setRefreshing(false)
+    }, [refreshing])
 
     return (
-        <MainLayout back={false}>
-            <ScrollView key={'HomeScrollView'} style={{ paddingHorizontal: 10 }}>
+        <MainLayout AddRecipe={true} back={false}>
+            <ScrollView key={'HomeScrollView'} style={{ paddingHorizontal: 10 }}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.mainButton, 'red', 'purple', 'orange']} />
+                }>
                 <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Receta del dia</Text>
                 <View style={{ width: '100%', aspectRatio: 16 / 9, alignSelf: 'center', borderRadius: 8, borderWidth: 1, borderColor: theme.intermediateColor, overflow: 'hidden' }}>
                     {daily && <DailyCard navigation={navigation} recipe={daily} userId={UserId} userFavorites={userFavorites} />}
@@ -120,12 +130,6 @@ export default function Home() {
                         <RecipeCard recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
                     )}
                 />
-
-                <RoundButton
-                    onPress={() => navigation.navigate('AddRecipe')}
-                    style={{ position: 'sticky', backgroundColor: theme.mainButton, zIndex: 2, bottom: 32, right: 8, width: 70, aspectRatio: 1, borderRadius: 25 }}>
-                    <Add size={40} fill={theme.svgColor} />
-                </RoundButton>
 
                 {/*Este View sirve para dejar un esoacio al final de la pantalla*/}
                 <View style={{ marginBottom: 50 }}></View>

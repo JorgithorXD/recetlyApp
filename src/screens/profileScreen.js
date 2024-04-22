@@ -19,8 +19,7 @@ export default function UserProfile({ navigation }) {
     const [loadingRecipes, setLoadingRecipes] = useState(false)
     const [isLogged, setLogged] = useState()
 
-    const [reloadFlag, setReloadFlag] = useState(false)
-    const isFocused = useIsFocused()
+    const [refresh, setRefresh] = useState(false)
 
     const theme = useDynamicStyles()
 
@@ -51,12 +50,9 @@ export default function UserProfile({ navigation }) {
     }
 
     useEffect(() => {
-        if (isFocused) {
-            IsLogged()
-            setReloadFlag(prevState => !prevState)
-        }
+        IsLogged()
         getRecipes()
-    }, [isFocused])
+    }, [refresh])
 
     const styles = StyleSheet.create({
         image: {
@@ -135,7 +131,13 @@ export default function UserProfile({ navigation }) {
                         ButtonText="Editar perfil"
                         style={{ backgroundColor: theme.mainButton, flex: 1, height: 45 }}
                         TextStyle={{ color: theme.textColor, fontSize: 24 }}
-                        onPress={() => navigation.navigate('EditProfileScreen', { data: userData, uID: id })}
+                        onPress={() => {
+                            setRefresh(false)
+                            navigation.setOptions({
+                                setEdit: (value) => setEdit(value) 
+                            })
+                            navigation.navigate('EditProfileScreen', { data: userData, uID: id })
+                        }}
                     />
                     <Button
                         ButtonText="Agregar receta"
@@ -152,7 +154,7 @@ export default function UserProfile({ navigation }) {
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, marginBottom: 8 }}>
                     <Text style={{ ...styles.sectionTitle, flex: 1 }}>Recetas</Text>
                     <Anchor
-                    onPress={()=>navigation.navigate('MyRecipes')}
+                        onPress={() => navigation.navigate('MyRecipes')}
                         ButtonText="Ver todas"
                         TextStyle={{ ...styles.sectionTitle, fontSize: 20, textDecorationLine: 'underline' }} />
                 </View>
