@@ -1,4 +1,4 @@
-import MainLayout from "../components/ui/layouts/MainLayout"
+import MainLayout from "../../components/ui/layouts/MainLayout"
 import { View, Text } from "react-native"
 
 export default function SettingsScreen() {

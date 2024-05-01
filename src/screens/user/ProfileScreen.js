@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import useDynamicStyles from "../components/styles/genericStyles"
-import { Button } from "../components/ui/buttons/Button"
-import MainLayout from "../components/ui/layouts/MainLayout"
-import LoadingProfile from "../components/ui/loading/UserProgileLoading"
-import IsLoggedIn from "../utils/authUtil"
-import RecipeCard from "../components/ui/RecipeCard"
-import { Anchor } from "../components/ui/buttons/AnchorButton"
-import { useIsFocused } from "@react-navigation/native"
-import NoAccountNotification from "../components/ui/notifications/NoAccount"
+import useDynamicStyles from "../../components/styles/genericStyles"
+import RecipeCard from "../../components/ui/RecipeCard"
+import { Anchor } from "../../components/ui/buttons/AnchorButton"
+import { Button } from "../../components/ui/buttons/Button"
+import MainLayout from "../../components/ui/layouts/MainLayout"
+import LoadingProfile from "../../components/ui/loading/UserProgileLoading"
+import NoAccountNotification from "../../components/ui/notifications/NoAccount"
+import IsLoggedIn, { getMyRecipesCard } from "../../utils/authUtil"
+import DataContext from "../../utils/DataContext"
+import UpdateProfile from "../../components/modal/UpdateProfile"
+
 
 export default function UserProfile({ navigation }) {
+
     const [userData, setUserData] = useState()
     const [loadingUserData, setLoadingUserData] = useState(false)
     const [id, setId] = useState()
@@ -21,12 +24,15 @@ export default function UserProfile({ navigation }) {
 
     const [refresh, setRefresh] = useState(false)
 
+    const { shouldReload, setShouldReload } = useContext(DataContext)
+
     const theme = useDynamicStyles()
 
     async function IsLogged() {
         setLoadingUserData(true)
         try {
             const Data = await IsLoggedIn()
+
             setUserData(Data.UserData)
             setId(Data.ID)
             setLogged(Data.IsLogged)
@@ -41,8 +47,9 @@ export default function UserProfile({ navigation }) {
         setLoadingRecipes(true)
         try {
             const Data = await IsLoggedIn()
-            setRecipes(Data.UserRecipes)
-
+            const Recipes = await getMyRecipesCard(Data.UserRecipes)
+            console.log(Recipes)
+            setRecipes(Recipes)
             setLoadingRecipes(false)
         } catch (error) {
             console.log(error)
@@ -51,8 +58,12 @@ export default function UserProfile({ navigation }) {
 
     useEffect(() => {
         IsLogged()
+        if (shouldReload) {
+            IsLogged()
+            setShouldReload(false)
+        }
         getRecipes()
-    }, [refresh])
+    }, [shouldReload])
 
     const styles = StyleSheet.create({
         image: {
@@ -86,7 +97,7 @@ export default function UserProfile({ navigation }) {
         }
     })
 
-    if (!userData || loadingUserData) {
+    if (loadingUserData) {
         return (
             <MainLayout>
                 <LoadingProfile />
@@ -103,13 +114,14 @@ export default function UserProfile({ navigation }) {
     }
 
     return (
+
         <MainLayout Title={"Perfil"}>
             <ScrollView style={{ flex: 1, ...styles.container }}>
-                <View style={{ width: '100%', aspectRatio: 16 / 6, backgroundColor: userData.user.user_color ? userData.user.user_color : theme.intermediateColor, zIndex: 1, borderRadius: 8, marginBottom: 8 }} >
+                <View style={{ width: '100%', aspectRatio: 16 / 6, backgroundColor: userData.user_color ? userData.user_color : theme.intermediateColor, zIndex: 1, borderRadius: 8, marginBottom: 8 }} >
                     {userData && (
                         <Image
                             style={{ ...styles.image, position: 'absolute', bottom: -45, zIndex: 2, right: 20 }}
-                            source={{ uri: userData.user.user_pfp }}
+                            source={{ uri: userData.user_pfp }}
                             width={130}
                             height={130}
                             resizeMode={'contain'}
@@ -120,8 +132,8 @@ export default function UserProfile({ navigation }) {
                 <View style={[styles.userPersonalData]}>
                     {userData && (
                         <View>
-                            <Text style={styles.textUserName}>{userData.user.user_username}</Text>
-                            <Text style={styles.textName}>{userData.user.user_name + " " + userData.user.user_last_name}</Text>
+                            <Text style={styles.textUserName}>{userData.user_username}</Text>
+                            <Text style={styles.textName}>{userData.user_name + " " + userData.user_last_name}</Text>
                         </View>
                     )}
                 </View>
@@ -134,21 +146,22 @@ export default function UserProfile({ navigation }) {
                         onPress={() => {
                             setRefresh(false)
                             navigation.setOptions({
-                                setEdit: (value) => setEdit(value) 
+                                setEdit: (value) => setEdit(value)
                             })
                             navigation.navigate('EditProfileScreen', { data: userData, uID: id })
                         }}
                     />
-                    <Button
+                    {/* <Button
                         ButtonText="Agregar receta"
                         style={{ backgroundColor: theme.intermediateColor, flex: 1, height: 45 }}
                         TextStyle={{ color: theme.textColor, fontSize: 24 }}
-                    />
+                        onPress={() => setShouldReload(true)}
+                    /> */}
                 </View>
 
                 <Text style={{ ...styles.sectionTitle, marginBottom: 4 }}>Sobre mi</Text>
                 <View style={{ ...styles.userPersonalData, marginBottom: 8 }}>
-                    <Text style={{ fontSize: 18, color: theme.textColor }}>{userData.user.user_description ? userData.user.user_description : "Sin descripcion"}</Text>
+                    <Text style={{ fontSize: 18, color: theme.textColor }}>{userData.user_description ? userData.user_description : "Sin descripcion"}</Text>
                 </View>
 
                 <View style={{ display: 'flex', flexDirection: 'row', flex: 1, marginBottom: 8 }}>
@@ -158,7 +171,7 @@ export default function UserProfile({ navigation }) {
                         ButtonText="Ver todas"
                         TextStyle={{ ...styles.sectionTitle, fontSize: 20, textDecorationLine: 'underline' }} />
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
+                <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10, marginBottom: 24 }}>
                     {
                         recipes.length == 0
                             ? (<Text style={{ color: theme.textColor, fontSize: 18 }}>El usuario no tiene recetas</Text>)
@@ -172,5 +185,6 @@ export default function UserProfile({ navigation }) {
 
             </ScrollView>
         </MainLayout>
+
     )
 }

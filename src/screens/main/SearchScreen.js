@@ -1,5 +1,5 @@
-import { Input } from "../components/ui/inputs/TextInput"
-import MainLayout from "../components/ui/layouts/MainLayout"
+import { Input } from "../../components/ui/inputs/TextInput"
+import MainLayout from "../../components/ui/layouts/MainLayout"
 import { View } from "react-native"
 
 export default function SearchScreen() {

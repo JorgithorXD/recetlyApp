@@ -1,23 +1,25 @@
 import axios from 'axios'
-import { useState } from 'react'
-import { ActivityIndicator, Image, Keyboard, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useState, useContext } from 'react'
+import { ActivityIndicator, Image, Keyboard, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View, Modal } from 'react-native'
 import ImageCropPicker from "react-native-image-crop-picker"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import ColorPicker from 'react-native-wheel-color-picker'
-import { API_BASE_URL } from '../api/ApiClient'
-import useDynamicStyles from "../components/styles/genericStyles"
-import CameraIcon from '../components/svg/Camera'
-import { Button } from "../components/ui/buttons/Button"
-import MainLayout from "../components/ui/layouts/MainLayout"
-import AlertNotification from '../components/ui/notifications/AlertNotification'
+import { API_BASE_URL } from '../../api/ApiClient'
+import useDynamicStyles from "../../components/styles/genericStyles"
+import CameraIcon from '../../components/svg/Camera'
+import { Button } from "../../components/ui/buttons/Button"
+import MainLayout from "../../components/ui/layouts/MainLayout"
+import AlertNotification from '../../components/ui/notifications/AlertNotification'
 import { useNavigation } from '@react-navigation/native'
 
-export default function EditProfile({ route }) {
+export default function UpdateProfile({ data, uID }) {
     const navigation = useNavigation()
     const theme = useDynamicStyles()
-    const { data, uID } = route.params
+
+    const [modalVisible, setModalVisible] = useState(true)
+
     const [colorPicker, setColorPicker] = useState(false)
-    const [favColor, setFavColor] = useState(data.user.user_color ? data.user.user_color : theme.intermediateColor)
+    const [favColor, setFavColor] = useState(data.user_color ? data.user_color : theme.intermediateColor)
     const [url, setUrl] = useState()
     const [uploading, setUploading] = useState(false)
 
@@ -25,12 +27,10 @@ export default function EditProfile({ route }) {
     const [alertMessage, setAlertMessage] = useState("")
     const [alertNotification, setAlert] = useState()
 
-    const setEdit = navigation.getParam('setEdit')
-
     const [updateData, setUpdateData] = useState({
-        name: data.user.user_name,
-        username: data.user.user_username,
-        lastname: data.user.user_last_name,
+        name: data.user_name,
+        username: data.user_username,
+        lastname: data.user_last_name,
         img: "",
         description: "",
         color: ""
@@ -85,7 +85,6 @@ export default function EditProfile({ route }) {
             setAlert(true)
 
             setUploading(false)
-            setEdit(true)
 
             navigation.goBack()
         } catch (error) {
@@ -138,7 +137,14 @@ export default function EditProfile({ route }) {
         },
     })
     return (
-        <MainLayout back={true} Title={"Editar perfil"} drawer={false}>
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+                Alert.alert('Modal has been closed.')
+                setModalVisible(!modalVisible)
+            }}>
             <KeyboardAwareScrollView style={{ flex: 1, ...styles.container }} >
                 <View style={{ width: '100%', aspectRatio: 16 / 6, backgroundColor: favColor ? favColor : theme.intermediateColor, zIndex: 1, borderRadius: 8, marginBottom: 8 }} >
                     {data && (
@@ -154,7 +160,7 @@ export default function EditProfile({ route }) {
                         >
                             <Image
                                 style={{ ...styles.image, }}
-                                source={{ uri: url ? url : data.user.user_pfp }}
+                                source={{ uri: url ? url : data.user_pfp }}
                                 width={130}
                                 height={130}
                                 resizeMode={'contain'}
@@ -171,15 +177,15 @@ export default function EditProfile({ route }) {
                         <View>
                             <Text style={styles.label}>Nombre de usuario</Text>
                             <TextInput onChangeText={(txt) => setUpdateData({ ...updateData, username: txt })} style={{ ...styles.textInput, backgroundColor: theme.intermediateColor, paddingHorizontal: 8, borderRadius: 8 }}>
-                                {data.user.user_username}
+                                {data.user_username}
                             </TextInput>
                             <Text style={styles.label}>Nombre</Text>
                             <TextInput onChangeText={(txt) => setUpdateData({ ...updateData, name: txt })} style={{ ...styles.textInput, backgroundColor: theme.intermediateColor, paddingHorizontal: 8, borderRadius: 8 }}>
-                                {data.user.user_name}
+                                {data.user_name}
                             </TextInput>
                             <Text style={styles.label}>Apellido</Text>
                             <TextInput onChangeText={(txt) => setUpdateData({ ...updateData, lastname: txt })} style={{ ...styles.textInput, backgroundColor: theme.intermediateColor, paddingHorizontal: 8, borderRadius: 8 }}>{
-                                data.user.user_last_name}
+                                data.user_last_name}
                             </TextInput>
                         </View>
                     )}
@@ -231,9 +237,9 @@ export default function EditProfile({ route }) {
                     multiline
                     numberOfLines={4}
                     style={{ height: 100, backgroundColor: theme.intermediateColor, borderRadius: 8, textAlignVertical: 'top', padding: 10 }}
-                    placeholder={data.user.user_description == null ? "Presiona para agregar una descripcion..." : null}
+                    placeholder={data.user_description == null ? "Presiona para agregar una descripcion..." : null}
                     onChangeText={(txt) => setUpdateData({ ...updateData, description: txt })}
-                >{data.user.user_description == null ? null : data.user.user_description}</TextInput>
+                >{data.user_description == null ? null : data.user_description}</TextInput>
 
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 8, marginVertical: 20 }}>
                     <Button
@@ -254,6 +260,6 @@ export default function EditProfile({ route }) {
                 </View>
                 {alertNotification && <AlertNotification icon={alertVariant} OnEnd={setAlert} Message={alertMessage} />}
             </KeyboardAwareScrollView>
-        </MainLayout>
+        </Modal>
     )
 }

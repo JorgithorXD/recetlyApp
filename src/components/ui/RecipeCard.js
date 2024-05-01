@@ -1,8 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native"
 import useDynamicStyles from "../styles/genericStyles"
 
 export default function RecipeCard({ recipe, navigation, userId, userFavorites }) {
     const theme = useDynamicStyles()
+    const width = Dimensions.get('window').width
+
+    const carDiv = (width / 2) - 30
 
     const styles = StyleSheet.create({
         image: {
@@ -11,12 +14,11 @@ export default function RecipeCard({ recipe, navigation, userId, userFavorites }
             borderRadius: 8
         },
         card: {
-            width: 180,
+            width: carDiv,
             overflow: 'hidden',
             opacity: 1,
             display: 'flex',
             flexDirection: 'row',
-            margin: 3,
         },
         textContainer: {
             width: '100%',
@@ -33,7 +35,7 @@ export default function RecipeCard({ recipe, navigation, userId, userFavorites }
     })
 
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', { recipe: recipe, uID: userId, uFavs: userFavorites })}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Recipe', { recipe: recipe.id, uID: userId, uFavs: userFavorites })}>
             <View>
                 <Image source={{ uri: recipe.mainImg }} style={styles.image} resizeMode="cover" />
                 <View style={styles.textContainer}>

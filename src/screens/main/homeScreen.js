@@ -1,15 +1,13 @@
 import { useNavigation } from "@react-navigation/native"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { FlatList, ScrollView, StyleSheet, Text, View, RefreshControl } from "react-native"
-import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
-import useDynamicStyles from '../components/styles/genericStyles.ts'
-import DailyCard from "../components/ui/DailyCard.js"
-import RecipeCard from "../components/ui/RecipeCard.js"
-import { RoundButton } from "../components/ui/buttons/RoundButton"
-import MainLayout from "../components/ui/layouts/MainLayout"
-import IsLoggedIn from "../utils/authUtil.js"
-import Add from "../components/svg/AddRecipe.js"
+import { FlatList, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native"
+import { API_BASE_URL, ENDPOINTS } from "../../api/ApiClient.js"
+import useDynamicStyles from '../../components/styles/genericStyles.ts'
+import DailyCard from "../../components/ui/DailyCard.js"
+import RecipeCard from "../../components/ui/RecipeCard.js"
+import MainLayout from "../../components/ui/layouts/MainLayout.js"
+import IsLoggedIn from "../../utils/authUtil.js"
 
 export default function Home() {
     const [recipes, setRecipes] = useState(null)
@@ -20,6 +18,7 @@ export default function Home() {
     const [userFavorites, setUserData] = useState()
     const [daily, setDaily] = useState()
     const [mex, setMex] = useState()
+    const [occ, setOcc] = useState()
 
     const [refreshing, setRefreshing] = useState(false)
 
@@ -41,7 +40,7 @@ export default function Home() {
 
     async function getRecipes() {
         try {
-            const response = await axios.get('https://recipes-api-dev.koyeb.app/api/v1/recipe/get/all/')
+            const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GetRecipesByCategory('2')}`)
             setRecipes(await response.data)
         } catch (error) {
             console.log(error)
@@ -66,6 +65,15 @@ export default function Home() {
         }
     }
 
+    async function getOxx() {
+        try {
+            const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GetRecipesByCategory('4')}`)
+            setOcc(await response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async function getDaily() {
         try {
             const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.Daily}`)
@@ -76,11 +84,16 @@ export default function Home() {
     }
 
     useEffect(() => {
-        getRecipes()
-        getUserData()
-        getPostres()
-        getDaily()
-        getMex()
+        Promise.all(
+            [
+                getRecipes(),
+                getUserData(),
+                getPostres(),
+                getDaily(),
+                getMex(),
+                getOxx()
+            ]
+        )
 
         if (refreshing) setRefreshing(false)
     }, [refreshing])
@@ -95,15 +108,15 @@ export default function Home() {
                     {daily && <DailyCard navigation={navigation} recipe={daily} userId={UserId} userFavorites={userFavorites} />}
                 </View>
 
-                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Recetas destacadas</Text>
+                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>¡Viva Mexico!</Text>
                 <FlatList
-                    data={recipes}
+                    data={mex}
                     style={{ alignSelf: 'center' }}
                     contentContainerStyle={{ gap: 6 }}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item: recipe }) => (
-                        <RecipeCard key={recipe.id} recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
+                        <RecipeCard recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
                     )}
                 />
 
@@ -119,15 +132,27 @@ export default function Home() {
                     )}
                 />
 
-                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>¡Viva Mexico!</Text>
+                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>¿Talvez algo Italiano?</Text>
                 <FlatList
-                    data={mex}
+                    data={recipes}
                     style={{ alignSelf: 'center' }}
-                    contentContainerStyle={{ gap: 6 }}
+                    contentContainerStyle={{ gap: 8 }}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item: recipe }) => (
-                        <RecipeCard recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
+                        <RecipeCard key={recipe.id} recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
+                    )}
+                />
+
+                <Text style={{ ...styles.categoryTitle, color: theme.titleText }}>Deberias probar la Oriental</Text>
+                <FlatList
+                    data={occ}
+                    style={{ alignSelf: 'center' }}
+                    contentContainerStyle={{ gap: 8 }}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item: recipe }) => (
+                        <RecipeCard key={recipe.id} recipe={recipe} navigation={navigation} userId={UserId} userFavorites={userFavorites} />
                     )}
                 />
 

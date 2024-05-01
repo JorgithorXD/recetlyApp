@@ -1,16 +1,17 @@
 import React from "react"
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 
-export function Input({ Placeholder, Label, onChangeText, style, LabelColor, Type }) {
+export function Input({ Placeholder, Label, onChangeText, style, LabelColor, Type, TextStyle, Lines = 1 }) {
     return (
         <View>
-            {Label != null && <Text style={{ color: LabelColor, fontSize: 28, marginBottom: 4 }}>{Label}</Text>}
+            {Label != null && <Text style={{ color: LabelColor, fontSize: 28, marginBottom: 4, ...TextStyle }}>{Label}</Text>}
             <TextInput
                 placeholder={Placeholder}
                 onChangeText={onChangeText}
                 style={{ ...style, ...styles.input }}
                 keyboardType={Type}
                 placeholderTextColor={"#a1a1a1"}
+                numberOfLines={Lines}
             />
         </View>
     )

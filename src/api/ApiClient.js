@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://recipes-api-dev.koyeb.app/api/v1/" //Agregar despues app/api, cuando todas las rutas esten bien definidas
+const API_BASE_URL = "https://recipes-jkipzq2imq-uc.a.run.app/api/v1/" //Agregar despues app/api, cuando todas las rutas esten bien definidas
 
 const ENDPOINTS = {
     AuthUser: 'user/auth/login',
@@ -14,7 +14,10 @@ const ENDPOINTS = {
     GetRecipesBasic: `recipe/get/all/basic`,
     CheckRecipeFavorite: (userId, recipeId) => `user/check/favorite/${userId}/recipe/${recipeId}`,
     GetUserScores: (userId) => `user/get/score/${userId}`,
-    GetRecipeScore: (recipeId) => `recipe/get/score/${recipeId}`
+    GetRecipeScore: (recipeId) => `recipe/get/score/${recipeId}`,
+    GetTag: `food/get/tag`,
+    GetType: `food/get/type`,
+    GetUnit: `food/get/units`
 }
 
 export {

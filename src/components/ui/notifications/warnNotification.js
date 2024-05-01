@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native"
 import { Button } from "../buttons/Button"
 import useDynamicStyles from '../../styles/genericStyles'
 
-export default function Warning({ text, onPress, button }) {
+export default function Warning({ text, onPress, button = true}) {
     const theme = useDynamicStyles()
 
     const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ export default function Warning({ text, onPress, button }) {
         warnText: {
             fontSize: 20,
             fontWeight: 'bold',
-            color: 'black',
+            color: theme.textColor,
             alignSelf: 'center'
         },
         container: {
@@ -46,7 +46,7 @@ export default function Warning({ text, onPress, button }) {
         <View style={styles.container}>
             <View style={styles.black} />
             <View style={styles.warn}>
-                <Text style={{ color: 'black', fontWeight: '500', fontSize: 30 }}>Advertencia</Text>
+                <Text style={{ color: theme.textColor, fontWeight: '500', fontSize: 30 }}>Advertencia</Text>
                 <Text style={styles.warnText}>
                     {text}
                 </Text>

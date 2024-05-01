@@ -27,13 +27,13 @@ export default function MainLayout({ children, back, Title, drawer, header = tru
             {header && <Separate backgroundColor={theme.intermediateColor} />}
             {children}
 
-            {AddRecipe &&
+            {/* {AddRecipe &&
                 <RoundButton
                     onPress={() => navigation.navigate('AddRecipe')}
                     style={{ position: 'absolute', backgroundColor: theme.mainButton, zIndex: 2, bottom: 24, right: 24, width: 70, aspectRatio: 1, borderRadius: 25 }}>
                     <Add size={40} fill={theme.svgColor} />
                 </RoundButton>
-            }
+            } */}
         </View>
     )
 }

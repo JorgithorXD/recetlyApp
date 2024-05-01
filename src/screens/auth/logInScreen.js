@@ -2,16 +2,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
 import React, { useState } from "react"
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
-import { API_BASE_URL, ENDPOINTS } from "../api/ApiClient"
-import useDynamicStyles from "../components/styles/genericStyles"
-import { Anchor } from "../components/ui/buttons/AnchorButton"
-import { Button } from "../components/ui/buttons/Button"
-import { PasswordInput } from "../components/ui/inputs/PasswordInput"
-import { Input } from "../components/ui/inputs/TextInput"
-import ExtraLayout from "../components/ui/layouts/ExtraLayout"
-import Loading from "../components/ui/loading/Loading"
-import Warning from "../components/ui/notifications/warnNotification"
-import bluePallete from "../components/utils/blue"
+import { API_URL, ENDPOINTS } from "../../api/Api"
+import useDynamicStyles from "../../components/styles/genericStyles"
+import { Anchor } from "../../components/ui/buttons/AnchorButton"
+import { Button } from "../../components/ui/buttons/Button"
+import { PasswordInput } from "../../components/ui/inputs/PasswordInput"
+import { Input } from "../../components/ui/inputs/TextInput"
+import ExtraLayout from "../../components/ui/layouts/ExtraLayout"
+import Loading from "../../components/ui/loading/Loading"
+import Warning from "../../components/ui/notifications/warnNotification"
+import bluePallete from "../../components/utils/blue"
 
 export default function LogIn({ navigation }) {
     const [email, setEmail] = useState("")
@@ -49,16 +49,16 @@ export default function LogIn({ navigation }) {
     async function handleLogIn() {
         try {
             setLoading(true)
-            const response = await axios.post(`${API_BASE_URL}${ENDPOINTS.AuthUser}`, {
-                emailInput: email,
-                passwordInput: password
-            })
 
-            const data = response.data
+            const response = await axios.post(`${API_URL}${ENDPOINTS.AuthUser}`,
+                {
+                    email,
+                    password
+                })
 
-            if (data.error || data.status == "Error") {
-                throw new Error(data.error)
-            }
+            const data = await response.data
+
+            if(data.error) throw new Error(error)
 
             AsyncStorage.setItem('UserId', JSON.stringify(data.id))
             setLoading(false)

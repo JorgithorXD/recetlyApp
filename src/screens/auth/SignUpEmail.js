@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
-import { Input } from "../components/ui/inputs/TextInput"
-import { Button } from "../components/ui/buttons/Button"
-import bluePallete from "../components/utils/blue"
-import ProgressBar from "../components/headers/ProgressBar"
-import ExtraLayout from "../components/ui/layouts/ExtraLayout"
+import { Input } from "../../components/ui/inputs/TextInput"
+import { Button } from "../../components/ui/buttons/Button"
+import bluePallete from "../../components/utils/blue"
+import ProgressBar from "../../components/headers/ProgressBar"
+import ExtraLayout from "../../components/ui/layouts/ExtraLayout"
 
 
 export default function SignUpEmail({ navigation, route }) {
